@@ -4,213 +4,460 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>שניאור אייזנבך | קלידן, מפיק מוזיקלי ועורך וידאו</title>
+    
+    <!-- פונטים וספריות חיצוניות -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700;800&family=Heebo:wght@300;900&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap');
-        
         :root {
-            /* פלטת צבעים יוקרתית - שחור עמוק, זהב מטאלי ובורדו עשיר */
-            --bg-dark: #070709;
-            --burgundy-deep: #1a0508; 
-            --burgundy-accent: #7a1528; 
-            --burgundy-glow: rgba(122, 21, 40, 0.5);
-            --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            --gold-solid: #D4AF37;
-            --text-light: #f4f4f4;
-            --text-muted: #a0a0a5;
-            --card-bg: rgba(15, 10, 12, 0.8);
-            --border-glow: rgba(212, 175, 55, 0.3);
+            /* פלטה משופרת - זהב עמוק יותר ובורדו יין */
+            --bg-dark: #050505;
+            --bg-card: rgba(20, 20, 22, 0.6);
+            --gold: #c5a059;
+            --gold-bright: #f1d299;
+            --burgundy: #4a0e0e;
+            --accent-glow: rgba(197, 160, 89, 0.15);
+            --text-main: #ffffff;
+            --text-dim: #b0b0b0;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
 
-        body, html {
-            margin: 0; padding: 0;
-            font-family: 'Google Sans', 'Heebo', sans-serif;
+        body {
             background-color: var(--bg-dark);
-            color: var(--text-light);
-            scroll-behavior: smooth;
+            color: var(--text-main);
+            font-family: 'Assistant', sans-serif;
+            overflow-x: hidden;
             line-height: 1.6;
         }
 
-        /* --- ניווט עליון --- */
+        /* --- רקע תנועה עדין --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0508 0%, #050505 100%);
+            z-index: -1;
+        }
+
+        /* --- ניווט יוקרתי --- */
         header {
-            position: fixed; width: 100%; top: 0;
-            background: rgba(7, 7, 9, 0.85); backdrop-filter: blur(15px);
-            z-index: 1000; border-bottom: 1px solid rgba(122, 21, 40, 0.2);
+            position: fixed;
+            top: 0; width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
         }
 
         nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 50px; max-width: 1400px; margin: 0 auto;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
         }
 
         .logo {
-            font-size: 26px; font-weight: 900;
-            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--gold-bright), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
         }
 
-        .nav-links { list-style: none; display: flex; gap: 35px; margin: 0; padding: 0; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 1.1rem; transition: color 0.3s; }
-        .nav-links a:hover { color: var(--gold-solid); text-shadow: 0 0 10px var(--burgundy-glow); }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
 
-        /* --- אזור ראשי (Hero) --- */
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px; right: 0;
+            width: 0; height: 1px;
+            background: var(--gold);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- Hero Section --- */
         .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-            background: linear-gradient(to bottom, rgba(70, 10, 20, 0.6), var(--bg-dark)), 
-                        url('https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=crop&q=80') center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
             padding: 0 20px;
         }
 
+        .hero-video-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
         .hero h1 {
-            font-size: 5rem; margin: 0 0 10px 0; font-weight: 900;
-            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 4px 15px rgba(0,0,0,0.8));
+            font-family: 'Heebo', sans-serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 900;
+            background: linear-gradient(180deg, #fff 0%, #a5a5a5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .hero h2 { font-size: 2rem; color: var(--text-light); font-weight: 300; margin-bottom: 40px; text-shadow: 2px 2px 15px rgba(0,0,0,0.9); }
-
-        .cta-btn {
-            background: transparent; color: var(--gold-solid); border: 2px solid var(--gold-solid);
-            padding: 15px 45px; font-size: 1.2rem; font-weight: 700; border-radius: 50px; text-decoration: none; transition: all 0.4s ease;
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--gold);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            font-weight: 200;
         }
 
-        .cta-btn:hover {
-            background: linear-gradient(135deg, var(--burgundy-accent), #4a0410); color: var(--text-light);
-            border-color: var(--gold-solid); box-shadow: 0 0 25px var(--burgundy-glow); transform: translateY(-3px);
+        .btn {
+            padding: 18px 45px;
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
 
-        /* --- אזורים כלליים --- */
-        .section { padding: 100px 20px; max-width: 1400px; margin: 0 auto; }
-        .section-alt { background: radial-gradient(circle at center, var(--burgundy-deep) 0%, var(--bg-dark) 80%); border-top: 1px solid rgba(122, 21, 40, 0.1); border-bottom: 1px solid rgba(122, 21, 40, 0.1); }
-        .section-title { text-align: center; font-size: 3rem; margin-bottom: 60px; font-weight: 700; color: var(--text-light); }
-        .section-title span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-primary {
+            background: var(--gold);
+            color: var(--bg-dark);
+            border: 1px solid var(--gold);
+        }
 
-        /* --- שירותים --- */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--gold);
+            box-shadow: 0 0 30px var(--accent-glow);
+            transform: translateY(-5px);
+        }
+
+        /* --- Services --- */
+        .section {
+            padding: 120px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .section-header .line {
+            width: 60px;
+            height: 2px;
+            background: var(--gold);
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
         .service-card {
-            background: var(--card-bg); padding: 50px 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.4s ease; text-align: center;
+            background: var(--bg-card);
+            padding: 60px 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
-        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 10px 20px var(--burgundy-glow); border-color: rgba(212, 175, 55, 0.2); background: rgba(30, 15, 20, 0.9); }
-        .service-card h3 { color: var(--gold-solid); font-size: 1.8rem; margin-top: 0; margin-bottom: 20px; }
-        .service-card p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin: 0; }
 
-        /* --- תיק עבודות --- */
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .portfolio-card { background-color: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; overflow: hidden; transition: all 0.4s ease; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .portfolio-card:hover { transform: translateY(-10px); border-color: var(--gold-solid); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px var(--burgundy-glow); }
-        .thumbnail-container { position: relative; width: 100%; padding-top: 100%; background-color: #000; overflow: hidden; }
-        .thumbnail-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.7; transition: transform 0.6s ease, opacity 0.3s ease; filter: grayscale(20%); }
-        .portfolio-card:hover .thumbnail-bg { opacity: 1; transform: scale(1.05); filter: grayscale(0%); }
-        .play-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .play-button::after { content: ''; display: block; border-style: solid; border-width: 12px 0 12px 20px; border-color: transparent transparent transparent white; margin-right: -5px; }
-        .portfolio-card:hover .play-button { background: var(--gold-gradient); border-color: transparent; transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
-        .portfolio-card:hover .play-button::after { border-color: transparent transparent transparent var(--bg-dark); }
-        .card-content { padding: 25px 20px; text-align: right; background: linear-gradient(to top, var(--card-bg), transparent); }
-        .card-title { font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin: 0 0 10px 0; }
-        .card-role { font-size: 1rem; color: var(--gold-solid); margin: 0; }
+        .service-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
 
-        /* --- פוטר --- */
-        footer { background: #0a0204; padding: 80px 20px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.2); }
-        .footer-logo { font-size: 30px; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
-        .contact-info { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; line-height: 2; }
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(30, 30, 35, 0.8);
+            border-color: rgba(197, 160, 89, 0.3);
+        }
+
+        .service-card:hover::before { transform: translateX(100%); }
+
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .service-card p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        /* --- Portfolio --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .portfolio-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+            opacity: 0.6;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            padding: 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            transform: translateY(20px);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .portfolio-item:hover .portfolio-img { transform: scale(1.1); opacity: 0.8; }
+        .portfolio-item:hover .portfolio-overlay { transform: translateY(0); opacity: 1; }
+
+        .portfolio-overlay h4 { font-size: 1.2rem; margin-bottom: 5px; }
+        .portfolio-overlay span { color: var(--gold); font-size: 0.9rem; text-transform: uppercase; }
+
+        /* --- Footer --- */
+        footer {
+            background: #000;
+            padding: 100px 20px 40px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--text-main);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover { color: var(--gold); transform: translateY(-5px); }
+
+        .copyright {
+            color: #444;
+            font-size: 0.8rem;
+            margin-top: 60px;
+            border-top: 1px solid #111;
+            padding-top: 20px;
+        }
+
+        /* רספונסיביות */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 3.5rem; }
+        }
+
+        /* אנימציית הופעה */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="header">
         <nav>
-            <div class="logo">שניאור אייזנבך</div>
+            <a href="#" class="logo">SHNEOR.</a>
             <ul class="nav-links">
                 <li><a href="#home">ראשי</a></li>
                 <li><a href="#services">שירותים</a></li>
-                <li><a href="#portfolio">תיק עבודות</a></li>
-                <li><a href="#contact">צור קשר</a></li>
+                <li><a href="#portfolio">עבודות</a></li>
+                <li><a href="#contact">קונטקט</a></li>
             </ul>
         </nav>
     </header>
 
     <section id="home" class="hero">
-        <h1>הסאונד. הוויזואל. ההפקה.</h1>
-        <h2>קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור</h2>
-        <a href="#contact" class="cta-btn">להזמנת אירועים והפקות</a>
+        <!-- ניתן להוסיף כאן סרטון רקע עמום בפורמט MP4 -->
+        <div class="hero-content">
+            <p>מוזיקה . וידאו . קריאייטיב</p>
+            <h1>יוצרים חוויה<br>שלא נשכחת</h1>
+            <a href="#contact" class="btn btn-primary">בואו נדבר</a>
+        </div>
     </section>
 
-    <section id="services" class="section section-alt">
-        <h2 class="section-title">מעטפת של <span>מדיה ומוזיקה</span></h2>
+    <section id="services" class="section reveal">
+        <div class="section-header">
+            <h2>השירותים שלי</h2>
+            <div class="line"></div>
+        </div>
         <div class="services-grid">
             <div class="service-card">
-                <h3>לייב על הבמה</h3>
-                <p>נגינה חיה אנרגטית ומדויקת על מערכות הקלידים המובילות בעולם. רמת גימור וסטנדרט מוזיקלי ללא פשרות לאירועים וחתונות.</p>
+                <i class="fa-solid fa-piano"></i>
+                <h3>מוזיקה חיה</h3>
+                <p>הופעות קלידים לאירועים וחתונות בסטנדרט בינלאומי, שילוב של סאונד אלקטרוני ואנרגיה חיה.</p>
             </div>
             <div class="service-card">
-                <h3>עריכה והפקות וידאו</h3>
-                <p>עבודת פוסט-פרודקשן מוקפדת בתוכנות המובילות בתעשייה, מעריכת אופליין ואונליין ועד לאפקטים ויזואליים שמביאים כל פריים לשלמות.</p>
+                <i class="fa-solid fa-clapperboard"></i>
+                <h3>פוסט פרודקשן</h3>
+                <p>עריכת וידאו קולנועית, תיקוני צבע ואפקטים ויזואליים (VFX) שהופכים כל פרויקט ליצירה.</p>
             </div>
             <div class="service-card">
-                <h3>הנפשה וכלי AI</h3>
-                <p>קליפי מילים, עיצוב גרפי, הנפשות מתקדמות ויצירת תוכן ויזואלי פורץ דרך על בסיס טכנולוגיות ובינה מלאכותית.</p>
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <h3>AI & Animation</h3>
+                <p>שימוש בכלי בינה מלאכותית מתקדמים ליצירת קליפים, הנפשות ולוגואים בתנועה.</p>
             </div>
         </div>
     </section>
 
-    <section id="portfolio" class="section">
-        <h2 class="section-title">פרויקטים <span>נבחרים</span></h2>
+    <section id="portfolio" class="section reveal">
+        <div class="section-header">
+            <h2>פרויקטים נבחרים</h2>
+            <div class="line"></div>
+        </div>
         <div class="portfolio-grid">
-            
-            <div class="portfolio-card">
-                <div class="thumbnail-container">
-                    <div class="thumbnail-bg" style="background-image: url('https://via.placeholder.com/600/111/333?text=Cover+1');"></div>
-                    <div class="play-button"></div>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">בי בא מועד - יואלי דוידוביץ, שובי גולדשטיין, מקהלת מלכות</h3>
-                    <p class="card-role">הנפשה</p>
+            <!-- פרויקט 1 -->
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80" class="portfolio-img" alt="Work">
+                <div class="portfolio-overlay">
+                    <span>הנפשה ועריכה</span>
+                    <h4>בי בא מועד - יואלי דוידוביץ</h4>
                 </div>
             </div>
-
-            <div class="portfolio-card">
-                <div class="thumbnail-container">
-                    <div class="thumbnail-bg" style="background-image: url('https://via.placeholder.com/600/111/333?text=Cover+2');"></div>
-                    <div class="play-button"></div>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">שלש מילים - מענדי ויזל</h3>
-                    <p class="card-role">הנפשה</p>
+            <!-- פרויקט 2 -->
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80" class="portfolio-img" alt="Work">
+                <div class="portfolio-overlay">
+                    <span>עיצוב גרפי</span>
+                    <h4>שלש מילים - מענדי ויזל</h4>
                 </div>
             </div>
-
-            <div class="portfolio-card">
-                <div class="thumbnail-container">
-                    <div class="thumbnail-bg" style="background-image: url('https://via.placeholder.com/600/111/333?text=Cover+3');"></div>
-                    <div class="play-button"></div>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">אהרל'ה סאמעט, שובי גולדשטיין ומקהלת מלכות - הבטוחים בה'</h3>
-                    <p class="card-role">גרפיקה, קליפ מילים והנפשה</p>
+            <!-- פרויקט 3 -->
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1514525253361-b83f85df0f5c?auto=format&fit=crop&q=80" class="portfolio-img" alt="Work">
+                <div class="portfolio-overlay">
+                    <span>קליפ מילים</span>
+                    <h4>הבטוחים בה' - אהרלה סאמעט</h4>
                 </div>
             </div>
-
-            <div class="portfolio-card">
-                <div class="thumbnail-container">
-                    <div class="thumbnail-bg" style="background-image: url('https://via.placeholder.com/600/111/333?text=Cover+4');"></div>
-                    <div class="play-button"></div>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">כדי שיטהרו - מענדי ויזל (ווקאלי)</h3>
-                    <p class="card-role">הנפשה</p>
-                </div>
-            </div>
-
         </div>
     </section>
 
     <footer id="contact">
-        <div class="footer-logo">שניאור אייזנבך</div>
-        <div class="contact-info">
-            <strong>זמין לאירועים, חתונות והפקות סטודיו.</strong><br>
-            אזור פעילות: בית שמש והסביבה / כלל הארץ
+        <div class="section-header">
+            <h2 style="color: var(--gold);">שניאור אייזנבך</h2>
+            <p style="color: var(--text-dim); letter-spacing: 1px;">זמין להפקות ואירועים בכל הארץ</p>
         </div>
-        <a href="https://wa.me/972000000000" target="_blank" class="cta-btn">שלח הודעת וואטסאפ</a>
+        
+        <div class="social-links">
+            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+
+        <p class="copyright">© 2026 SHNEOR EISENBACH. כל הזכויות שמורות.</p>
     </footer>
+
+    <script>
+        // שינוי עיצוב תפריט בגלילה
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // אנימציית חשיפה בגלילה
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        window.addEventListener("scroll", reveal);
+        // הפעלה ראשונית
+        reveal();
+    </script>
 </body>
 </html>
