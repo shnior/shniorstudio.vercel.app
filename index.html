@@ -217,11 +217,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 
 <script>
-<!-- ====================== Firebase Realtime Database ====================== -->
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-
-<script>
 // ==================== Firebase Config ====================
 const firebaseConfig = {
   apiKey: "AIzaSyA_AHhjzcAYeVoBNEwF5mlzsvUqbnw2maY",
@@ -236,59 +231,60 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ==================== טעינת תוכן ====================
 function loadDynamicContent() {
-  console.log("🔄 מסנכרן נתונים מ-Firebase...");
+  console.log("🔄 מתחיל סנכרון נתונים...");
 
   db.ref('siteContent').once('value', (snapshot) => {
     const data = snapshot.val();
-    if (!data) return;
-
-    // 1. עדכון טקסטים כלליים (לוגו וכותרות)
-    if (data.logoText) {
-      document.querySelectorAll('.logo, .footer-logo').forEach(el => el.textContent = data.logoText);
+    if (!data) {
+      console.log("⚠️ לא נמצאו נתונים ב-Firebase");
+      return;
     }
+
+    // 1. עדכון לוגו (בכל המקומות שמופיע)
+    if (data.logoText) {
+      document.querySelectorAll('.logo, .footer-logo').forEach(el => {
+        el.textContent = data.logoText;
+      });
+    }
+
+    // 2. עדכון כותרת Hero - חיפוש לפי תגית h1 בתוך section#home
     if (data.heroTitle) {
-      const h1 = document.querySelector('.hero h1');
+      const h1 = document.querySelector('#home h1');
       if (h1) h1.textContent = data.heroTitle;
     }
+
+    // 3. עדכון תת-כותרת Hero - חיפוש לפי תגית h2 בתוך section#home
     if (data.heroSubtitle) {
-      const h2 = document.querySelector('.hero h2');
+      const h2 = document.querySelector('#home h2');
       if (h2) h2.textContent = data.heroSubtitle;
     }
 
-    // 2. עדכון תיק עבודות דינמי
+    // 4. עדכון תיק עבודות
     const portfolioGrid = document.querySelector('.portfolio-grid');
     if (portfolioGrid && data.portfolio) {
-      portfolioGrid.innerHTML = ''; // מנקה את התוכן הקיים
-
-      // הפיכת האובייקט למערך (למקרה שה-Firebase שמר אותו כאובייקט עם מפתחות)
+      portfolioGrid.innerHTML = ''; // ניקוי פרויקטים קיימים
+      
       const portfolioArray = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
 
       portfolioArray.forEach(item => {
         if (!item) return;
 
-        // חילוץ ID של יוטיוב בשביל התמונה (Thumbnail)
+        // חילוץ ID של יוטיוב בצורה בטוחה
         let videoId = "";
-        const embedSource = item.youtubeEmbed || "";
-        
-        if (embedSource.includes("v=")) {
-          videoId = embedSource.split("v=")[1].split("&")[0];
-        } else if (embedSource.includes("youtu.be/")) {
-          videoId = embedSource.split("").pop();
-        } else if (embedSource.includes("embed/")) {
-          videoId = embedSource.split("embed/")[1].split(/[? "]/)[0];
-        }
+        const source = item.youtubeEmbed || "";
+        if (source.includes("v=")) videoId = source.split("v=")[1].split("&")[0];
+        else if (source.includes("youtu.be/")) videoId = source.split("/").pop();
+        else if (source.includes("embed/")) videoId = source.split("embed/")[1].split(/[? "]/)[0];
 
         const thumbUrl = videoId 
           ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` 
-          : 'https://via.placeholder.com/600x400/111/333?text=Studio+Project';
+          : 'https://via.placeholder.com/600/111/333?text=Project';
 
-        // בניית הכרטיסייה
         const card = document.createElement('div');
         card.className = 'portfolio-card';
         card.onclick = () => {
-          if (videoId) window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+           if (videoId) window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
         };
 
         card.innerHTML = `
@@ -304,6 +300,9 @@ function loadDynamicContent() {
         portfolioGrid.appendChild(card);
       });
     }
-    console.log("✅ האתר עודכן בהתאם ל-Firebase!");
+    console.log("✅ האתר סונכרן בהצלחה!");
   });
 }
+
+// הפעלת הטעינה כשהדף מוכן
+window.addEventListener('load', loadDynamicContent);
