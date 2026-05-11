@@ -74,7 +74,19 @@
                     .catch((e) => alert("שגיאה: " + e.message));
             }
         };
+// עדכון צבע
+document.getElementById('saveColorBtn').onclick = function() {
+    const newColor = document.getElementById('colorInput').value;
+    set(ref(db, 'settings/accent_color'), newColor)
+        .then(() => alert("הצבע עודכן!"));
+};
 
+// עדכון טקסט ברוכים הבאים
+document.getElementById('saveTextBtn').onclick = function() {
+    const newText = document.getElementById('welcomeTextInput').value;
+    set(ref(db, 'settings/welcome_message'), newText)
+        .then(() => alert("הטקסט עודכן!"));
+};
         // 2. פונקציה להוספת קליפ חדש לרשימה
         document.getElementById('addClipBtn').onclick = function() {
             const title = document.getElementById('clipTitleInput').value;
