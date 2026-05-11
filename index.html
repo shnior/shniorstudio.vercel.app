@@ -11,7 +11,6 @@
     
     <style>
         :root {
-            /* פלטת צבעים יוקרתית - שחור עמוק, זהב מטאלי ובורדו עשיר */
             --bg-dark: #070709;
             --burgundy-deep: #1a0508; 
             --burgundy-accent: #7a1528; 
@@ -46,14 +45,11 @@
             padding: 15px 50px; max-width: 1400px; margin: 0 auto;
         }
 
-        .logo {
-            font-size: 26px; font-weight: 900;
-            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .logo { font-size: 26px; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .nav-links { list-style: none; display: flex; gap: 35px; margin: 0; padding: 0; }
         .nav-links a { color: var(--text-light); text-decoration: none; font-size: 1.1rem; transition: color 0.3s; }
-        .nav-links a:hover { color: var(--gold-solid); text-shadow: 0 0 10px var(--burgundy-glow); }
+        .nav-links a:hover { color: var(--gold-solid); }
 
         .hero {
             height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
@@ -62,71 +58,43 @@
             padding: 0 20px;
         }
 
-        .hero h1 {
-            font-size: 5rem; margin: 0 0 10px 0; font-weight: 900;
-            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 4px 15px rgba(0,0,0,0.8));
-        }
+        .hero h1 { font-size: 5rem; margin: 0 0 10px 0; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero h2 { font-size: 2rem; color: var(--text-light); font-weight: 300; margin-bottom: 40px; }
 
-        .hero h2 { font-size: 2rem; color: var(--text-light); font-weight: 300; margin-bottom: 40px; text-shadow: 2px 2px 15px rgba(0,0,0,0.9); }
-
-        .cta-btn {
-            background: transparent; color: var(--gold-solid); border: 2px solid var(--gold-solid);
-            padding: 15px 45px; font-size: 1.2rem; font-weight: 700; border-radius: 50px; text-decoration: none; transition: all 0.4s ease;
-        }
-
-        .cta-btn:hover {
-            background: linear-gradient(135deg, var(--burgundy-accent), #4a0410); color: var(--text-light);
-            border-color: var(--gold-solid); box-shadow: 0 0 25px var(--burgundy-glow); transform: translateY(-3px);
-        }
+        .cta-btn { background: transparent; color: var(--gold-solid); border: 2px solid var(--gold-solid); padding: 15px 45px; font-size: 1.2rem; font-weight: 700; border-radius: 50px; text-decoration: none; transition: all 0.4s ease; }
+        .cta-btn:hover { background: linear-gradient(135deg, var(--burgundy-accent), #4a0410); color: var(--text-light); transform: translateY(-3px); }
 
         .section { padding: 100px 20px; max-width: 1400px; margin: 0 auto; }
-        .section-alt { background: radial-gradient(circle at center, var(--burgundy-deep) 0%, var(--bg-dark) 80%); border-top: 1px solid rgba(122, 21, 40, 0.1); border-bottom: 1px solid rgba(122, 21, 40, 0.1); }
-        .section-title { text-align: center; font-size: 3rem; margin-bottom: 60px; font-weight: 700; color: var(--text-light); }
+        .section-alt { background: radial-gradient(circle at center, var(--burgundy-deep) 0%, var(--bg-dark) 80%); }
+        .section-title { text-align: center; font-size: 3rem; margin-bottom: 60px; font-weight: 700; }
         .section-title span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .service-card {
-            background: var(--card-bg); padding: 50px 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.4s ease; text-align: center;
-        }
-        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 10px 20px var(--burgundy-glow); border-color: rgba(212, 175, 55, 0.2); background: rgba(30, 15, 20, 0.9); }
-        .service-card h3 { color: var(--gold-solid); font-size: 1.8rem; margin-top: 0; margin-bottom: 20px; }
-        .service-card p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin: 0; }
+        .service-card { background: var(--card-bg); padding: 50px 30px; border-radius: 15px; text-align: center; transition: 0.4s; }
+        .service-card h3 { color: var(--gold-solid); font-size: 1.8rem; margin-bottom: 20px; }
 
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .portfolio-card { background-color: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; overflow: hidden; transition: all 0.4s ease; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .portfolio-card:hover { transform: translateY(-10px); border-color: var(--gold-solid); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px var(--burgundy-glow); }
+        .portfolio-card { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; transition: 0.4s; cursor: pointer; }
+        .portfolio-card:hover { transform: translateY(-10px); border: 1px solid var(--gold-solid); }
         
         .thumbnail-container { 
             position: relative; width: 100%; padding-top: 56.25%; background-color: #000; overflow: hidden; 
         }
         
-        .thumbnail-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.7; transition: transform 0.6s ease, opacity 0.3s ease; }
-        .portfolio-card:hover .thumbnail-bg { opacity: 1; transform: scale(1.05); }
-        
-        .play-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .play-button::after { content: ''; display: block; border-style: solid; border-width: 12px 0 12px 20px; border-color: transparent transparent transparent white; margin-right: -5px; }
+        .thumbnail-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.7; }
+        .play-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(0, 0, 0, 0.5); border: 2px solid white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .play-button::after { content: ''; border-style: solid; border-width: 12px 0 12px 20px; border-color: transparent transparent transparent white; margin-right: -5px; }
         
         .card-content { padding: 25px 20px; text-align: right; }
-        .card-title { font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin: 0 0 10px 0; }
-        .card-role { font-size: 1rem; color: var(--gold-solid); margin: 0; }
+        .card-title { font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 5px; }
+        .card-role { font-size: 1rem; color: var(--gold-solid); }
 
-        /* תיקון למניעת מתיחה של הנגן */
-        .thumbnail-container .plyr {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .plyr__video-wrapper {
-            height: 100% !important;
-            width: 100% !important;
-        }
+        /* Plyr Aspect Ratio Fix */
+        .thumbnail-container .plyr { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .plyr__video-wrapper { height: 100% !important; width: 100% !important; }
 
         footer { background: #0a0204; padding: 80px 20px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.2); }
-        .footer-logo { font-size: 30px; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
-        .contact-info { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; line-height: 2; }
+        .footer-logo { font-size: 30px; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body>
@@ -169,8 +137,7 @@
 
     <section id="portfolio" class="section">
         <h2 class="section-title">פרויקטים <span>נבחרים</span></h2>
-        <div class="portfolio-grid">
-            </div>
+        <div class="portfolio-grid" id="main-portfolio-grid"></div>
     </section>
 
     <footer id="contact">
@@ -186,96 +153,56 @@
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 
     <script>
-        // ==================== Firebase Config ====================
         const firebaseConfig = {
             apiKey: "AIzaSyA_AHhjzcAYeVoBNEwF5mlzsvUqbnw2maY",
             authDomain: "shnior-studio.firebaseapp.com",
             databaseURL: "https://shnior-studio-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "shnior-studio",
-            storageBucket: "shnior-studio.firebasestorage.app",
-            messagingSenderId: "163064507259",
-            appId: "1:163064507259:web:3fb46c6795eba5b84f6bde"
+            projectId: "shnior-studio"
         };
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ==================== טעינת תוכן דינמי ====================
         function loadDynamicContent() {
-            console.log("🔄 מסנכרן נתונים מ-Firebase...");
-
             db.ref('siteContent').once('value', (snapshot) => {
                 const data = snapshot.val();
                 if (!data) return;
 
-                // עדכון לוגו וטקסטים ראשיים
-                if (data.logoText) {
-                    document.querySelectorAll('.logo, .footer-logo').forEach(el => el.textContent = data.logoText);
-                }
-                if (data.heroTitle) {
-                    const h1 = document.querySelector('.hero h1');
-                    if (h1) h1.textContent = data.heroTitle;
-                }
-                if (data.heroSubtitle) {
-                    const h2 = document.querySelector('.hero h2');
-                    if (h2) h2.textContent = data.heroSubtitle;
-                }
+                if (data.logoText) document.querySelectorAll('.logo, .footer-logo').forEach(el => el.textContent = data.logoText);
+                if (data.heroTitle) document.querySelector('.hero h1').textContent = data.heroTitle;
+                if (data.heroSubtitle) document.querySelector('.hero h2').textContent = data.heroSubtitle;
 
-                // עדכון תיק עבודות
-                const portfolioGrid = document.querySelector('.portfolio-grid');
+                const portfolioGrid = document.getElementById('main-portfolio-grid');
                 if (portfolioGrid && data.portfolio) {
-                    portfolioGrid.innerHTML = ''; 
-
+                    portfolioGrid.innerHTML = '';
                     const portfolioArray = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
 
                     portfolioArray.forEach(item => {
                         if (!item) return;
-
                         let videoId = "";
                         const source = item.youtubeEmbed || "";
-                        
-                        if (source.includes("v=")) {
-                            videoId = source.split("v=")[1].split("&")[0];
-                        } else if (source.includes("youtu.be/")) {
-                            videoId = source.split("youtu.be/")[1].split("?")[0];
-                        } else if (source.includes("embed/")) {
-                            videoId = source.split("embed/")[1].split(/[? "]/)[0];
-                        }
+                        if (source.includes("v=")) videoId = source.split("v=")[1].split("&")[0];
+                        else if (source.includes("youtu.be/")) videoId = source.split("youtu.be/")[1].split("?")[0];
+                        else if (source.includes("embed/")) videoId = source.split("embed/")[1].split(/[? "]/)[0];
 
-                        const thumbUrl = videoId 
-                            ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
-                            : 'https://via.placeholder.com/600x400/111/333?text=Project';
+                        const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
 
                         const card = document.createElement('div');
                         card.className = 'portfolio-card';
-                        
                         card.onclick = function() {
-                          if (videoId) {
-                            const container = this.querySelector('.thumbnail-container');
-                            
-                            // הזרקת הנגן
-                            container.innerHTML = `<div class="plyr__video-embed" id="player-${videoId}">
-                                <iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1" 
-                                allowfullscreen allow="autoplay"></iframe>
-                            </div>`;
-                            
-                            // הפעלת הנגן עם נעילת יחס 16:9
-                            const player = new Plyr(`#player-${videoId}`, {
-                                controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                                settings: [],
-                                ratio: '16:9',
-                                youtube: {
-                                    noCookie: true,
-                                    rel: 0,
-                                    showinfo: 0,
-                                    iv_load_policy: 3,
-                                    modestbranding: 1
-                                }
-                            });
-                            
-                            player.play();
-                            this.onclick = null; 
-                          }
+                            if (videoId) {
+                                const container = this.querySelector('.thumbnail-container');
+                                container.innerHTML = `<div class="plyr__video-embed" id="player-${videoId}">
+                                    <iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1" 
+                                    allowfullscreen allow="autoplay"></iframe>
+                                </div>`;
+                                new Plyr(`#player-${videoId}`, {
+                                    controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                                    settings: [],
+                                    ratio: '16:9'
+                                }).play();
+                                this.onclick = null; 
+                            }
                         };
 
                         card.innerHTML = `
@@ -284,19 +211,14 @@
                                 <div class="play-button"></div>
                             </div>
                             <div class="card-content">
-                                <h3 class="card-title">${item.title || "פרויקט חדש"}</h3>
+                                <h3 class="card-title">${item.title || "פרויקט"}</h3>
                                 <p class="card-role">${item.role || ""}</p>
-                            </div>
-                        `;
+                            </div>`;
                         portfolioGrid.appendChild(card);
                     });
                 }
-                console.log("✅ סונכרן בהצלחה!");
-            }, (error) => {
-                console.error("❌ שגיאה בטעינת נתונים:", error);
             });
         }
-
         window.addEventListener('DOMContentLoaded', loadDynamicContent);
     </script>
 </body>
