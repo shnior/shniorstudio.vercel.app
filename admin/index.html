@@ -31,18 +31,23 @@
         .section-header h2 { margin: 0; font-size: 1.5rem; color: var(--primary); }
 
         label { display: block; margin: 15px 0 8px; font-weight: 500; color: var(--text-muted); font-size: 0.9rem; }
-        input, textarea { width: 100%; padding: 12px 15px; background: var(--input-bg); border: 1px solid var(--border); color: white; border-radius: 8px; font-family: inherit; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 12px 15px; background: var(--input-bg); border: 1px solid var(--border); color: white; border-radius: 8px; font-family: inherit; box-sizing: border-box; font-size: 1rem; }
+        input:focus, textarea:focus { outline: 1px solid var(--primary); border-color: var(--primary); }
         
         .btn { background: var(--primary); color: #000; padding: 12px 25px; font-size: 1rem; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px; }
         .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .btn-delete { background: #ff4d4d22; color: #ff4d4d; border: 1px solid #ff4d4d; padding: 8px 15px; margin-top: 10px; }
+        .btn-delete { background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 8px 15px; margin-top: 10px; }
         .btn-delete:hover { background: #ff4d4d; color: white; }
 
         .portfolio-item { border: 1px solid var(--border); padding: 20px; margin: 20px 0; border-radius: 12px; background: #252525; }
-        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 1000; }
+        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; }
     </style>
 </head>
 <body>
+
+<div id="loader" class="loading-overlay">שומר נתונים...</div>
 
 <div class="container">
     <h1>🛠 מנהל תוכן מקצועי</h1>
@@ -54,10 +59,10 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <div>
                 <label>טקסט לוגו (השם שלך)</label>
-                <input type="text" id="logoText">
+                <input type="text" id="logoText" placeholder="לדוגמה: Shnior Eisenbach">
             </div>
             <div>
-                <label>העלאת לוגו (תמונה עד 300KB)</label>
+                <label>החלפת לוגו (תמונה עד 400KB)</label>
                 <input type="file" id="logoFile" accept="image/*">
             </div>
         </div>
@@ -68,9 +73,9 @@
             <h2><i class="fas fa-home"></i> מסך ראשי (Hero)</h2>
         </div>
         <label>כותרת ראשית</label>
-        <input type="text" id="heroTitle">
+        <input type="text" id="heroTitle" placeholder="לדוגמה: עריכת וידאו ברמה אחרת">
         <label>תיאור תת-כותרת</label>
-        <textarea id="heroSubtitle" rows="2"></textarea>
+        <textarea id="heroSubtitle" rows="2" placeholder="ספר בקצרה על השירות שלך..."></textarea>
     </div>
 
     <div class="section">
@@ -93,17 +98,19 @@
 <div id="toast">✅ השינויים נשמרו בהצלחה!</div>
 
 <script>
+    // הגדרות Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyA_AHhjzcAYeVoBNEwF5mlzsvUqbnw2maY",
         authDomain: "shnior-studio.firebaseapp.com",
         databaseURL: "https://shnior-studio-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "shnior-studio"
     };
+    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     let portfolioItems = [];
 
-    // טעינת נתונים קיימים בפתיחה
+    // טעינת נתונים קיימים
     function loadExistingData() {
         db.ref('siteContent').once('value', (snapshot) => {
             const data = snapshot.val();
@@ -111,7 +118,13 @@
                 document.getElementById("logoText").value = data.logoText || "";
                 document.getElementById("heroTitle").value = data.heroTitle || "";
                 document.getElementById("heroSubtitle").value = data.heroSubtitle || "";
-                portfolioItems = Array.isArray(data.portfolio) ? data.portfolio : (data.portfolio ? Object.values(data.portfolio) : []);
+                
+                // טיפול בסינון ערכי null במערך
+                if (data.portfolio) {
+                    portfolioItems = Object.values(data.portfolio).filter(item => item !== null);
+                } else {
+                    portfolioItems = [];
+                }
                 renderPortfolio();
             }
         });
@@ -120,61 +133,94 @@
     function renderPortfolio() {
         const container = document.getElementById("portfolioContainer");
         container.innerHTML = "";
+        
         portfolioItems.forEach((item, i) => {
-            if (!item) return;
             const div = document.createElement("div");
             div.className = "portfolio-item";
             div.innerHTML = `
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <input type="text" value="${item.title || ''}" oninput="portfolioItems[${i}].title = this.value" placeholder="שם פרויקט">
-                    <input type="text" value="${item.role || ''}" oninput="portfolioItems[${i}].role = this.value" placeholder="תפקיד">
+                    <div>
+                        <label>שם הפרויקט</label>
+                        <input type="text" value="${item.title || ''}" onchange="updateItem(${i}, 'title', this.value)" placeholder="למשל: קליפ חתונה">
+                    </div>
+                    <div>
+                        <label>תפקיד</label>
+                        <input type="text" value="${item.role || ''}" onchange="updateItem(${i}, 'role', this.value)" placeholder="למשל: עורך ראשי">
+                    </div>
                 </div>
-                <textarea style="margin-top:10px;" rows="2" oninput="portfolioItems[${i}].youtubeEmbed = this.value" placeholder="לינק יוטיוב">${item.youtubeEmbed || ''}</textarea>
-                <button class="btn btn-delete" onclick="deletePortfolioItem(${i})">מחק</button>`;
+                <label>מזהה וידאו מיוטיוב (הקוד שאחרי ה-v=)</label>
+                <input type="text" style="margin-top:5px;" value="${item.youtubeEmbed || ''}" 
+                       onchange="updateItem(${i}, 'youtubeEmbed', this.value)" 
+                       placeholder="לדוגמה: dQw4w9WgXcQ">
+                <button class="btn btn-delete" onclick="deletePortfolioItem(${i})">
+                    <i class="fas fa-trash"></i> מחק פרויקט
+                </button>`;
             container.appendChild(div);
         });
     }
 
-    function addPortfolioItem() { portfolioItems.push({title:"", role:"", youtubeEmbed:""}); renderPortfolio(); }
-    function deletePortfolioItem(i) { if(confirm("למחוק?")) { portfolioItems.splice(i,1); renderPortfolio(); } }
+    function updateItem(index, field, value) {
+        portfolioItems[index][field] = value;
+    }
 
-    // פונקציית השמירה המאוחדת והמתוקנת
+    function addPortfolioItem() {
+        portfolioItems.push({title: "", role: "", youtubeEmbed: ""});
+        renderPortfolio();
+    }
+
+    function deletePortfolioItem(i) {
+        if(confirm("האם אתה בטוח שברצונך למחוק את הפרויקט הזה?")) {
+            portfolioItems.splice(i, 1);
+            renderPortfolio();
+        }
+    }
+
+    // שמירה
     async function saveAllContent() {
-        const file = document.getElementById('logoFile').files[0];
-        let logoBase64 = null;
+        const loader = document.getElementById('loader');
+        const fileInput = document.getElementById('logoFile');
+        const file = fileInput.files[0];
+        
+        loader.style.display = "flex";
 
-        // אם נבחר לוגו חדש - נהפוך אותו לטקסט
-        if (file) {
-            if (file.size > 400000) {
-                alert("הלוגו גדול מדי! אנא העלה קובץ קטן מ-400KB");
-                return;
+        try {
+            const dataToUpdate = {
+                logoText: document.getElementById("logoText").value,
+                heroTitle: document.getElementById("heroTitle").value,
+                heroSubtitle: document.getElementById("heroSubtitle").value,
+                portfolio: portfolioItems // נשמר כמערך נקי
+            };
+
+            // אם נבחר לוגו חדש - נמיר ל-Base64
+            if (file) {
+                if (file.size > 400000) {
+                    throw new Error("הקובץ גדול מדי. מקסימום 400KB.");
+                }
+                const base64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+                dataToUpdate.logoBase64 = base64;
             }
-            logoBase64 = await new Promise(resolve => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.readAsDataURL(file);
-            });
+
+            // עדכון ב-Firebase
+            await db.ref('siteContent').update(dataToUpdate);
+            
+            showToast();
+            fileInput.value = ""; // איפוס בחירת הקובץ לאחר הצלחה
+        } catch (err) {
+            alert("שגיאה: " + err.message);
+        } finally {
+            loader.style.display = "none";
         }
+    }
 
-        const dataToUpdate = {
-            logoText: document.getElementById("logoText").value,
-            heroTitle: document.getElementById("heroTitle").value,
-            heroSubtitle: document.getElementById("heroSubtitle").value,
-            portfolio: portfolioItems
-        };
-
-        // הוספת הלוגו רק אם הועלה אחד חדש
-        if (logoBase64) {
-            dataToUpdate.logoBase64 = logoBase64;
-        }
-
-        db.ref('siteContent').update(dataToUpdate).then(() => {
-            const toast = document.getElementById("toast");
-            toast.style.display = "block";
-            setTimeout(() => { toast.style.display = "none"; }, 3000);
-        }).catch(err => {
-            alert("שגיאה בשמירה: " + err.message);
-        });
+    function showToast() {
+        const toast = document.getElementById("toast");
+        toast.style.display = "block";
+        setTimeout(() => { toast.style.display = "none"; }, 3000);
     }
 
     window.onload = loadExistingData;
