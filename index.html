@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>שניאור אייזנבך | קלידן, מפיק מוזיקלי ועורך וידאו</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap');
-        
         :root {
+            /* פלטת צבעים יוקרתית - שחור עמוק, זהב מטאלי ובורדו עשיר */
             --bg-dark: #070709;
             --burgundy-deep: #1a0508; 
             --burgundy-accent: #7a1528; 
@@ -107,16 +111,26 @@
         .card-title { font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin: 0 0 10px 0; }
         .card-role { font-size: 1rem; color: var(--gold-solid); margin: 0; }
 
+        /* תיקון למניעת מתיחה של הנגן */
+        .thumbnail-container .plyr {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .plyr__video-wrapper {
+            height: 100% !important;
+            width: 100% !important;
+        }
+
         footer { background: #0a0204; padding: 80px 20px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.2); }
         .footer-logo { font-size: 30px; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
         .contact-info { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; line-height: 2; }
     </style>
 </head>
 <body>
-    
-<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-    
+
     <header>
         <nav>
             <div class="logo">שניאור אייזנבך</div>
@@ -165,41 +179,53 @@
             <strong>זמין לאירועים, חתונות והפקות סטודיו.</strong><br>
             אזור פעילות: בית שמש והסביבה / כלל הארץ
         </div>
-        <a href="https://wa.me/972548528425" target="_blank" class="cta-btn">שלח הודעת וואטסאפ</a>
+        <a href="https://wa.me/972000000000" target="_blank" class="cta-btn">שלח הודעת וואטסאפ</a>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 
     <script>
+        // ==================== Firebase Config ====================
         const firebaseConfig = {
             apiKey: "AIzaSyA_AHhjzcAYeVoBNEwF5mlzsvUqbnw2maY",
             authDomain: "shnior-studio.firebaseapp.com",
             databaseURL: "https://shnior-studio-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "shnior-studio"
+            projectId: "shnior-studio",
+            storageBucket: "shnior-studio.firebasestorage.app",
+            messagingSenderId: "163064507259",
+            appId: "1:163064507259:web:3fb46c6795eba5b84f6bde"
         };
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // ==================== טעינת תוכן דינמי ====================
         function loadDynamicContent() {
-            console.log("🔄 מסנכרן נתונים...");
+            console.log("🔄 מסנכרן נתונים מ-Firebase...");
 
             db.ref('siteContent').once('value', (snapshot) => {
                 const data = snapshot.val();
                 if (!data) return;
 
-                // עדכון טקסטים
-                if (data.logoText) document.querySelectorAll('.logo, .footer-logo').forEach(el => el.textContent = data.logoText);
-                if (data.heroTitle) document.querySelector('.hero h1').textContent = data.heroTitle;
-                if (data.heroSubtitle) document.querySelector('.hero h2').textContent = data.heroSubtitle;
+                // עדכון לוגו וטקסטים ראשיים
+                if (data.logoText) {
+                    document.querySelectorAll('.logo, .footer-logo').forEach(el => el.textContent = data.logoText);
+                }
+                if (data.heroTitle) {
+                    const h1 = document.querySelector('.hero h1');
+                    if (h1) h1.textContent = data.heroTitle;
+                }
+                if (data.heroSubtitle) {
+                    const h2 = document.querySelector('.hero h2');
+                    if (h2) h2.textContent = data.heroSubtitle;
+                }
 
-                // עדכון פורטפוליו
+                // עדכון תיק עבודות
                 const portfolioGrid = document.querySelector('.portfolio-grid');
                 if (portfolioGrid && data.portfolio) {
-                    portfolioGrid.innerHTML = '';
-                    
-                    // המרה למערך למקרה שזה אובייקט
+                    portfolioGrid.innerHTML = ''; 
+
                     const portfolioArray = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
 
                     portfolioArray.forEach(item => {
@@ -208,35 +234,46 @@
                         let videoId = "";
                         const source = item.youtubeEmbed || "";
                         
-                        // חילוץ ID משופר
-                        if (source.includes("v=")) videoId = source.split("v=")[1].split("&")[0];
-                        else if (source.includes("youtu.be/")) videoId = source.split("youtu.be/")[1].split("?")[0];
-                        else if (source.includes("embed/")) videoId = source.split("embed/")[1].split(/[? "]/)[0];
+                        if (source.includes("v=")) {
+                            videoId = source.split("v=")[1].split("&")[0];
+                        } else if (source.includes("youtu.be/")) {
+                            videoId = source.split("youtu.be/")[1].split("?")[0];
+                        } else if (source.includes("embed/")) {
+                            videoId = source.split("embed/")[1].split(/[? "]/)[0];
+                        }
 
                         const thumbUrl = videoId 
-                            ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` 
+                            ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
                             : 'https://via.placeholder.com/600x400/111/333?text=Project';
 
                         const card = document.createElement('div');
                         card.className = 'portfolio-card';
                         
-                        // לחיצה להפעלה ישירה
                         card.onclick = function() {
                           if (videoId) {
                             const container = this.querySelector('.thumbnail-container');
-                            // יצירת אלמנט נגן נקי
+                            
+                            // הזרקת הנגן
                             container.innerHTML = `<div class="plyr__video-embed" id="player-${videoId}">
-                             <iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1" 
-                             allowfullscreen allow="autoplay"></iframe>
-                           </div>`;
-    
-                            // הפעלת הנגן עם הגדרות ספציפיות לכפתורים שביקשת
+                                <iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1" 
+                                allowfullscreen allow="autoplay"></iframe>
+                            </div>`;
+                            
+                            // הפעלת הנגן עם נעילת יחס 16:9
                             const player = new Plyr(`#player-${videoId}`, {
-                              controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'], // רק מה שביקשת
-                              settings: [] // מסיר את כפתורי ההגדרות והמהירות
+                                controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                                settings: [],
+                                ratio: '16:9',
+                                youtube: {
+                                    noCookie: true,
+                                    rel: 0,
+                                    showinfo: 0,
+                                    iv_load_policy: 3,
+                                    modestbranding: 1
+                                }
                             });
-    
-                            player.play(); // ניסיון הפעלה אוטומטית
+                            
+                            player.play();
                             this.onclick = null; 
                           }
                         };
@@ -255,6 +292,8 @@
                     });
                 }
                 console.log("✅ סונכרן בהצלחה!");
+            }, (error) => {
+                console.error("❌ שגיאה בטעינת נתונים:", error);
             });
         }
 
