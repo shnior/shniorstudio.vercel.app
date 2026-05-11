@@ -113,7 +113,10 @@
     </style>
 </head>
 <body>
-
+    
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    
     <header>
         <nav>
             <div class="logo">שניאור אייזנבך</div>
@@ -219,13 +222,23 @@
                         
                         // לחיצה להפעלה ישירה
                         card.onclick = function() {
-                            if (videoId) {
-                                const container = this.querySelector('.thumbnail-container');
-                                container.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
-                                    allow="autoplay; encrypted-media" allowfullscreen 
-                                    style="width:100%; height:100%; border:none; position:absolute; top:0; left:0;"></iframe>`;
-                                this.onclick = null; 
-                            }
+                          if (videoId) {
+                            const container = this.querySelector('.thumbnail-container');
+                            // יצירת אלמנט נגן נקי
+                            container.innerHTML = `<div class="plyr__video-embed" id="player-${videoId}">
+                             <iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1" 
+                             allowfullscreen allow="autoplay"></iframe>
+                           </div>`;
+    
+                            // הפעלת הנגן עם הגדרות ספציפיות לכפתורים שביקשת
+                            const player = new Plyr(`#player-${videoId}`, {
+                              controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'], // רק מה שביקשת
+                              settings: [] // מסיר את כפתורי ההגדרות והמהירות
+                            });
+    
+                            player.play(); // ניסיון הפעלה אוטומטית
+                            this.onclick = null; 
+                          }
                         };
 
                         card.innerHTML = `
