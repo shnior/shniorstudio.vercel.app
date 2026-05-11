@@ -238,33 +238,45 @@ const db = firebase.database();
 
 // ==================== טעינת תוכן ====================
 function loadDynamicContent() {
-  console.log("🔄 טוען תוכן מ-siteContent...");
+  console.log("🔄 מסנכרן נתונים מ-Firebase...");
 
   db.ref('siteContent').once('value', (snapshot) => {
     const data = snapshot.val();
-    console.log("📥 נתונים שהתקבלו:", data);
-
     if (!data) return;
 
-    // לוגו
-    const logo = document.querySelector('.logo');
-    if (logo && data.logoText) logo.textContent = data.logoText;
+    // עדכון טקסטים כלליים
+    if (data.logoText) document.querySelectorAll('.logo, .footer-logo').forEach(el => el.textContent = data.logoText);
+    if (data.heroTitle) document.querySelector('.hero h1').textContent = data.heroTitle;
+    if (data.heroSubtitle) document.querySelector('.hero h2').textContent = data.heroSubtitle;
 
-    // Hero
-    const heroH1 = document.querySelector('.hero h1');
-    if (heroH1 && data.heroTitle) heroH1.textContent = data.heroTitle;
+    // עדכון תיק עבודות דינמי
+    if (data.portfolio) {
+      const portfolioGrid = document.querySelector('.portfolio-grid');
+      portfolioGrid.innerHTML = ''; // ניקוי הפרויקטים הסטטיים
 
-    const heroH2 = document.querySelector('.hero h2');
-    if (heroH2 && data.heroSubtitle) heroH2.textContent = data.heroSubtitle;
+      data.portfolio.forEach(item => {
+        // חילוץ מזהה וידאו מיוטיוב לצורך תמונת תצוגה מקדימה
+        let videoId = "";
+        if (item.youtubeEmbed.includes("v=")) videoId = item.youtubeEmbed.split("v=")[1].split("&")[0];
+        else if (item.youtubeEmbed.includes("youtu.be")) videoId = item.youtubeEmbed.split("/").pop();
+        else if (item.youtubeEmbed.includes("embed/")) videoId = item.youtubeEmbed.split("embed/")[1].split('"')[0];
+        
+        const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : 'https://via.placeholder.com/600x600/111/333?text=Studio+Project';
 
-    console.log("✅ האתר עודכן בהצלחה!");
-  }, (error) => {
-    console.error("❌ שגיאה:", error);
+        const card = `
+          <div class="portfolio-card" onclick="window.open('${item.youtubeEmbed.includes('<iframe') ? '#' : item.youtubeEmbed}', '_blank')">
+            <div class="thumbnail-container">
+              <div class="thumbnail-bg" style="background-image: url('${thumbUrl}');"></div>
+              <div class="play-button"></div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">${item.title}</h3>
+              <p class="card-role">${item.role}</p>
+            </div>
+          </div>`;
+        portfolioGrid.innerHTML += card;
+      });
+    }
+    console.log("✅ האתר סונכרן במלאו!");
   });
 }
-
-// טען את התוכן
-window.addEventListener('load', loadDynamicContent);
-</script>
-</body>
-</html>
