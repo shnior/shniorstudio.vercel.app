@@ -129,11 +129,12 @@
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <h1>הסאונד. הוויזואל. ההפקה.</h1>
-        <h2>קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור</h2>
-        <a href="#contact" class="cta-btn">להזמנת אירועים והפקות</a>
-    </section>
+  <section id="portfolio" class="section">
+    <h2 class="section-title">פרויקטים <span>נבחרים</span></h2>
+    <div class="portfolio-grid" id="portfolioGrid">
+        <!-- הפרויקטים ייטענו כאן דינמית -->
+    </div>
+</section>
 
     <section id="services" class="section section-alt">
         <h2 class="section-title">מעטפת של <span>מדיה ומוזיקה</span></h2>
@@ -212,12 +213,7 @@
         </div>
         <a href="https://wa.me/972000000000" target="_blank" class="cta-btn">שלח הודעת וואטסאפ</a>
     </footer>
-<!-- ====================== Firebase Realtime Database ====================== -->
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-
-<script>
-<!-- ====================== Firebase Realtime Database ====================== -->
+<!-- Firebase Realtime Database -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 
@@ -236,35 +232,49 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ==================== טעינת תוכן ====================
-function loadDynamicContent() {
-  console.log("🔄 טוען תוכן מ-siteContent...");
+// ==================== טעינת תיק עבודות ====================
+function loadPortfolio() {
+  db.ref('siteContent/portfolio').once('value', (snapshot) => {
+    const projects = snapshot.val();
+    const grid = document.getElementById("portfolioGrid");
+    grid.innerHTML = "";
 
-  db.ref('siteContent').once('value', (snapshot) => {
-    const data = snapshot.val();
-    console.log("📥 נתונים שהתקבלו:", data);
+    if (!projects || projects.length === 0) {
+      grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>אין פרויקטים עדיין</p>";
+      return;
+    }
 
-    if (!data) return;
+    projects.forEach(project => {
+      if (!project.title) return;
 
-    // לוגו
-    const logo = document.querySelector('.logo');
-    if (logo && data.logoText) logo.textContent = data.logoText;
-
-    // Hero
-    const heroH1 = document.querySelector('.hero h1');
-    if (heroH1 && data.heroTitle) heroH1.textContent = data.heroTitle;
-
-    const heroH2 = document.querySelector('.hero h2');
-    if (heroH2 && data.heroSubtitle) heroH2.textContent = data.heroSubtitle;
-
-    console.log("✅ האתר עודכן בהצלחה!");
-  }, (error) => {
-    console.error("❌ שגיאה:", error);
+      const cardHTML = `
+        <div class="portfolio-card" onclick="playVideo('${project.youtube || '#'}')">
+          <div class="thumbnail-container">
+            <div class="thumbnail-bg" style="background-image: url('https://via.placeholder.com/600x400/111/333?text=${encodeURIComponent(project.title)}');"></div>
+            <div class="play-button"></div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">${project.title}</h3>
+            <p class="card-role">${project.role || 'הנפשה'}</p>
+          </div>
+        </div>
+      `;
+      grid.innerHTML += cardHTML;
+    });
   });
 }
 
-// טען את התוכן
-window.addEventListener('load', loadDynamicContent);
+// פונקציה לפתיחת יוטיוב
+function playVideo(url) {
+  if (url && url.includes("youtube")) {
+    window.open(url, '_blank');
+  } else {
+    alert("קישור ליוטיוב לא הוגדר לפרויקט זה");
+  }
+}
+
+// טען את כל התוכן
+window.addEventListener('load', () => {
+  loadPortfolio();
+});
 </script>
-</body>
-</html>
