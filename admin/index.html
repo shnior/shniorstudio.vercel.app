@@ -7,32 +7,64 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
   <style>
-    body { font-family: 'Heebo', Arial, sans-serif; background: #0a0507; color: #f4f4f4; padding: 30px; max-width: 800px; margin: 0 auto; }
-    h1 { color: #D4AF37; text-align: center; }
-    label { display: block; margin: 15px 0 5px; font-weight: bold; color: #D4AF37; }
-    input, textarea { width: 100%; padding: 14px; background: #1a0f12; border: 1px solid #7a1528; color: white; border-radius: 8px; font-size: 1.05rem; }
-    button { background: #7a1528; color: white; padding: 16px 40px; font-size: 1.2rem; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; width: 100%; }
+    body { font-family: 'Heebo', Arial, sans-serif; background: #0a0507; color: #f4f4f4; padding: 30px; max-width: 1000px; margin: 0 auto; }
+    h1 { color: #D4AF37; text-align: center; margin-bottom: 30px; }
+    .section { background: #1a0f12; padding: 25px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #7a1528; }
+    label { display: block; margin: 12px 0 6px; font-weight: bold; color: #D4AF37; }
+    input, textarea { width: 100%; padding: 12px; background: #111; border: 1px solid #7a1528; color: white; border-radius: 8px; }
+    button { background: #7a1528; color: white; padding: 16px 40px; font-size: 1.2rem; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; }
     button:hover { background: #D4AF37; color: black; }
-    #status { margin-top: 20px; font-size: 1.1rem; text-align: center; min-height: 30px; }
-    .success { color: #4CAF50; }
-    .error { color: #ff4444; }
+    .success { color: #4CAF50; font-weight: bold; }
+    .status { text-align: center; margin: 20px 0; font-size: 1.1rem; }
   </style>
 </head>
 <body>
   <h1>🛠 מנהל תוכן - שניאור אייזנבך</h1>
 
-  <label>לוגו (טקסט):</label>
-  <input type="text" id="logoText">
+  <div class="section">
+    <h2>לוגו + Hero Section</h2>
+    <label>טקסט לוגו</label>
+    <input type="text" id="logoText">
 
-  <label>כותרת ראשית:</label>
-  <input type="text" id="heroTitle">
+    <label>כותרת ראשית (H1)</label>
+    <input type="text" id="heroTitle">
 
-  <label>תיאור ראשי:</label>
-  <textarea id="heroSubtitle" rows="4"></textarea>
+    <label>תיאור ראשי (H2)</label>
+    <textarea id="heroSubtitle" rows="3"></textarea>
 
-  <button onclick="saveContent()">💾 שמור שינויים</button>
+    <label>טקסט כפתור CTA</label>
+    <input type="text" id="ctaText" value="להזמנת אירועים והפקות">
+  </div>
 
-  <div id="status"></div>
+  <div class="section">
+    <h2>שירותים (3 כרטיסים)</h2>
+    <label>שירות 1 - כותרת</label>
+    <input type="text" id="service1_title">
+    <label>שירות 1 - תיאור</label>
+    <textarea id="service1_desc" rows="3"></textarea>
+
+    <label>שירות 2 - כותרת</label>
+    <input type="text" id="service2_title">
+    <label>שירות 2 - תיאור</label>
+    <textarea id="service2_desc" rows="3"></textarea>
+
+    <label>שירות 3 - כותרת</label>
+    <input type="text" id="service3_title">
+    <label>שירות 3 - תיאור</label>
+    <textarea id="service3_desc" rows="3"></textarea>
+  </div>
+
+  <div class="section">
+    <h2>פוטר</h2>
+    <label>טקסט ראשי בפוטר</label>
+    <textarea id="footerText" rows="3"></textarea>
+    
+    <label>לינק וואטסאפ (מספר עם 972)</label>
+    <input type="text" id="whatsappLink" placeholder="972501234567">
+  </div>
+
+  <button onclick="saveAllContent()">💾 שמור את כל השינויים</button>
+  <div class="status" id="status"></div>
 
   <script>
     const firebaseConfig = {
@@ -48,36 +80,59 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    async function saveContent() {
+    // טעינת נתונים
+    async function loadContent() {
+      const snapshot = await db.ref('siteContent').once('value');
+      const data = snapshot.val() || {};
+
+      document.getElementById("logoText").value = data.logoText || "שניאור אייזנבך";
+      document.getElementById("heroTitle").value = data.heroTitle || "הסאונד. הוויזואל. ההפקה.";
+      document.getElementById("heroSubtitle").value = data.heroSubtitle || "קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור";
+      document.getElementById("ctaText").value = data.ctaText || "להזמנת אירועים והפקות";
+
+      // שירותים
+      document.getElementById("service1_title").value = data.services?.s1?.title || "לייב על הבמה";
+      document.getElementById("service1_desc").value = data.services?.s1?.desc || "";
+      document.getElementById("service2_title").value = data.services?.s2?.title || "עריכה והפקות וידאו";
+      document.getElementById("service2_desc").value = data.services?.s2?.desc || "";
+      document.getElementById("service3_title").value = data.services?.s3?.title || "הנפשה וכלי AI";
+      document.getElementById("service3_desc").value = data.services?.s3?.desc || "";
+
+      document.getElementById("footerText").value = data.footerText || "";
+      document.getElementById("whatsappLink").value = data.whatsapp || "972000000000";
+    }
+
+    // שמירה
+    async function saveAllContent() {
       const status = document.getElementById("status");
       status.textContent = "שומר...";
 
-      try {
-        await db.ref('general/main').set({
-          logoText: document.getElementById("logoText").value,
-          heroTitle: document.getElementById("heroTitle").value,
-          heroSubtitle: document.getElementById("heroSubtitle").value,
-          updatedAt: Date.now()
-        });
+      const data = {
+        logoText: document.getElementById("logoText").value,
+        heroTitle: document.getElementById("heroTitle").value,
+        heroSubtitle: document.getElementById("heroSubtitle").value,
+        ctaText: document.getElementById("ctaText").value,
 
-        status.innerHTML = '<span class="success">✅ נשמר בהצלחה!</span>';
-      } catch (error) {
-        console.error(error);
-        status.innerHTML = `<span class="error">❌ שגיאה: ${error.message}</span>`;
+        services: {
+          s1: { title: document.getElementById("service1_title").value, desc: document.getElementById("service1_desc").value },
+          s2: { title: document.getElementById("service2_title").value, desc: document.getElementById("service2_desc").value },
+          s3: { title: document.getElementById("service3_title").value, desc: document.getElementById("service3_desc").value }
+        },
+
+        footerText: document.getElementById("footerText").value,
+        whatsapp: document.getElementById("whatsappLink").value,
+        lastUpdated: Date.now()
+      };
+
+      try {
+        await db.ref('siteContent').set(data);
+        status.innerHTML = '<span class="success">✅ כל השינויים נשמרו בהצלחה!</span>';
+      } catch (e) {
+        status.innerHTML = `<span style="color:red">שגיאה: ${e.message}</span>`;
       }
     }
 
-    // טעינת נתונים
-    window.onload = () => {
-      db.ref('general/main').once('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          document.getElementById("logoText").value = data.logoText || "שניאור אייזנבך";
-          document.getElementById("heroTitle").value = data.heroTitle || "הסאונד. הוויזואל. ההפקה.";
-          document.getElementById("heroSubtitle").value = data.heroSubtitle || "קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור";
-        }
-      });
-    };
+    window.onload = loadContent;
   </script>
 </body>
 </html>
