@@ -6,21 +6,7 @@
     <title>שניאור אייזנבך | קלידן, מפיק מוזיקלי ועורך וידאו</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap');
-       
-        // מאזין לשינוי צבע - מעדכן משתנה CSS
-onValue(ref(db, 'settings/accent_color'), (snapshot) => {
-    const color = snapshot.val();
-    if (color) {
-        document.documentElement.style.setProperty('--main-color', color);
-    }
-});
-
-// מאזין לטקסט ברוכים הבאים
-onValue(ref(db, 'settings/welcome_message'), (snapshot) => {
-    const msg = snapshot.val();
-    if (msg) {
-        document.getElementById('welcome-heading').innerText = msg;
-    }
+    
 });
         :root {
             /* פלטת צבעים יוקרתית - שחור עמוק, זהב מטאלי ובורדו עשיר */
