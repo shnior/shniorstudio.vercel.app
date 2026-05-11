@@ -189,6 +189,12 @@
     <h1>🛠 מנהל תוכן מקצועי</h1>
 
     <!-- Hero -->
+   <div class="input-group">
+    <label>העלאת לוגו (תמונה):</label>
+    <input type="file" id="logoFileInput" accept="image/*">
+    <img id="logoPreview" src="" style="max-height: 50px; display: none; margin-top: 10px;">
+</div>
+    
     <div class="section">
         <div class="section-header">
             <h2><i class="fas fa-home"></i> מסך ראשי (Hero)</h2>
@@ -274,6 +280,8 @@
     const db = firebase.database();
     let portfolioItems = [];
 
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+    
     function renderPortfolio() {
         const container = document.getElementById("portfolioContainer");
         container.innerHTML = "";
@@ -317,29 +325,33 @@
         });
     }
 
-    async function saveAllContent() {
-        try {
-            await db.ref('siteContent').set({
-                logoText: document.getElementById("logoText").value,
-                heroTitle: document.getElementById("heroTitle").value,
-                heroSubtitle: document.getElementById("heroSubtitle").value,
-                portfolio: portfolioItems
-            });
-            document.getElementById("toast").style.display = "block";
-            setTimeout(() => document.getElementById("toast").style.display = "none", 2000);
-        } catch (e) { alert("שגיאה"); }
-    }
+   async function saveAllContent() {
+    const fileInput = document.getElementById('logoFileInput');
+    const file = fileInput.files[0];
+    let logoUrl = d.logoUrl || ""; // נשמור על הקיים אם לא הועלה חדש
 
-    window.onload = () => {
-        db.ref('siteContent').once('value', s => {
-            const d = s.val() || {};
-            document.getElementById("logoText").value = d.logoText || "";
-            document.getElementById("heroTitle").value = d.heroTitle || "";
-            document.getElementById("heroSubtitle").value = d.heroSubtitle || "";
-            portfolioItems = d.portfolio || [];
-            renderPortfolio();
+    try {
+        // אם נבחר קובץ חדש - נעלה אותו ל-Storage
+        if (file) {
+            const storageRef = firebase.storage().ref('site/logo_' + Date.now());
+            const snapshot = await storageRef.put(file);
+            logoUrl = await snapshot.ref.getDownloadURL();
+        }
+
+        await db.ref('siteContent').update({
+            logoText: document.getElementById("logoText").value,
+            heroTitle: document.getElementById("heroTitle").value,
+            heroSubtitle: document.getElementById("heroSubtitle").value,
+            logoUrl: logoUrl, // שמירת הקישור לתמונה בתוך ה-Database
+            portfolio: portfolioItems
         });
-    };
+        
+        alert("נשמר בהצלחה!");
+    } catch (e) {
+        console.error(e);
+        alert("שגיאה בשמירה");
+    }
+}
 </script>
 </body>
 </html>
