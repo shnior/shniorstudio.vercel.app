@@ -35,6 +35,56 @@
             overflow-x: hidden;
         }
 
+        /* =======================================================
+           עיצוב מסך הטעינה (Loader)
+           ======================================================= */
+        #site-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* מעל הכל */
+            color: var(--gold-solid);
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(212, 175, 55, 0.2);
+            border-top: 4px solid var(--gold-solid);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loader-text {
+            font-size: 1.5rem;
+            font-family: 'Bona Nova', serif;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* מחלקה להעלמת הלואודר באנימציה */
+        #site-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        /* ======================================================= */
+
         header {
             position: fixed; width: 100%; top: 0;
             background: rgba(7, 7, 9, 0.85); backdrop-filter: blur(15px);
@@ -87,9 +137,6 @@
 
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         
-        /* =======================================================
-           כרטיסיות שירות עם מסגרת עבה מונפשת - מתוקן לאטום
-           ======================================================= */
         .service-card {
             position: relative;
             padding: 50px 30px; 
@@ -100,59 +147,31 @@
             transition: all 0.4s ease; 
         }
 
-        /* מרימים את כל התוכן הפנימי (טקסטים וכותרות) מעל הרקע */
-        .service-card > * {
-            position: relative;
-            z-index: 2;
-        }
+        .service-card > * { position: relative; z-index: 2; }
 
-        /* יצירת המעגל המסתובב ברקע */
         .service-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: conic-gradient(transparent 80%, var(--gold-solid) 100%);
-            animation: rotateBorder 3s linear infinite;
-            z-index: 0;
+            animation: rotateBorder 3s linear infinite; z-index: 0;
         }
 
-        /* יצירת הכרטיס הכהה הפנימי - אטום לחלוטין! */
         .service-card::after {
-            content: '';
-            position: absolute;
-            inset: 4px; /* מסגרת בעובי 4 פיקסלים */
-            background: #0f0a0c; 
-            border-radius: 11px; 
-            z-index: 1;
-            transition: all 0.4s ease;
+            content: ''; position: absolute; inset: 4px; background: #0f0a0c; border-radius: 11px; z-index: 1; transition: all 0.4s ease;
         }
 
-        .service-card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 10px 20px var(--burgundy-glow); 
-        }
-
-        .service-card:hover::after {
-            background: #1e0f14; 
-        }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 10px 20px var(--burgundy-glow); }
+        .service-card:hover::after { background: #1e0f14; }
 
         @keyframes rotateBorder {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        /* ======================================================= */
 
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .portfolio-card { background-color: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; overflow: hidden; transition: all 0.4s ease; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .portfolio-card:hover { transform: translateY(-10px); border-color: var(--gold-solid); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px var(--burgundy-glow); }
         
-        .thumbnail-container { 
-            position: relative; width: 100%; padding-top: 56.25%; background-color: #000; overflow: hidden; 
-        }
-        
+        .thumbnail-container { position: relative; width: 100%; padding-top: 56.25%; background-color: #000; overflow: hidden; }
         .thumbnail-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.7; transition: transform 0.6s ease, opacity 0.3s ease; }
         .portfolio-card:hover .thumbnail-bg { opacity: 1; transform: scale(1.05); }
         
@@ -163,31 +182,25 @@
         .card-title { font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin: 0 0 10px 0; }
         .card-role { font-size: 1rem; color: var(--gold-solid); margin: 0; }
 
-        .thumbnail-container .plyr {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        }
+        .thumbnail-container .plyr { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .plyr__video-wrapper { height: 100% !important; width: 100% !important; }
 
         footer { background: #0a0204; padding: 80px 20px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.2); }
         .footer-logo { font-size: 30px; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
         .contact-info { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; line-height: 2; }
 
-        /* =======================================================
-           Z-Index - האנימציה ברקע (z-index: 1), התוכן מקדימה
-           ======================================================= */
-        #magic-cursor-canvas {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: 1;
-        }
-
-        .hero h1, .hero h2, .cta-btn, .section-title, .service-card, .portfolio-card, .footer-logo, .contact-info {
-            position: relative; z-index: 2;
-        }
-
+        #magic-cursor-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; }
+        .hero h1, .hero h2, .cta-btn, .section-title, .service-card, .portfolio-card, .footer-logo, .contact-info { position: relative; z-index: 2; }
         .hero, .section-alt, footer { position: relative; z-index: 1; }
     </style>
 </head>
 <body>
+
+    <!-- מסך הטעינה (Loader) -->
+    <div id="site-loader">
+        <div class="spinner"></div>
+        <div class="loader-text">טוען נתונים...</div>
+    </div>
 
     <!-- קנבס לאנימציית הזיקוקים וההילה העדינה -->
     <canvas id="magic-cursor-canvas"></canvas>
@@ -264,13 +277,23 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // משתנה גלובלי לאחסון כל הנגנים כדי שנוכל לכבות אותם כשמפעילים אחד אחר
         let allPlayers = [];
 
         function loadDynamicContent() {
             db.ref('siteContent').on('value', (snapshot) => {
                 const data = snapshot.val();
-                if (!data) return;
+                
+                // הסתרת מסך הטעינה גם אם אין נתונים (כדי לא לתקוע את הגולש)
+                const hideLoader = () => {
+                    const loader = document.getElementById('site-loader');
+                    if (loader) loader.classList.add('hidden');
+                };
+
+                if (!data) {
+                    hideLoader();
+                    return;
+                }
+
                 if (data.logoText) document.querySelectorAll('#headerLogoText, .footer-logo').forEach(el => el.textContent = data.logoText);
                 const logoImg = document.getElementById('headerLogo');
                 if (data.logoBase64) { logoImg.src = data.logoBase64; logoImg.style.display = 'block'; } 
@@ -281,7 +304,7 @@
                 const portfolioGrid = document.querySelector('.portfolio-grid');
                 if (portfolioGrid && data.portfolio) {
                     portfolioGrid.innerHTML = ''; 
-                    allPlayers = []; // איפוס מערך הנגנים בכל פעם שהגריד נבנה מחדש
+                    allPlayers = []; 
 
                     const portfolioArray = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
                     portfolioArray.forEach((item, index) => {
@@ -302,16 +325,14 @@
                                 
                                 const player = new Plyr(`#player-${index}`, { controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'], ratio: '16:9' });
                                 
-                                // === המנגנון לכיבוי שאר הנגנים ===
-                                allPlayers.push(player); // הוספת הנגן הנוכחי למערך
+                                allPlayers.push(player);
                                 player.on('play', () => {
                                     allPlayers.forEach(otherPlayer => {
                                         if (otherPlayer !== player) {
-                                            otherPlayer.pause(); // מכבה כל נגן שהוא לא הנגן שנלחץ
+                                            otherPlayer.pause(); 
                                         }
                                     });
                                 });
-                                // ================================
 
                                 player.play();
                                 this.onclick = null;
@@ -330,6 +351,9 @@
                         portfolioGrid.appendChild(card);
                     });
                 }
+
+                // לאחר שכל התוכן הוזרק לדף - מעלימים את מסך הטעינה
+                hideLoader();
             });
         }
         window.addEventListener('DOMContentLoaded', loadDynamicContent);
