@@ -114,19 +114,18 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            /* צמצמתי טיפה את אורך "השובל" של האור למראה יותר אלגנטי */
             background: conic-gradient(transparent 80%, var(--gold-solid) 100%);
             animation: rotateBorder 3s linear infinite;
             z-index: 0;
         }
 
-        /* יצירת הכרטיס הכהה הפנימי - עכשיו אטום לחלוטין! */
+        /* יצירת הכרטיס הכהה הפנימי - אטום לחלוטין! */
         .service-card::after {
             content: '';
             position: absolute;
-            inset: 4px; /* הגדלנו ל-4 פיקסלים למסגרת עבה יותר */
-            background: #0f0a0c; /* צבע אטום לחלוטין במקום שקוף, כדי להסתיר את הפנים */
-            border-radius: 11px; /* רדיוס מותאם (15 פחות 4 פיקסלים עובי) */
+            inset: 4px; /* מסגרת בעובי 4 פיקסלים */
+            background: #0f0a0c; 
+            border-radius: 11px; 
             z-index: 1;
             transition: all 0.4s ease;
         }
@@ -136,7 +135,6 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 10px 20px var(--burgundy-glow); 
         }
 
-        /* שינוי הצבע הפנימי בזמן ריחוף (גם הוא חייב להיות אטום) */
         .service-card:hover::after {
             background: #1e0f14; 
         }
@@ -266,6 +264,9 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // משתנה גלובלי לאחסון כל הנגנים כדי שנוכל לכבות אותם כשמפעילים אחד אחר
+        let allPlayers = [];
+
         function loadDynamicContent() {
             db.ref('siteContent').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -280,6 +281,8 @@
                 const portfolioGrid = document.querySelector('.portfolio-grid');
                 if (portfolioGrid && data.portfolio) {
                     portfolioGrid.innerHTML = ''; 
+                    allPlayers = []; // איפוס מערך הנגנים בכל פעם שהגריד נבנה מחדש
+
                     const portfolioArray = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
                     portfolioArray.forEach((item, index) => {
                         if (!item) return;
@@ -296,7 +299,20 @@
                             if (videoId) {
                                 const container = this.querySelector('.thumbnail-container');
                                 container.innerHTML = `<div class="plyr__video-embed" id="player-${index}"><iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe></div>`;
+                                
                                 const player = new Plyr(`#player-${index}`, { controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'], ratio: '16:9' });
+                                
+                                // === המנגנון לכיבוי שאר הנגנים ===
+                                allPlayers.push(player); // הוספת הנגן הנוכחי למערך
+                                player.on('play', () => {
+                                    allPlayers.forEach(otherPlayer => {
+                                        if (otherPlayer !== player) {
+                                            otherPlayer.pause(); // מכבה כל נגן שהוא לא הנגן שנלחץ
+                                        }
+                                    });
+                                });
+                                // ================================
+
                                 player.play();
                                 this.onclick = null;
                             }
