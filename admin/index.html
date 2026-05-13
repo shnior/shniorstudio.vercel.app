@@ -36,10 +36,16 @@
         
         .btn { background: var(--primary); color: #000; padding: 12px 25px; font-size: 1rem; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px; }
         .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .btn-delete { background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 8px 15px; margin-top: 10px; }
+        .btn-delete { background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 8px 15px; }
         .btn-delete:hover { background: #ff4d4d; color: white; }
 
-        .portfolio-item { border: 1px solid var(--border); padding: 20px; margin: 20px 0; border-radius: 12px; background: #252525; }
+        /* כפתורי הזזה למעלה למטה */
+        .item-actions { display: flex; gap: 10px; margin-top: 15px; align-items: center; }
+        .btn-move { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border); padding: 8px 15px; cursor: pointer; border-radius: 8px; transition: 0.3s; font-size: 1rem; }
+        .btn-move:hover:not(:disabled) { background: var(--primary); color: #000; }
+        .btn-move:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .portfolio-item { border: 1px solid var(--border); padding: 20px; margin: 20px 0; border-radius: 12px; background: #252525; transition: transform 0.2s;}
         #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         
         .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; }
@@ -137,6 +143,11 @@
         portfolioItems.forEach((item, i) => {
             const div = document.createElement("div");
             div.className = "portfolio-item";
+            
+            // תנאים להשבתת הכפתורים אם הפרויקט ראשון או אחרון
+            const disableUp = i === 0 ? "disabled" : "";
+            const disableDown = i === portfolioItems.length - 1 ? "disabled" : "";
+
             div.innerHTML = `
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div>
@@ -152,11 +163,39 @@
                 <input type="text" style="margin-top:5px;" value="${item.youtubeEmbed || ''}" 
                        onchange="updateItem(${i}, 'youtubeEmbed', this.value)" 
                        placeholder="לדוגמה: dQw4w9WgXcQ">
-                <button class="btn btn-delete" onclick="deletePortfolioItem(${i})">
-                    <i class="fas fa-trash"></i> מחק פרויקט
-                </button>`;
+                
+                <div class="item-actions">
+                    <button class="btn btn-delete" onclick="deletePortfolioItem(${i})">
+                        <i class="fas fa-trash"></i> מחק פרויקט
+                    </button>
+                    <button class="btn-move" onclick="moveItemUp(${i})" ${disableUp} title="הזז למעלה">
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
+                    <button class="btn-move" onclick="moveItemDown(${i})" ${disableDown} title="הזז למטה">
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                </div>`;
             container.appendChild(div);
         });
+    }
+
+    // פונקציות להזזת פרויקטים
+    function moveItemUp(index) {
+        if (index > 0) {
+            const temp = portfolioItems[index];
+            portfolioItems[index] = portfolioItems[index - 1];
+            portfolioItems[index - 1] = temp;
+            renderPortfolio();
+        }
+    }
+
+    function moveItemDown(index) {
+        if (index < portfolioItems.length - 1) {
+            const temp = portfolioItems[index];
+            portfolioItems[index] = portfolioItems[index + 1];
+            portfolioItems[index + 1] = temp;
+            renderPortfolio();
+        }
     }
 
     function updateItem(index, field, value) {
@@ -164,7 +203,8 @@
     }
 
     function addPortfolioItem() {
-        portfolioItems.push({title: "", role: "", youtubeEmbed: ""});
+        // מוסיף תמיד לתחילת הרשימה (למעלה) במקום לסוף
+        portfolioItems.unshift({title: "", role: "", youtubeEmbed: ""});
         renderPortfolio();
     }
 
@@ -188,7 +228,7 @@
                 logoText: document.getElementById("logoText").value,
                 heroTitle: document.getElementById("heroTitle").value,
                 heroSubtitle: document.getElementById("heroSubtitle").value,
-                portfolio: portfolioItems // נשמר כמערך נקי
+                portfolio: portfolioItems // נשמר כמערך המעודכן עם הסדר החדש
             };
 
             // אם נבחר לוגו חדש - נמיר ל-Base64
