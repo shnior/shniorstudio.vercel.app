@@ -60,6 +60,12 @@
         #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; }
     </style>
+    
+    <!-- Vercel Speed Insights -->
+    <script type="module">
+        import { injectSpeedInsights } from 'https://cdn.jsdelivr.net/npm/@vercel/speed-insights@2.0.0/dist/index.mjs';
+        injectSpeedInsights();
+    </script>
 </head>
 <body>
 
