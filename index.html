@@ -133,15 +133,15 @@
         }
 
         /* =======================================================
-           אנימציית ציר זמן מצד שמאל (מעודכן)
+           אנימציית ציר זמן מצד שמאל
            ======================================================= */
         .scroll-timeline-container {
             position: fixed;
-            left: 100px; /* מיקום בצד שמאל */
-            top: 15vh; /* רווח מלמעלה */
-            height: 70vh; /* גובה מקוצר כדי שלא יגיע לרצפה */
-            width: 6px;
-            z-index: 990; /* מתחת לתפריט אבל מעל התוכן */
+            left: 30px;
+            top: 5vh;
+            height: 90vh;
+            width: 2px;
+            z-index: 2; /* שכבה 2: מעל הרקע, מתחת לטקסט */
             pointer-events: none;
             display: flex;
             justify-content: center;
@@ -151,7 +151,7 @@
             position: absolute;
             width: 2px;
             height: 100%;
-            background: rgba(212, 175, 55, 0.15); /* קו חלש ברקע */
+            background: rgba(212, 175, 55, 0.15);
         }
 
         .timeline-progress {
@@ -159,7 +159,7 @@
             top: 0;
             width: 2px;
             background: var(--gold-solid);
-            box-shadow: 0 0 15px var(--gold-solid), 0 0 5px #fff; /* אפקט זוהר */
+            box-shadow: 0 0 15px var(--gold-solid), 0 0 5px #fff;
             height: 0%;
         }
 
@@ -168,22 +168,19 @@
             left: 50%;
             transform: translateX(-50%) translateY(-50%);
             display: flex;
-            flex-direction: column; /* סידור החיצים בטור */
-            gap: 5px; /* מרווח קטן בין החיצים */
+            flex-direction: column;
+            gap: 5px;
             top: 0%;
-            transition: top 0.1s ease-out; /* תנועה חלקה יותר */
+            transition: top 0.1s ease-out;
         }
 
-        /* עיצוב החץ המלא */
         .timeline-arrow i {
             color: var(--gold-solid);
-            font-size: 1.2rem; /* גודל החיצים */
+            font-size: 2.5rem; /* גודל חיצים מוגדל */
             text-shadow: 0 0 10px var(--gold-solid);
-            /* שימוש באייקון מלא */
             display: block;
         }
 
-        /* הסתרה במסכים קטנים כדי לא להפריע לטקסט */
         @media (max-width: 768px) {
             .scroll-timeline-container { display: none; }
             nav { padding: 10px 20px; flex-direction: column; gap: 15px; }
@@ -218,7 +215,7 @@
             border-color: var(--gold-solid); box-shadow: 0 0 25px var(--burgundy-glow); transform: translateY(-3px);
         }
 
-        .section { padding: 100px 20px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 10;}
+        .section { padding: 100px 20px; max-width: 1400px; margin: 0 auto; position: relative;}
         .section-alt { background: radial-gradient(circle at center, var(--burgundy-deep) 0%, var(--bg-dark) 80%); border-top: 1px solid rgba(122, 21, 40, 0.1); border-bottom: 1px solid rgba(122, 21, 40, 0.1); }
         .section-title { text-align: center; font-size: 3rem; margin-bottom: 60px; font-weight: 700; color: var(--text-light); }
         .section-title span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -237,20 +234,18 @@
 
         .service-card:hover { transform: scale(1.1); }
 
-        /* עשן זהב - מוסתר כברירת מחדל */
         .service-card::before, .service-card::after {
-        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        border-radius: 50%; border: 20px solid rgba(212, 175, 55, 0.2); 
-        filter: blur(15px); 
-        opacity: 0; /* מוסתר */
-        transition: opacity 0.4s ease; /* מעבר חלק בכניסה */
-        z-index: -1; pointer-events: none;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%; border: 20px solid rgba(212, 175, 55, 0.2); 
+            filter: blur(15px); 
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1; pointer-events: none;
         }
 
-        /* הפעלת האנימציה והצגה רק בריחוף */
         .service-card:hover::before {
-        opacity: 1;
-        animation: goldSmokeEmit 4s infinite ease-out;
+            opacity: 1;
+            animation: goldSmokeEmit 4s infinite ease-out;
         }
 
         .service-card:hover::after {
@@ -334,7 +329,7 @@
         .plyr__video-wrapper { height: 100% !important; width: 100% !important; }
 
         /* =======================================================
-           עיצוב דפדוף תיק עבודות (חדש)
+           עיצוב דפדוף תיק עבודות
            ======================================================= */
         .pagination-controls {
             display: flex;
@@ -381,18 +376,18 @@
            ======================================================= */
         footer { 
             background: linear-gradient(to top, #0a0204, var(--bg-dark)); 
-            padding: 150px 20px; /* מרווח גדול יותר */
+            padding: 150px 20px;
             text-align: center; 
             border-top: 1px solid rgba(212, 175, 55, 0.2); 
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 60vh; /* מבטיח שהאזור יהיה גדול ומרשים */
+            min-height: 60vh;
         }
         
         .footer-logo { 
-            font-size: 60px; /* לוגו גדול יותר */
+            font-size: 60px;
             font-weight: 900; 
             background: var(--gold-gradient); 
             -webkit-background-clip: text; 
@@ -402,7 +397,7 @@
         }
         
         .contact-info { 
-            font-size: 1.5rem; /* טקסט קריא וגדול יותר */
+            font-size: 1.5rem;
             color: var(--text-light); 
             margin-bottom: 50px; 
             line-height: 2; 
@@ -418,13 +413,15 @@
         }
 
         .footer-cta {
-            font-size: 1.5rem; /* כפתור בולט יותר */
+            font-size: 1.5rem;
             padding: 20px 60px;
         }
 
+        /* סידור שכבות (z-index) היררכי */
         #magic-cursor-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; }
-        .hero h1, .hero h2, .cta-btn, .section-title, .service-card, .portfolio-card, .footer-logo, .contact-info, .pagination-controls { position: relative; z-index: 2; }
-        .hero, .section-alt, footer { position: relative; z-index: 1; }
+        .hero, .section, .section-alt, footer { position: relative; z-index: 1; } /* שכבה 1: הרקעים של האזורים */
+        /* ה-scroll-timeline-container מקבל z-index: 2 כפי שהוגדר למעלה */
+        .hero h1, .hero h2, .cta-btn, .section-title, .service-card, .portfolio-card, .footer-logo, .contact-info, .pagination-controls { position: relative; z-index: 3; } /* שכבה 3: כל הטקסטים והאלמנטים החשובים מעל ציר הזמן */
     </style>
 </head>
 <body>
@@ -440,13 +437,11 @@
         <div class="loader-text">טוען נתונים...</div>
     </div>
 
-    <!-- ציר זמן זהב מצד שמאל (מעודכן עם 5 חיצים) -->
+    <!-- ציר זמן זהב מצד שמאל (מעודכן עם 3 חיצים גדולים) -->
     <div class="scroll-timeline-container">
         <div class="timeline-track"></div>
         <div class="timeline-progress" id="timeline-progress"></div>
         <div class="timeline-arrow" id="timeline-arrow">
-            <i class="fas fa-caret-down"></i>
-            <i class="fas fa-caret-down"></i>
             <i class="fas fa-caret-down"></i>
             <i class="fas fa-caret-down"></i>
             <i class="fas fa-caret-down"></i>
@@ -531,7 +526,7 @@
             <!-- התוכן ייטען לכאן דינמית -->
         </div>
         
-        <!-- כפתורי דפדוף יתווספו לכאן -->
+        <!-- כפתורי דפדוף يתווספו לכאן -->
         <div class="pagination-controls">
             <button id="prev-page" class="page-btn" disabled><i class="fas fa-arrow-right"></i> הקודם</button>
             <span id="page-info" class="page-info">עמוד 1</span>
@@ -552,10 +547,10 @@
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 
     <script>
-        // ==================== אנימציית ציר זמן (Timeline Scroll) מעודכנת ====================
+        // ==================== אנימציית ציר זמן (Timeline Scroll) ====================
         const timelineProgress = document.getElementById('timeline-progress');
         const timelineArrow = document.getElementById('timeline-arrow');
-        const arrowIcons = timelineArrow.querySelectorAll('i'); // בחירת כל חמשת החיצים
+        const arrowIcons = timelineArrow.querySelectorAll('i'); // בחירת 3 החיצים
         let lastScrollTop = 0;
 
         window.addEventListener('scroll', () => {
@@ -569,12 +564,10 @@
 
             // שינוי כיוון לכל החיצים יחד
             if (scrollTop > lastScrollTop) {
-                // גוללים למטה - חץ מלא למטה
                 arrowIcons.forEach(icon => {
                     icon.className = 'fas fa-caret-down';
                 });
             } else {
-                // גוללים למעלה - חץ מלא למעלה
                 arrowIcons.forEach(icon => {
                     icon.className = 'fas fa-caret-up';
                 });
@@ -726,13 +719,11 @@
                 if (data.heroSubtitle) document.querySelector('.hero h2').textContent = data.heroSubtitle;
 
                 if (data.portfolio) {
-                    // שומרים את הנתונים במערך הכללי
                     fullPortfolioData = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
-                    // מנקים ערכים ריקים
                     fullPortfolioData = fullPortfolioData.filter(item => item !== null);
                     
-                    currentPage = 0; // איפוס לעמוד הראשון
-                    renderPortfolioPage(); // קריאה לפונקציית הרינדור
+                    currentPage = 0;
+                    renderPortfolioPage();
                 }
 
                 hideLoader();
