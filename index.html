@@ -79,7 +79,7 @@
         #site-loader.hidden { opacity: 0; visibility: hidden; }
 
         /* =======================================================
-           תפריט עליון עם קו זהב (Scroll Spy Effect)
+           תפריט עליון עם קו זהב
            ======================================================= */
         header {
             position: fixed; width: 100%; top: 0;
@@ -93,13 +93,12 @@
         }
 
         .logo {
-            font-size: 30px; font-weight: 900;
+            font-size: 40px; font-weight: 900;
             background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .nav-links { list-style: none; display: flex; gap: 35px; margin: 0; padding: 0; }
         
-        /* עיצוב הקישורים בתפריט */
         .nav-links a { 
             color: var(--text-light); 
             text-decoration: none; 
@@ -107,35 +106,79 @@
             transition: color 0.3s ease; 
             font-weight: 500;
             position: relative;
-            padding: 15px 0; /* מרווח פנימי כדי שיהיה מקום לקו למעלה */
+            padding: 15px 0;
             display: inline-block;
         }
 
-        /* יצירת קו הזהב הנסתר מעל הטקסט */
         .nav-links a::before {
             content: '';
             position: absolute;
-            top: 0; /* צמוד לחלק העליון של הקישור */
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 0; /* רוחב התחלתי 0 (נסתר) */
+            width: 0;
             height: 2px;
             background: var(--gold-solid);
-            transition: width 0.3s ease; /* אנימציית פתיחה חלקה */
-            box-shadow: 0 0 8px rgba(212, 175, 55, 0.8); /* הילת זהב קלה לקו */
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
         }
 
-        /* כאשר מרחפים על הקישור או כאשר הדף פעיל (סק롤) */
         .nav-links a:hover::before,
-        .nav-links a.active::before {
-            width: 100%; /* הקו מתרחב למלוא הרוחב */
-        }
+        .nav-links a.active::before { width: 100%; }
 
-        /* שינוי צבע הטקסט עצמו כשפעיל/בריחוף */
         .nav-links a:hover,
         .nav-links a.active { 
             color: var(--gold-solid); 
             text-shadow: 0 0 10px var(--burgundy-glow); 
+        }
+
+        /* =======================================================
+           אנימציית ציר זמן מצד שמאל (חדש)
+           ======================================================= */
+        .scroll-timeline-container {
+            position: fixed;
+            left: 30px; /* מיקום בצד שמאל */
+            top: 0;
+            height: 100vh;
+            width: 2px;
+            z-index: 990; /* מתחת לתפריט אבל מעל התוכן */
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        .timeline-track {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: rgba(212, 175, 55, 0.15); /* קו חלש ברקע */
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            background: var(--gold-solid);
+            box-shadow: 0 0 15px var(--gold-solid), 0 0 5px #fff; /* אפקט זוהר */
+            height: 0%;
+        }
+
+        .timeline-arrow {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            color: var(--gold-solid);
+            font-size: 1.5rem;
+            text-shadow: 0 0 15px var(--gold-solid);
+            transition: transform 0.3s ease;
+            top: 0%;
+        }
+
+        /* הסתרה במסכים קטנים כדי לא להפריע לטקסט */
+        @media (max-width: 768px) {
+            .scroll-timeline-container { display: none; }
+            nav { padding: 10px 20px; flex-direction: column; gap: 15px; }
+            .hero h1 { font-size: 3rem; }
         }
 
         /* ======================================================= */
@@ -158,6 +201,7 @@
         .cta-btn {
             background: transparent; color: var(--gold-solid); border: 2px solid var(--gold-solid);
             padding: 15px 45px; font-size: 1.2rem; font-weight: 700; border-radius: 50px; text-decoration: none; transition: all 0.4s ease;
+            display: inline-block;
         }
 
         .cta-btn:hover {
@@ -165,7 +209,7 @@
             border-color: var(--gold-solid); box-shadow: 0 0 25px var(--burgundy-glow); transform: translateY(-3px);
         }
 
-        .section { padding: 100px 20px; max-width: 1400px; margin: 0 auto; }
+        .section { padding: 100px 20px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 10;}
         .section-alt { background: radial-gradient(circle at center, var(--burgundy-deep) 0%, var(--bg-dark) 80%); border-top: 1px solid rgba(122, 21, 40, 0.1); border-bottom: 1px solid rgba(122, 21, 40, 0.1); }
         .section-title { text-align: center; font-size: 3rem; margin-bottom: 60px; font-weight: 700; color: var(--text-light); }
         .section-title span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -182,26 +226,16 @@
             position: relative; 
         }
 
-        .service-card:hover {
-            transform: scale(1.1);
-        }
+        .service-card:hover { transform: scale(1.1); }
 
         /* עשן זהב */
         .service-card::before, .service-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border-radius: 50%;
-            border: 20px solid rgba(212, 175, 55, 0.2); 
-            filter: blur(15px); 
-            animation: goldSmokeEmit 4s infinite ease-out;
-            z-index: -1;
-            pointer-events: none;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%; border: 20px solid rgba(212, 175, 55, 0.2); 
+            filter: blur(15px); animation: goldSmokeEmit 4s infinite ease-out; z-index: -1; pointer-events: none;
         }
 
-        .service-card::after {
-            animation-delay: 2s; 
-        }
+        .service-card::after { animation-delay: 2s; }
 
         @keyframes goldSmokeEmit {
             0% { transform: scale(0.85); opacity: 0; }
@@ -210,38 +244,22 @@
         }
 
         .service-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
+            position: relative; width: 100%; height: 100%; text-align: center;
             transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-            transform-style: preserve-3d;
-            border-radius: 50%;
+            transform-style: preserve-3d; border-radius: 50%;
         }
 
-        .service-card:hover .service-card-inner {
-            transform: rotateY(180deg);
-        }
+        .service-card:hover .service-card-inner { transform: rotateY(180deg); }
 
         .service-card-front, .service-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.05); 
-            overflow: hidden;
+            position: absolute; width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 50%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 30px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.05); overflow: hidden;
         }
 
-        .service-card-front {
-            background: transparent;
-        }
+        .service-card-front { background: transparent; }
 
         .service-card-front::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
@@ -250,57 +268,23 @@
         }
 
         .service-card-front::after {
-            content: ''; position: absolute; inset: 3px;
-            background: #070709; 
+            content: ''; position: absolute; inset: 3px; background: #070709; 
             border-radius: 50%; z-index: 1;
         }
 
-        .service-card-front .service-icon,
-        .service-card-front h3 {
-            position: relative; z-index: 2;
-        }
-
-        .service-icon {
-            font-size: 3.5rem;
-            color: var(--gold-solid);
-            margin-bottom: 15px;
-        }
-
-        .service-card-front h3 { 
-            font-weight: 400; 
-            font-size: 1.6rem; 
-            color: var(--gold-solid); 
-            margin: 0; 
-            letter-spacing: 1px;
-        }
+        .service-card-front .service-icon, .service-card-front h3 { position: relative; z-index: 2; }
+        .service-icon { font-size: 3.5rem; color: var(--gold-solid); margin-bottom: 15px; }
+        .service-card-front h3 { font-weight: 400; font-size: 1.6rem; color: var(--gold-solid); margin: 0; letter-spacing: 1px; }
 
         .service-card-back {
-            transform: rotateY(180deg);
-            background-color: #070709;
+            transform: rotateY(180deg); background-color: #070709;
             background-image: radial-gradient(circle at center, #1f1906, #070709); 
-            border: 2px solid #FBF5B7;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+            border: 2px solid #FBF5B7; box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
         }
 
-        .service-card-back .service-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .service-card-back h3 { 
-            font-weight: 700; 
-            font-size: 1.4rem; 
-            color: var(--gold-solid); 
-            margin: 0 0 10px 0; 
-        }
-
-        .service-card-back p { 
-            font-weight: 300; 
-            font-size: 1rem; 
-            color: var(--text-light); 
-            margin: 0; 
-            line-height: 1.5;
-        }
+        .service-card-back .service-icon { font-size: 2rem; margin-bottom: 10px; }
+        .service-card-back h3 { font-weight: 700; font-size: 1.4rem; color: var(--gold-solid); margin: 0 0 10px 0; }
+        .service-card-back p { font-weight: 300; font-size: 1rem; color: var(--text-light); margin: 0; line-height: 1.5; }
 
         @keyframes rotateBorder {
             0% { transform: rotate(0deg); }
@@ -325,13 +309,97 @@
         .thumbnail-container .plyr { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .plyr__video-wrapper { height: 100% !important; width: 100% !important; }
 
-        footer { background: #0a0204; padding: 80px 20px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.2); }
-        .footer-logo { font-size: 30px; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
-        .contact-info { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; line-height: 2; font-weight: 400; }
-        .contact-info strong { font-weight: 700; }
+        /* =======================================================
+           עיצוב דפדוף תיק עבודות (חדש)
+           ======================================================= */
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .page-btn {
+            background: transparent;
+            color: var(--gold-solid);
+            border: 1px solid var(--gold-solid);
+            padding: 10px 20px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: var(--gold-gradient);
+            color: #000;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .page-btn:disabled {
+            border-color: #444;
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* =======================================================
+           עיצוב ה-Footer המוגדל
+           ======================================================= */
+        footer { 
+            background: linear-gradient(to top, #0a0204, var(--bg-dark)); 
+            padding: 150px 20px; /* מרווח גדול יותר */
+            text-align: center; 
+            border-top: 1px solid rgba(212, 175, 55, 0.2); 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh; /* מבטיח שהאזור יהיה גדול ומרשים */
+        }
+        
+        .footer-logo { 
+            font-size: 60px; /* לוגו גדול יותר */
+            font-weight: 900; 
+            background: var(--gold-gradient); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            margin-bottom: 30px; 
+            filter: drop-shadow(0 0 10px rgba(212,175,55,0.3));
+        }
+        
+        .contact-info { 
+            font-size: 1.5rem; /* טקסט קריא וגדול יותר */
+            color: var(--text-light); 
+            margin-bottom: 50px; 
+            line-height: 2; 
+            font-weight: 300; 
+        }
+        
+        .contact-info strong { 
+            font-weight: 700; 
+            color: var(--gold-solid);
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .footer-cta {
+            font-size: 1.5rem; /* כפתור בולט יותר */
+            padding: 20px 60px;
+        }
 
         #magic-cursor-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; }
-        .hero h1, .hero h2, .cta-btn, .section-title, .service-card, .portfolio-card, .footer-logo, .contact-info { position: relative; z-index: 2; }
+        .hero h1, .hero h2, .cta-btn, .section-title, .service-card, .portfolio-card, .footer-logo, .contact-info, .pagination-controls { position: relative; z-index: 2; }
         .hero, .section-alt, footer { position: relative; z-index: 1; }
     </style>
 </head>
@@ -348,6 +416,13 @@
         <div class="loader-text">טוען נתונים...</div>
     </div>
 
+    <!-- ציר זמן זהב מצד שמאל -->
+    <div class="scroll-timeline-container">
+        <div class="timeline-track"></div>
+        <div class="timeline-progress" id="timeline-progress"></div>
+        <div class="timeline-arrow" id="timeline-arrow"><i class="fas fa-chevron-down"></i></div>
+    </div>
+
     <canvas id="magic-cursor-canvas"></canvas>
 
     <header>
@@ -357,7 +432,6 @@
                 <span id="headerLogoText">שניאור אייזנבך</span>
             </a>
             <ul class="nav-links">
-                <!-- הגדרתי מחלקת active על 'ראשי' כדי שיידלק כברירת מחדל בהתחלה -->
                 <li><a href="#home" class="active">ראשי</a></li>
                 <li><a href="#services">שירותים</a></li>
                 <li><a href="#portfolio">תיק עבודות</a></li>
@@ -423,24 +497,57 @@
 
     <section id="portfolio" class="section">
         <h2 class="section-title">פרויקטים <span>נבחרים</span></h2>
-        <div class="portfolio-grid">
+        <div class="portfolio-grid" id="portfolio-grid">
             <!-- התוכן ייטען לכאן דינמית -->
+        </div>
+        
+        <!-- כפתורי דפדוף יתווספו לכאן -->
+        <div class="pagination-controls">
+            <button id="prev-page" class="page-btn" disabled><i class="fas fa-arrow-right"></i> הקודם</button>
+            <span id="page-info" class="page-info">עמוד 1</span>
+            <button id="next-page" class="page-btn">הבא <i class="fas fa-arrow-left"></i></button>
         </div>
     </section>
 
     <footer id="contact">
         <div class="footer-logo">שניאור אייזנבך</div>
         <div class="contact-info">
-            <strong>זמין לאירועים, חתונות והפקות סטודיו.</strong><br>
+            <strong>זמין לאירועים, חתונות והפקות סטודיו.</strong>
             אזור פעילות: כל הארץ
         </div>
-        <a href="https://wa.me/972548528425" target="_blank" class="cta-btn">שלח הודעת וואטסאפ</a>
+        <a href="https://wa.me/972548528425" target="_blank" class="cta-btn footer-cta"><i class="fab fa-whatsapp"></i> שלח הודעת וואטסאפ</a>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 
     <script>
+        // ==================== אנימציית ציר זמן (Timeline Scroll) ====================
+        const timelineProgress = document.getElementById('timeline-progress');
+        const timelineArrow = document.getElementById('timeline-arrow');
+        let lastScrollTop = 0;
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.scrollY || document.documentElement.scrollTop;
+            let docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            let scrollPercent = (scrollTop / docHeight) * 100;
+            
+            // עדכון גובה הפס הזהוב
+            timelineProgress.style.height = scrollPercent + '%';
+            // עדכון מיקום החץ
+            timelineArrow.style.top = scrollPercent + '%';
+
+            // שינוי כיוון החץ לפי כיוון הגלילה
+            if (scrollTop > lastScrollTop) {
+                // גוללים למטה
+                timelineArrow.innerHTML = '<i class="fas fa-chevron-down"></i>';
+            } else {
+                // גוללים למעלה
+                timelineArrow.innerHTML = '<i class="fas fa-chevron-up"></i>';
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+
         // ==================== הגדרות Scroll Spy לתפריט ====================
         const sections = document.querySelectorAll('section, footer');
         const navLinks = document.querySelectorAll('.nav-links a');
@@ -450,7 +557,6 @@
             
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                // הפחתת קצת גובה כדי שהתפריט יתחלף רגע לפני שמגיעים לאמצע המסך
                 if (window.scrollY >= (sectionTop - 250)) {
                     current = section.getAttribute('id');
                 }
@@ -479,6 +585,90 @@
         const db = firebase.database();
 
         let allPlayers = [];
+        
+        // ==================== משתני דפדוף תיק עבודות ====================
+        let fullPortfolioData = [];
+        let currentPage = 0;
+        const itemsPerPage = 8; // מספר הסרטונים לעמוד
+
+        function renderPortfolioPage() {
+            const portfolioGrid = document.getElementById('portfolio-grid');
+            portfolioGrid.innerHTML = ''; 
+            allPlayers = []; 
+
+            const startIdx = currentPage * itemsPerPage;
+            const endIdx = startIdx + itemsPerPage;
+            const currentItems = fullPortfolioData.slice(startIdx, endIdx);
+
+            currentItems.forEach((item, index) => {
+                if (!item) return;
+                let videoId = "";
+                const source = item.youtubeEmbed || "";
+                if (source.includes("v=")) videoId = source.split("v=")[1].split("&")[0];
+                else if (source.includes("youtu.be/")) videoId = source.split("/").pop().split("?")[0];
+                else if (source.includes("embed/")) videoId = source.split("embed/")[1].split(/[? "]/)[0];
+
+                const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : 'https://via.placeholder.com/600x400/111/333?text=Project';
+                const card = document.createElement('div');
+                card.className = 'portfolio-card';
+                card.onclick = function() {
+                    if (videoId) {
+                        const container = this.querySelector('.thumbnail-container');
+                        container.innerHTML = `<div class="plyr__video-embed" id="player-${index}"><iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe></div>`;
+                        
+                        const player = new Plyr(`#player-${index}`, { controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'], ratio: '16:9' });
+                        
+                        allPlayers.push(player);
+                        player.on('play', () => {
+                            allPlayers.forEach(otherPlayer => {
+                                if (otherPlayer !== player) {
+                                    otherPlayer.pause(); 
+                                }
+                            });
+                        });
+
+                        player.play();
+                        this.onclick = null;
+                    }
+                };
+                card.innerHTML = `
+                    <div class="thumbnail-container">
+                        <div class="thumbnail-bg" style="background-image: url('${thumbUrl}');"></div>
+                        <div class="play-button"></div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${item.title || "פרויקט חדש"}</h3>
+                        <p class="card-role">${item.role || ""}</p>
+                    </div>
+                `;
+                portfolioGrid.appendChild(card);
+            });
+
+            // עדכון מצב הכפתורים
+            const totalPages = Math.ceil(fullPortfolioData.length / itemsPerPage);
+            document.getElementById('page-info').textContent = `עמוד ${currentPage + 1} מתוך ${totalPages || 1}`;
+            
+            document.getElementById('prev-page').disabled = currentPage === 0;
+            document.getElementById('next-page').disabled = currentPage >= totalPages - 1;
+        }
+
+        // מאזינים לכפתורי דפדוף
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderPortfolioPage();
+                document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        document.getElementById('next-page').addEventListener('click', () => {
+            const totalPages = Math.ceil(fullPortfolioData.length / itemsPerPage);
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                renderPortfolioPage();
+                document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
 
         function loadDynamicContent() {
             db.ref('siteContent').on('value', (snapshot) => {
@@ -501,55 +691,14 @@
                 if (data.heroTitle) document.querySelector('.hero h1').textContent = data.heroTitle;
                 if (data.heroSubtitle) document.querySelector('.hero h2').textContent = data.heroSubtitle;
 
-                const portfolioGrid = document.querySelector('.portfolio-grid');
-                if (portfolioGrid && data.portfolio) {
-                    portfolioGrid.innerHTML = ''; 
-                    allPlayers = []; 
-
-                    const portfolioArray = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
-                    portfolioArray.forEach((item, index) => {
-                        if (!item) return;
-                        let videoId = "";
-                        const source = item.youtubeEmbed || "";
-                        if (source.includes("v=")) videoId = source.split("v=")[1].split("&")[0];
-                        else if (source.includes("youtu.be/")) videoId = source.split("/").pop().split("?")[0];
-                        else if (source.includes("embed/")) videoId = source.split("embed/")[1].split(/[? "]/)[0];
-
-                        const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : 'https://via.placeholder.com/600x400/111/333?text=Project';
-                        const card = document.createElement('div');
-                        card.className = 'portfolio-card';
-                        card.onclick = function() {
-                            if (videoId) {
-                                const container = this.querySelector('.thumbnail-container');
-                                container.innerHTML = `<div class="plyr__video-embed" id="player-${index}"><iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe></div>`;
-                                
-                                const player = new Plyr(`#player-${index}`, { controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'], ratio: '16:9' });
-                                
-                                allPlayers.push(player);
-                                player.on('play', () => {
-                                    allPlayers.forEach(otherPlayer => {
-                                        if (otherPlayer !== player) {
-                                            otherPlayer.pause(); 
-                                        }
-                                    });
-                                });
-
-                                player.play();
-                                this.onclick = null;
-                            }
-                        };
-                        card.innerHTML = `
-                            <div class="thumbnail-container">
-                                <div class="thumbnail-bg" style="background-image: url('${thumbUrl}');"></div>
-                                <div class="play-button"></div>
-                            </div>
-                            <div class="card-content">
-                                <h3 class="card-title">${item.title || "פרויקט חדש"}</h3>
-                                <p class="card-role">${item.role || ""}</p>
-                            </div>
-                        `;
-                        portfolioGrid.appendChild(card);
-                    });
+                if (data.portfolio) {
+                    // שומרים את הנתונים במערך הכללי
+                    fullPortfolioData = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
+                    // מנקים ערכים ריקים
+                    fullPortfolioData = fullPortfolioData.filter(item => item !== null);
+                    
+                    currentPage = 0; // איפוס לעמוד הראשון
+                    renderPortfolioPage(); // קריאה לפונקציית הרינדור
                 }
 
                 hideLoader();
@@ -557,7 +706,7 @@
         }
         window.addEventListener('DOMContentLoaded', loadDynamicContent);
 
-        // ==================== אנימציה: מאות זיקוקים מתפזרים לרוחב לפי עוצמה ====================
+        // ==================== אנימציה: מאות זיקוקים מתפזרים ====================
         const canvas = document.getElementById('magic-cursor-canvas');
         const ctx = canvas.getContext('2d');
         
