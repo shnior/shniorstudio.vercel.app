@@ -477,13 +477,9 @@
                     document.querySelectorAll('#headerLogoText').forEach(el => el.textContent = data.logoText);
                 }
                 
-                const logoImg = document.getElementById('headerLogo');
-                if (data.logoBase64) {
-                    logoImg.src = data.logoBase64;
-                    logoImg.style.display = 'block';
-                } else {
-                    logoImg.style.display = 'none';
-                }
+            const logoImg = document.getElementById('headerLogo');
+                logoImg.src = 'admin/logo.webp';
+                logoImg.style.display = 'block';
 
                 if (data.portfolio) {
                     fullPortfolioData = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
