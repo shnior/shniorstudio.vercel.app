@@ -466,29 +466,31 @@
             }
         });
 
-        // ==================== טעינת נתונים (Firebase) ====================
-        function loadDynamicContent() {
-            db.ref('siteContent').on('value', (snapshot) => {
-                const data = snapshot.val();
-                
-                if (!data) return;
-
-                if (data.logoText) {
-                    document.querySelectorAll('#headerLogoText').forEach(el => el.textContent = data.logoText);
-                }
-                
+        // ==================== טעינת תוכן ====================
+            function loadDynamicContent() {
+            // 1. הגדרת הלוגו מהתיקייה המקומית בגיטהב
             const logoImg = document.getElementById('headerLogo');
-                logoImg.src = 'admin/logo.webp';
-                logoImg.style.display = 'block';
+            logoImg.src = 'admin/logo.webp'; // הנתיב לקובץ בגיטהב
+            logoImg.style.display = 'block';
 
-                if (data.portfolio) {
-                    fullPortfolioData = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
-                    fullPortfolioData = fullPortfolioData.filter(item => item !== null);
-                    currentPage = 0;
-                    renderPortfolioPage();
-                }
-            });
+                // 2. טעינת שאר הנתונים (הפרויקטים) מהפיירבייס
+                db.ref('siteContent').on('value', (snapshot) => {
+                    const data = snapshot.val();
+        
+                    if (!data) return;
+
+                    if (data.logoText) {
+            document.querySelectorAll('#headerLogoText').forEach(el => el.textContent = data.logoText);
         }
+        
+        if (data.portfolio) {
+            fullPortfolioData = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
+            fullPortfolioData = fullPortfolioData.filter(item => item !== null);
+            currentPage = 0;
+            renderPortfolioPage();
+        }
+    });
+}
 
         window.addEventListener('DOMContentLoaded', loadDynamicContent);
     </script>
