@@ -8,14 +8,14 @@
     <title>שניאור אייזנבך | האתר הרשמי</title>
     <meta name="description" content="מחפשים שדרוג לאירוע או לפרויקט שלכם? שניאור אייזנבך - קלידן, מפיק מוזיקלי, מומחה אל עריכות מקצועיות והפקת הנפשות למגזר החסידי. היכנסו להתרשם מתיק העבודות וליצירת קשר">
     <meta name="keywords" content="שניאור אייזנבך, קלידן, עורך וידאו, הנפשות חסידי, עריכות מקצועיות, הנפשות מתקדמות, הפקה מוזיקלית, סטודיו להנפשות">
-   	 	<meta property="og:site_name" content="שניאור אייזנבך">
-		<meta property="og:title" content="שניאור אייזנבך | האתר הרשמי">
-		<meta property="og:url" content="https://shniorstudio.vercel.app/">
-		<meta property="og:type" content="professional.service">
-	
+    <meta property="og:site_name" content="שניאור אייזנבך">
+    <meta property="og:title" content="שניאור אייזנבך | האתר הרשמי">
+    <meta property="og:url" content="https://shniorstudio.vercel.app/">
+    <meta property="og:type" content="professional.service">
+    
     <meta name="google-site-verification" content="Ob3m4fj6Ffggl8yuc7kE7eSs05lSY1TUp8CmoJgW2uc" />
 
-	<script type="application/ld+json">
+    <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -279,7 +279,7 @@
             top: 20vh;
             height: 70vh;
             width: 2px;
-            z-index: 2; /* שכבה 2: מעל הרקע, מתחת לטקסט */
+            z-index: 2;
             pointer-events: none;
             display: flex;
             justify-content: center;
@@ -314,7 +314,7 @@
 
         .timeline-arrow i {
             color: var(--gold-solid);
-            font-size: 2.5rem; /* גודל חיצים מוגדל */
+            font-size: 2.5rem;
             text-shadow: 0 0 10px var(--gold-solid);
             display: block;
         }
@@ -576,151 +576,16 @@
             100% { transform: rotate(360deg); }
         }
 
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+        /* עיצוב לאזור הפניה לתיק העבודות */
+        .portfolio-cta-section {
+            text-align: center;
+            padding: 80px 20px;
         }
-
-        .portfolio-card {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .portfolio-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--gold-solid);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px var(--burgundy-glow);
-        }
-
-        .thumbnail-container {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            background-color: #000;
-            overflow: hidden;
-        }
-
-        .thumbnail-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.7;
-            transition: transform 0.6s ease, opacity 0.3s ease;
-        }
-
-        .portfolio-card:hover .thumbnail-bg {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .play-button::after {
-            content: '';
-            display: block;
-            border-style: solid;
-            border-width: 12px 0 12px 20px;
-            border-color: transparent transparent transparent white;
-            margin-right: -5px;
-        }
-
-        .card-content {
-            padding: 25px 20px;
-            text-align: right;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-light);
-            margin: 0 0 10px 0;
-        }
-
-        .card-role {
-            font-size: 1rem;
-            color: var(--gold-solid);
-            margin: 0;
-            font-weight: 400;
-        }
-
-        .thumbnail-container .plyr {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .plyr__video-wrapper {
-            height: 100% !important;
-            width: 100% !important;
-        }
-
-        /* =======================================================
-           עיצוב דפדוף תיק עבודות
-        ======================================================= */
-        .pagination-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-top: 50px;
-        }
-
-        .page-btn {
-            background: transparent;
-            color: var(--gold-solid);
-            border: 1px solid var(--gold-solid);
-            padding: 10px 20px;
-            font-family: 'Tel Aviv', sans-serif;
-            font-size: 1.1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .page-btn:hover:not(:disabled) {
-            background: var(--gold-gradient);
-            color: #000;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-        }
-
-        .page-btn:disabled {
-            border-color: #444;
-            color: #555;
-            cursor: not-allowed;
-        }
-
-        .page-info {
-            font-size: 1.1rem;
+        
+        .portfolio-cta-section p {
+            font-size: 1.5rem;
             color: var(--text-muted);
+            margin-bottom: 40px;
         }
 
         /* =======================================================
@@ -780,25 +645,21 @@
             z-index: 1;
         }
 
-        .hero, .section, .section-alt, footer {
+        .hero, .section, .section-alt, footer, .portfolio-cta-section {
             position: relative;
             z-index: 1;
         }
 
-        /* שכבה 1: הרקעים של האזורים */
-        /* ה-scroll-timeline-container מקבל z-index: 2 כפי שהוגדר למעלה */
-
-        .hero h1, .hero h2, .cta-btn, .section-title, .service-card, .portfolio-card, .footer-logo, .contact-info, .pagination-controls {
+        .hero h1, .hero h2, .cta-btn, .section-title, .service-card, .footer-logo, .contact-info {
             position: relative;
             z-index: 3;
         }
-        /* שכבה 3: כל הטקסטים והאלמנטים החשובים מעל ציר הזמן */
 
         /* =======================================================
            פס קרדיט תחתון
         ======================================================= */
         .site-credit {
-            background-color: #030102; /* שחור-בורדו עמוק שמתמזג עם הפוטר */
+            background-color: #030102; 
             color: var(--text-muted);
             text-align: center;
             padding: 15px 20px;
@@ -806,7 +667,7 @@
             letter-spacing: 0.5px;
             position: relative;
             z-index: 3;
-            border-top: 1px solid rgba(212, 175, 55, 0.1); /* קו זהב עדין להפרדה */
+            border-top: 1px solid rgba(212, 175, 55, 0.1); 
         }
 
         .site-credit span {
@@ -828,7 +689,6 @@
         <div class="loader-text">טוען נתונים...</div>
     </div>
 
-    <!-- ציר זמן זהב מצד שמאל (מעודכן עם 3 חיצים גדולים) -->
     <div class="scroll-timeline-container">
         <div class="timeline-track"></div>
         <div class="timeline-progress" id="timeline-progress"></div>
@@ -850,19 +710,18 @@
             <ul class="nav-links">
                 <li><a href="#home" class="active">ראשי</a></li>
                 <li><a href="#services">שירותים</a></li>
-                <li><a href="#portfolio">תיק עבודות</a></li>
+                <li><a href="portfolio.html">תיק עבודות</a></li>
                 <li><a href="#contact">צור קשר</a></li>
             </ul>
         </nav>
     </header>
 
-  <section id="home" class="hero">
+    <section id="home" class="hero">
         <h1 id="mainHeroTitle">הסאונד. הוויזואל. התוצאה.</h1>
         <h2 id="mainHeroSubtitle">קלידן, מפיק מוזיקלי, עריכות מקצועיות והנפשות מתקדמות</h2>
         <a href="#contact" class="cta-btn">להזמנת אירועים והפקות 054-8528425</a>
     </section>
 
-    <!-- === מפריד ראשון: בין ראשי לשירותים === -->
     <div class="section-divider">
         <div class="sound-wave-small">
             <div class="bar"></div>
@@ -918,7 +777,6 @@
         </div>
     </section>
 
-    <!-- === מפריד שני: בין שירותים לתיק עבודות === -->
     <div class="section-divider">
         <div class="sound-wave-small">
             <div class="bar"></div>
@@ -929,22 +787,12 @@
         </div>
     </div>
 
-    <section id="portfolio" class="section">
-        <h2 class="section-title">פרויקטים <span>נבחרים</span></h2>
-        
-        <div class="portfolio-grid" id="portfolio-grid">
-            <!-- התוכן ייטען לכאן דינמית -->
-        </div>
-
-        <!-- כפתורי דפדוף יתווספו לכאן -->
-        <div class="pagination-controls">
-            <button id="prev-page" class="page-btn" disabled><i class="fas fa-arrow-right"></i> הקודם</button>
-            <span id="page-info" class="page-info">עמוד 1</span>
-            <button id="next-page" class="page-btn">הבא <i class="fas fa-arrow-left"></i></button>
-        </div>
+    <section class="section portfolio-cta-section">
+        <h2 class="section-title">תיק <span>עבודות</span></h2>
+        <p>היכנסו לגלריית הפרויקטים המלאה להתרשמות ממגוון העבודות</p>
+        <a href="portfolio.html" class="cta-btn">לצפייה בכל הפרויקטים</a>
     </section>
 
-    <!-- === מפריד שלישי: בין תיק עבודות ליצירת קשר === -->
     <div class="section-divider">
         <div class="sound-wave-small">
             <div class="bar"></div>
@@ -964,20 +812,20 @@
         <a href="https://wa.me/972548528425" target="_blank" class="cta-btn footer-cta"><i class="fab fa-whatsapp"></i> שלח הודעת וואטסאפ</a>
     </footer>
 
-    <!-- פס קרדיט בתחתית האתר -->
     <div class="site-credit">
         עיצוב ופיתוח: <span>שניאור אייזנבך</span>
     </div>
 
-    <!-- ייבוא פיירבייס מופיע רק פעם אחת -->
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script id="free_accessibility_plugin_script" src="https://accessibility.f-static.com/site/free-accessibility-plugin/accessibility.min.js?lan=he&place=bottom-right&distance=20" crossorigin="anonymous"></script>
 
     <script>
         // ==================== אנימציית ציר זמן (Timeline Scroll) ====================
         const timelineProgress = document.getElementById('timeline-progress');
         const timelineArrow = document.getElementById('timeline-arrow');
-        const arrowIcons = timelineArrow.querySelectorAll('i'); // בחירת 3 החיצים
+        const arrowIcons = timelineArrow.querySelectorAll('i');
         let lastScrollTop = 0;
 
         window.addEventListener('scroll', () => {
@@ -985,11 +833,9 @@
             let docHeight = document.documentElement.scrollHeight - window.innerHeight;
             let scrollPercent = (scrollTop / docHeight) * 100;
             
-            // עדכון גובה הפס ומיקום קבוצת החיצים
             timelineProgress.style.height = scrollPercent + '%';
             timelineArrow.style.top = scrollPercent + '%';
 
-            // שינוי כיוון לכל החיצים יחד
             if (scrollTop > lastScrollTop) {
                 arrowIcons.forEach(icon => { icon.className = 'fas fa-caret-down'; });
             } else {
@@ -1013,7 +859,7 @@
 
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href').includes(current)) {
+                if (current && link.getAttribute('href').includes(current)) {
                     link.classList.add('active');
                 }
             });
@@ -1030,105 +876,12 @@
             appId: "1:163064507259:web:3fb46c6795eba5b84f6bde"
         };
         
-        // אתחול מוודא שאין כפילויות
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         const db = firebase.database();
-        
-        let allPlayers = [];
 
-        // ==================== משתני דפדוף תיק עבודות ====================
-        let fullPortfolioData = [];
-        let currentPage = 0;
-        const itemsPerPage = 8; // מספר הסרטונים לעמוד
-
-        function renderPortfolioPage() {
-            const portfolioGrid = document.getElementById('portfolio-grid');
-            portfolioGrid.innerHTML = ''; 
-            allPlayers = []; 
-
-            const startIdx = currentPage * itemsPerPage;
-            const endIdx = startIdx + itemsPerPage;
-            const currentItems = fullPortfolioData.slice(startIdx, endIdx);
-
-            currentItems.forEach((item, index) => {
-                if (!item) return;
-
-                let videoId = "";
-                const source = item.youtubeEmbed || "";
-                if (source.includes("v=")) videoId = source.split("v=")[1].split("&")[0];
-                else if (source.includes("youtu.be/")) videoId = source.split("/").pop().split("?")[0];
-                else if (source.includes("embed/")) videoId = source.split("embed/")[1].split(/[? "]/)[0];
-
-                const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : 'https://via.placeholder.com/600x400/111/333?text=Project';
-
-                const card = document.createElement('div');
-                card.className = 'portfolio-card';
-                card.onclick = function() {
-                    if (videoId) {
-                        const container = this.querySelector('.thumbnail-container');
-                        container.innerHTML = `<div class="plyr__video-embed" id="player-${index}"><iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe></div>`;
-                        
-                        const player = new Plyr(`#player-${index}`, {
-                            controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                            ratio: '16:9'
-                        });
-                        allPlayers.push(player);
-
-                        player.on('play', () => {
-                            allPlayers.forEach(otherPlayer => {
-                                if (otherPlayer !== player) {
-                                    otherPlayer.pause();
-                                }
-                            });
-                        });
-                        
-                        player.play();
-                        this.onclick = null;
-                    }
-                };
-
-                card.innerHTML = `
-                    <div class="thumbnail-container">
-                        <div class="thumbnail-bg" style="background-image: url('${thumbUrl}');"></div>
-                        <div class="play-button"></div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">${item.title || "פרויקט חדש"}</h3>
-                        <p class="card-role">${item.role || ""}</p>
-                    </div>
-                `;
-                portfolioGrid.appendChild(card);
-            });
-
-            // עדכון מצב הכפתורים
-            const totalPages = Math.ceil(fullPortfolioData.length / itemsPerPage);
-            document.getElementById('page-info').textContent = `עמוד ${currentPage + 1} מתוך ${totalPages || 1}`;
-            
-            document.getElementById('prev-page').disabled = currentPage === 0;
-            document.getElementById('next-page').disabled = currentPage >= totalPages - 1;
-        }
-
-        // מאזינים לכפתורי דפדוף
-        document.getElementById('prev-page').addEventListener('click', () => {
-            if (currentPage > 0) {
-                currentPage--;
-                renderPortfolioPage();
-                document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-
-        document.getElementById('next-page').addEventListener('click', () => {
-            const totalPages = Math.ceil(fullPortfolioData.length / itemsPerPage);
-            if (currentPage < totalPages - 1) {
-                currentPage++;
-                renderPortfolioPage();
-                document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-
-        // ==================== חיבור Firebase המעודכן והמאוחד ====================
+        // ==================== חיבור Firebase ====================
         function loadDynamicContent() {
             db.ref('siteContent').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -1143,7 +896,6 @@
                     return;
                 }
 
-                // עדכון לוגו
                 if (data.logoText) {
                     document.querySelectorAll('#headerLogoText, .footer-logo').forEach(el => el.textContent = data.logoText);
                 }
@@ -1156,7 +908,6 @@
                     logoImg.style.display = 'none';
                 }
 
-                // עדכון כותרות (מוודא שמעדכן לפי ה-ID שביקשת)
                 if (data.heroTitle) {
                     const titleEl = document.getElementById('mainHeroTitle');
                     if(titleEl) titleEl.textContent = data.heroTitle;
@@ -1167,15 +918,7 @@
                     if(subEl) subEl.textContent = data.heroSubtitle;
                 }
 
-                // עדכון תיק עבודות
-                if (data.portfolio) {
-                    console.log("יש פרויקטים להציג:", data.portfolio);
-                    fullPortfolioData = Array.isArray(data.portfolio) ? data.portfolio : Object.values(data.portfolio);
-                    fullPortfolioData = fullPortfolioData.filter(item => item !== null);
-                    currentPage = 0;
-                    renderPortfolioPage();
-                }
-
+                // תיק העבודות עצמו הוסר מכאן, נטען רק בעמוד portfolio.html
                 hideLoader();
             });
         }
@@ -1330,17 +1073,5 @@
 
         animateCursor();
     </script>
-	<html>
-<head>
-</head>
-<body>
-.
-.
-.
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script id="free_accessibility_plugin_script" src="https://accessibility.f-static.com/site/free-accessibility-plugin/accessibility.min.js?lan=he&place=bottom-right&distance=20" crossorigin="anonymous"></script>
-</body>
-</html>
-	
 </body>
 </html>
