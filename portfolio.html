@@ -131,7 +131,7 @@
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
-            min-height: 85vh; /* מבטיח שהתוכן יתפוס מקום גם לפני טעינה */
+            min-height: 85vh;
         }
 
         .section-title {
@@ -245,6 +245,28 @@
         }
 
         /* =======================================================
+           טוען פנימי (Inline Loader)
+        ======================================================= */
+        .inline-loader-container {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .inline-loader-container i {
+            font-size: 3.5rem;
+            color: var(--gold-solid);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+        }
+
+        .inline-loader-container p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        /* =======================================================
            פגינציה (דפדוף)
         ======================================================= */
         .pagination-controls {
@@ -313,13 +335,18 @@
 
     <section id="portfolio" class="section" style="padding-top: 150px;">
         <h2 class="section-title">כל ה<span>פרויקטים</span></h2>
+        
         <div class="portfolio-grid" id="portfolio-grid">
+            <div class="inline-loader-container">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <p>טוען פרויקטים...</p>
             </div>
+        </div>
 
         <div class="pagination-controls">
             <button id="prev-page" class="page-btn" disabled><i class="fas fa-arrow-right"></i> הקודם</button>
             <span id="page-info" class="page-info">עמוד 1</span>
-            <button id="next-page" class="page-btn">הבא <i class="fas fa-arrow-left"></i></button>
+            <button id="next-page" class="page-btn" disabled>הבא <i class="fas fa-arrow-left"></i></button>
         </div>
     </section>
 
@@ -357,7 +384,7 @@
 
         function renderPortfolioPage() {
             const portfolioGrid = document.getElementById('portfolio-grid');
-            portfolioGrid.innerHTML = ''; 
+            portfolioGrid.innerHTML = ''; // מנקה את הספינר ברגע שהנתונים מוכנים
             allPlayers = []; 
 
             const startIdx = currentPage * itemsPerPage;
