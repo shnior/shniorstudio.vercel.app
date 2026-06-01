@@ -5,13 +5,21 @@
     <link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>שניאור אייזנבך | האתר הרשמי</title>
-    <meta name="description" content="מחפשים שדרוג לאירוע או לפרויקט שלכם? שניאור אייזנבך - קלידן, מפיק מוזיקלי, מומחה אל עריכות מקצועיות והפקת הנפשות למגזר החסידי. היכנסו להתרשם מתיק העבודות וליצירת קשר">
+    <title>שניאור אייזנבך | קלידן, הפקה מוזיקלית והנפשות</title>
+    <meta name="description" content="שניאור אייזנבך - קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור לאירועים, קליפים והפקות חסידיות. היכנסו להתרשם מתיק העבודות וליצירת קשר מהיר.">
     <meta name="keywords" content="שניאור אייזנבך, קלידן, עורך וידאו, הנפשות חסידי, עריכות מקצועיות, הנפשות מתקדמות, הפקה מוזיקלית, סטודיו להנפשות">
+    <link rel="canonical" href="https://shniorstudio.vercel.app/">
+    <meta property="og:locale" content="he_IL">
     <meta property="og:site_name" content="שניאור אייזנבך">
-    <meta property="og:title" content="שניאור אייזנבך | האתר הרשמי">
+    <meta property="og:title" content="שניאור אייזנבך | קלידן, הפקה מוזיקלית והנפשות">
+    <meta property="og:description" content="קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור לאירועים, קליפים והפקות חסידיות.">
     <meta property="og:url" content="https://shniorstudio.vercel.app/">
-    <meta property="og:type" content="professional.service">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://shniorstudio.vercel.app/logo.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="שניאור אייזנבך | קלידן, הפקה מוזיקלית והנפשות">
+    <meta name="twitter:description" content="קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור לאירועים, קליפים והפקות חסידיות.">
+    <meta name="twitter:image" content="https://shniorstudio.vercel.app/logo.webp">
     
     <meta name="google-site-verification" content="Ob3m4fj6Ffggl8yuc7kE7eSs05lSY1TUp8CmoJgW2uc" />
 
@@ -34,8 +42,6 @@
   </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
     <style>
         /* === ייבוא גופן תל אביב מקבצים מקומיים === */
@@ -674,6 +680,55 @@
             color: var(--gold-solid);
             font-weight: 500;
         }
+
+        .floating-whatsapp {
+            position: fixed;
+            left: 24px;
+            bottom: 24px;
+            z-index: 1200;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 20px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .floating-whatsapp:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 35px rgba(37, 211, 102, 0.45);
+        }
+
+        .floating-whatsapp i {
+            font-size: 1.4rem;
+        }
+
+        @media (max-width: 640px) {
+            .floating-whatsapp {
+                left: 16px;
+                right: 16px;
+                bottom: 16px;
+                justify-content: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            #magic-cursor-canvas {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -816,9 +871,13 @@
         עיצוב ופיתוח: <span>שניאור אייזנבך</span>
     </div>
 
+    <a href="https://wa.me/972548528425" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="שליחת הודעת וואטסאפ לשניאור אייזנבך">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+        <span>דברו איתי בוואטסאפ</span>
+    </a>
+
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script id="free_accessibility_plugin_script" src="https://accessibility.f-static.com/site/free-accessibility-plugin/accessibility.min.js?lan=he&place=bottom-right&distance=20" crossorigin="anonymous"></script>
 
     <script>
@@ -926,21 +985,25 @@
         window.addEventListener('DOMContentLoaded', loadDynamicContent);
 
         // ==================== אנימציה: מאות זיקוקים מתפזרים ====================
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const canvas = document.getElementById('magic-cursor-canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = reduceMotion ? null : canvas.getContext('2d');
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        if (!reduceMotion) {
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+        }
 
         let particlesArray = [];
         let mouse = { x: null, y: null, lastX: null, lastY: null, vx: 0, vy: 0 };
 
         window.addEventListener('mousemove', (event) => {
+            if (reduceMotion) return;
             mouse.lastX = mouse.x || event.x;
             mouse.lastY = mouse.y || event.y;
             mouse.x = event.x;
@@ -966,6 +1029,7 @@
         });
 
         window.addEventListener('touchmove', (event) => {
+            if (reduceMotion) return;
             mouse.lastX = mouse.x || event.touches[0].clientX;
             mouse.lastY = mouse.y || event.touches[0].clientY;
             mouse.x = event.touches[0].clientX;
@@ -1071,7 +1135,9 @@
             requestAnimationFrame(animateCursor);
         }
 
-        animateCursor();
+        if (!reduceMotion) {
+            animateCursor();
+        }
     </script>
 </body>
 </html>

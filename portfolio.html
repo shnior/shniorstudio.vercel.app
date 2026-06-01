@@ -6,7 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>תיק עבודות | שניאור אייזנבך</title>
-    <meta name="description" content="תיק העבודות הרשמי של שניאור אייזנבך - קלידן, מפיק מוזיקלי, מומחה עריכות והנפשות.">
+    <meta name="description" content="תיק העבודות הרשמי של שניאור אייזנבך - קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור להפקות חסידיות, אירועים וקליפים.">
+    <link rel="canonical" href="https://shniorstudio.vercel.app/portfolio.html">
+    <meta property="og:locale" content="he_IL">
+    <meta property="og:site_name" content="שניאור אייזנבך">
+    <meta property="og:title" content="תיק עבודות | שניאור אייזנבך">
+    <meta property="og:description" content="צפו בפרויקטים נבחרים של שניאור אייזנבך בתחומי מוזיקה, עריכת וידאו והנפשות.">
+    <meta property="og:url" content="https://shniorstudio.vercel.app/portfolio.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://shniorstudio.vercel.app/logo.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="תיק עבודות | שניאור אייזנבך">
+    <meta name="twitter:description" content="פרויקטים נבחרים בתחומי מוזיקה, עריכת וידאו והנפשות.">
+    <meta name="twitter:image" content="https://shniorstudio.vercel.app/logo.webp">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
@@ -356,7 +368,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script id="free_accessibility_plugin_script" src="https://accessibility.f-static.com/site/free-accessibility-plugin/accessibility.min.js?lan=he&place=bottom-right&distance=20" crossorigin="anonymous"></script>
 
     <script>
@@ -382,10 +393,91 @@
         let currentPage = 0;
         const itemsPerPage = 12; // מציג 12 סרטונים בעמוד
 
+        function extractYouTubeId(source = '') {
+            const patterns = [
+                /[?&]v=([a-zA-Z0-9_-]{11})/,
+                /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+                /embed\/([a-zA-Z0-9_-]{11})/,
+                /^([a-zA-Z0-9_-]{11})$/
+            ];
+
+            const match = patterns.map(pattern => source.match(pattern)).find(Boolean);
+            return match ? match[1] : '';
+        }
+
+        function createPortfolioCard(item, index) {
+            const videoId = extractYouTubeId(item.youtubeEmbed || '');
+            const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : 'https://via.placeholder.com/600x400/111/333?text=Project';
+
+            const card = document.createElement('article');
+            card.className = 'portfolio-card';
+
+            const thumbnailContainer = document.createElement('div');
+            thumbnailContainer.className = 'thumbnail-container';
+
+            const thumbnailBg = document.createElement('div');
+            thumbnailBg.className = 'thumbnail-bg';
+            thumbnailBg.style.backgroundImage = `url('${thumbUrl}')`;
+
+            const playButton = document.createElement('div');
+            playButton.className = 'play-button';
+
+            thumbnailContainer.append(thumbnailBg, playButton);
+
+            const cardContent = document.createElement('div');
+            cardContent.className = 'card-content';
+
+            const title = document.createElement('h3');
+            title.className = 'card-title';
+            title.textContent = item.title || 'פרויקט חדש';
+
+            const role = document.createElement('p');
+            role.className = 'card-role';
+            role.textContent = item.role || '';
+
+            cardContent.append(title, role);
+            card.append(thumbnailContainer, cardContent);
+
+            if (videoId) {
+                card.addEventListener('click', function handleCardClick() {
+                    const playerWrapper = document.createElement('div');
+                    playerWrapper.className = 'plyr__video-embed';
+                    playerWrapper.id = `player-${currentPage}-${index}`;
+
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1`;
+                    iframe.allowFullscreen = true;
+                    iframe.setAttribute('allow', 'autoplay');
+
+                    playerWrapper.appendChild(iframe);
+                    thumbnailContainer.replaceChildren(playerWrapper);
+
+                    const player = new Plyr(`#${playerWrapper.id}`, {
+                        controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                        ratio: '16:9'
+                    });
+                    allPlayers.push(player);
+
+                    player.on('play', () => {
+                        allPlayers.forEach(otherPlayer => {
+                            if (otherPlayer !== player) {
+                                otherPlayer.pause();
+                            }
+                        });
+                    });
+
+                    player.play();
+                    card.removeEventListener('click', handleCardClick);
+                });
+            }
+
+            return card;
+        }
+
         function renderPortfolioPage() {
             const portfolioGrid = document.getElementById('portfolio-grid');
-            portfolioGrid.innerHTML = ''; // מנקה את הספינר ברגע שהנתונים מוכנים
-            allPlayers = []; 
+            portfolioGrid.replaceChildren(); // מנקה את הספינר ברגע שהנתונים מוכנים
+            allPlayers = [];
 
             const startIdx = currentPage * itemsPerPage;
             const endIdx = startIdx + itemsPerPage;
@@ -393,58 +485,13 @@
 
             currentItems.forEach((item, index) => {
                 if (!item) return;
-
-                let videoId = "";
-                const source = item.youtubeEmbed || "";
-                if (source.includes("v=")) videoId = source.split("v=")[1].split("&")[0];
-                else if (source.includes("youtu.be/")) videoId = source.split("/").pop().split("?")[0];
-                else if (source.includes("embed/")) videoId = source.split("embed/")[1].split(/[? "]/)[0];
-
-                const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : 'https://via.placeholder.com/600x400/111/333?text=Project';
-
-                const card = document.createElement('div');
-                card.className = 'portfolio-card';
-                card.onclick = function() {
-                    if (videoId) {
-                        const container = this.querySelector('.thumbnail-container');
-                        container.innerHTML = `<div class="plyr__video-embed" id="player-${index}"><iframe src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe></div>`;
-                        
-                        const player = new Plyr(`#player-${index}`, {
-                            controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                            ratio: '16:9'
-                        });
-                        allPlayers.push(player);
-
-                        player.on('play', () => {
-                            allPlayers.forEach(otherPlayer => {
-                                if (otherPlayer !== player) {
-                                    otherPlayer.pause();
-                                }
-                            });
-                        });
-                        
-                        player.play();
-                        this.onclick = null;
-                    }
-                };
-
-                card.innerHTML = `
-                    <div class="thumbnail-container">
-                        <div class="thumbnail-bg" style="background-image: url('${thumbUrl}');"></div>
-                        <div class="play-button"></div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">${item.title || "פרויקט חדש"}</h3>
-                        <p class="card-role">${item.role || ""}</p>
-                    </div>
-                `;
-                portfolioGrid.appendChild(card);
+                portfolioGrid.appendChild(createPortfolioCard(item, index));
             });
 
             // עדכון כפתורי הדפדוף
             const totalPages = Math.ceil(fullPortfolioData.length / itemsPerPage);
             document.getElementById('page-info').textContent = `עמוד ${currentPage + 1} מתוך ${totalPages || 1}`;
-            
+
             document.getElementById('prev-page').disabled = currentPage === 0;
             document.getElementById('next-page').disabled = currentPage >= totalPages - 1;
         }

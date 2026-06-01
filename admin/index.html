@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>ניהול תוכן | Shneior Eisenbach</title>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap">
@@ -241,41 +242,73 @@
         });
     }
 
+    function createPortfolioInput(labelText, value, onInput) {
+        const wrapper = document.createElement('div');
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+
+        label.textContent = labelText;
+        input.type = 'text';
+        input.value = value || '';
+        input.addEventListener('input', (event) => onInput(event.target.value));
+
+        wrapper.append(label, input);
+        return wrapper;
+    }
+
     function renderPortfolio() {
         const container = document.getElementById("portfolioContainer");
-        container.innerHTML = "";
-        
+        container.replaceChildren();
+
         portfolioItems.forEach((item, i) => {
             const div = document.createElement("div");
             div.className = "portfolio-item";
-            
-            const disableUp = i === 0 ? "disabled" : "";
-            const disableDown = i === portfolioItems.length - 1 ? "disabled" : "";
 
-            const safeTitle = (item.title || '').replace(/"/g, '&quot;');
-            const safeRole = (item.role || '').replace(/"/g, '&quot;');
-            const safeEmbed = (item.youtubeEmbed || '').replace(/"/g, '&quot;');
+            const fieldsGrid = document.createElement('div');
+            fieldsGrid.style.display = 'grid';
+            fieldsGrid.style.gridTemplateColumns = '1fr 1fr 1fr';
+            fieldsGrid.style.gap = '15px';
+            fieldsGrid.style.alignItems = 'end';
 
-            div.innerHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; align-items: end;">
-                    <div>
-                        <label>שם הפרויקט</label>
-                        <input type="text" value="${safeTitle}" oninput="updateItem(${i}, 'title', this.value)">
-                    </div>
-                    <div>
-                        <label>תפקיד</label>
-                        <input type="text" value="${safeRole}" oninput="updateItem(${i}, 'role', this.value)">
-                    </div>
-                    <div>
-                        <label>קוד יוטיוב</label>
-                        <input type="text" value="${safeEmbed}" oninput="updateItem(${i}, 'youtubeEmbed', this.value)">
-                    </div>
-                </div>
-                <div class="item-actions">
-                    <button class="btn-delete" onclick="deletePortfolioItem(${i})"><i class="fas fa-trash"></i> מחק</button>
-                    <button class="btn-move" onclick="moveItemUp(${i})" ${disableUp}><i class="fas fa-arrow-up"></i></button>
-                    <button class="btn-move" onclick="moveItemDown(${i})" ${disableDown}><i class="fas fa-arrow-down"></i></button>
-                </div>`;
+            fieldsGrid.append(
+                createPortfolioInput('שם הפרויקט', item.title, (value) => updateItem(i, 'title', value)),
+                createPortfolioInput('תפקיד', item.role, (value) => updateItem(i, 'role', value)),
+                createPortfolioInput('קוד יוטיוב', item.youtubeEmbed, (value) => updateItem(i, 'youtubeEmbed', value))
+            );
+
+            const actions = document.createElement('div');
+            actions.className = 'item-actions';
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn-delete';
+            deleteButton.type = 'button';
+            const deleteIcon = document.createElement('i');
+            deleteIcon.className = 'fas fa-trash';
+            deleteButton.append(deleteIcon, document.createTextNode(' מחק'));
+            deleteButton.addEventListener('click', () => deletePortfolioItem(i));
+
+            const upButton = document.createElement('button');
+            upButton.className = 'btn-move';
+            upButton.type = 'button';
+            upButton.setAttribute('aria-label', 'העבר פרויקט למעלה');
+            const upIcon = document.createElement('i');
+            upIcon.className = 'fas fa-arrow-up';
+            upButton.appendChild(upIcon);
+            upButton.disabled = i === 0;
+            upButton.addEventListener('click', () => moveItemUp(i));
+
+            const downButton = document.createElement('button');
+            downButton.className = 'btn-move';
+            downButton.type = 'button';
+            downButton.setAttribute('aria-label', 'העבר פרויקט למטה');
+            const downIcon = document.createElement('i');
+            downIcon.className = 'fas fa-arrow-down';
+            downButton.appendChild(downIcon);
+            downButton.disabled = i === portfolioItems.length - 1;
+            downButton.addEventListener('click', () => moveItemDown(i));
+
+            actions.append(deleteButton, upButton, downButton);
+            div.append(fieldsGrid, actions);
             container.appendChild(div);
         });
     }
@@ -362,12 +395,26 @@
     }
 
     function importPortfolio(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
         const reader = new FileReader();
         reader.onload = (e) => {
-            portfolioItems = JSON.parse(e.target.result);
-            renderPortfolio();
+            try {
+                const parsedPortfolio = JSON.parse(e.target.result);
+                if (!Array.isArray(parsedPortfolio)) {
+                    throw new Error('קובץ הגיבוי חייב להכיל מערך פרויקטים.');
+                }
+                portfolioItems = parsedPortfolio.filter(item => item && typeof item === 'object');
+                renderPortfolio();
+                showToast();
+            } catch (err) {
+                alert('שגיאה בייבוא: ' + err.message);
+            } finally {
+                event.target.value = '';
+            }
         };
-        reader.readAsText(event.target.files[0]);
+        reader.readAsText(file);
     }
 </script>
 </body>
