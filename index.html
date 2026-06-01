@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000027607243844d63335a88e2c8%26ts%3D494534%26p%3Dfs%26cid%3D1%26sig%3De526d566929a84a1912e02a6d34cebdd055bf43c497467fe2270bfcee9663668%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000000ee8724381668d4ac870e80e%26ts%3D494534%26p%3Dfs%26cid%3D1%26sig%3Dd7da2a91d5941dcc61fad86f8a9fa287fa6e20f1d3763fbacd4f539c7498a2b1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -840,6 +840,111 @@
             text-align: center;
         }
 
+
+
+        /* Event Statuses from Google Form / Google Sheets */
+        #statuses {
+            max-width: none;
+            background:
+                radial-gradient(circle at 80% 15%, rgba(212, 175, 55, 0.10), transparent 25%),
+                radial-gradient(circle at 15% 85%, rgba(122, 21, 40, 0.24), transparent 32%),
+                linear-gradient(180deg, rgba(7,7,9,.4), rgba(15,10,12,.78));
+        }
+
+        .statuses-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: -20px auto 34px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
+            justify-content: center;
+            gap: 26px;
+        }
+
+        .status-card {
+            background: rgba(15, 10, 12, 0.82);
+            border: 1px solid rgba(212, 175, 55, 0.20);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 18px 38px rgba(0,0,0,.45);
+            transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+        }
+
+        .status-card:hover {
+            transform: translateY(-7px);
+            border-color: var(--gold-solid);
+            box-shadow: 0 24px 46px rgba(0,0,0,.68), 0 0 24px rgba(212,175,55,.13);
+        }
+
+        .status-video {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            background: #050505;
+            overflow: hidden;
+        }
+
+        .status-video iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .status-content {
+            padding: 16px 16px 18px;
+        }
+
+        .status-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #070709;
+            background: var(--gold-gradient);
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: .82rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .status-title {
+            margin: 0 0 6px;
+            color: var(--text-light);
+            font-size: 1.12rem;
+            line-height: 1.35;
+        }
+
+        .status-desc {
+            color: var(--text-muted);
+            font-size: .94rem;
+            margin: 0 0 10px;
+            line-height: 1.5;
+        }
+
+        .status-time {
+            color: var(--gold-solid);
+            font-size: .86rem;
+        }
+
+        .status-setup-note {
+            grid-column: 1 / -1;
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--text-muted);
+            background: rgba(255,255,255,.03);
+            border: 1px dashed rgba(212,175,55,.35);
+            border-radius: 18px;
+            padding: 24px;
+        }
+
         /* Footer */
         footer {
             background: linear-gradient(to top, #0a0204, var(--bg-dark));
@@ -1108,12 +1213,20 @@
             </div>
         </div>
 
-        <section id="statuses" class="section statuses-section">
+        
+        <section id="statuses" class="section section-alt">
             <div class="section-inner">
-                <h2 class="section-title" id="statusesTitle">סטטוסים <span>מהאירועים</span></h2>
-                <p class="section-kicker" id="statusesSubtitle">רגעים קצרים שעולים לאתר ל־24 שעות ונעלמים אוטומטית.</p>
-                <div class="statuses-strip" id="statusesGrid">
-                    <div class="statuses-empty">
+                <h2 class="section-title">סטטוסים <span>מהאירועים</span></h2>
+                <p class="section-kicker">סרטונים קצרים שעולים דרך Google Form ומוצגים כאן רק ל־24 שעות.</p>
+
+                <div class="statuses-actions">
+                    <a href="#" class="cta-btn" id="statusUploadBtn" target="_blank" rel="noopener" style="display:none; padding: 12px 28px; font-size: 1rem;">
+                        <i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס
+                    </a>
+                </div>
+
+                <div class="status-grid" id="status-grid">
+                    <div class="inline-loader-container">
                         <i class="fas fa-circle-notch fa-spin"></i>
                         <p>טוען סטטוסים...</p>
                     </div>
@@ -1131,7 +1244,7 @@
             </div>
         </div>
 
-        <section id="portfolio" class="section">
+<section id="portfolio" class="section">
             <div class="section-inner">
                 <h2 class="section-title" id="portfolioTitle">תיק <span>עבודות</span></h2>
                 <p class="section-kicker" id="portfolioSubtitle">הפרויקטים נטענים ישירות מ־Firebase, ומופיעים כאן באותו עמוד ללא מעבר לדף נוסף.</p>
@@ -1195,11 +1308,19 @@
 
         const db = firebase.database();
 
+        /*
+            סטטוסים דרך Google Form + Google Sheets + Apps Script.
+            אחרי פריסת ה-Apps Script, הדבק כאן את כתובת ה-Web App.
+            אופציונלי: הדבק גם קישור לטופס כדי שיופיע כפתור העלאה באתר.
+        */
+        const GOOGLE_STATUS_API_URL = 'PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+        const GOOGLE_STATUS_FORM_URL = 'PASTE_GOOGLE_FORM_URL_HERE';
+
+
         const state = {
             players: [],
             allPortfolio: [],
             filteredPortfolio: [],
-            allStatuses: [],
             currentPage: 0,
             itemsPerPage: 12,
             activeFilter: 'all'
@@ -1212,7 +1333,6 @@
             heroTitle: document.getElementById('mainHeroTitle'),
             heroSubtitle: document.getElementById('mainHeroSubtitle'),
             portfolioGrid: document.getElementById('portfolio-grid'),
-            statusesGrid: document.getElementById('statusesGrid'),
             prevPage: document.getElementById('prev-page'),
             nextPage: document.getElementById('next-page'),
             pageInfo: document.getElementById('page-info'),
@@ -1354,55 +1474,6 @@
 
             if (/^[a-zA-Z0-9_-]{8,20}$/.test(value)) return value;
             return '';
-        }
-
-        function normalizeStatuses(statuses) {
-            const list = Array.isArray(statuses) ? statuses : Object.values(statuses || {});
-            return list
-                .filter(Boolean)
-                .filter(item => item.isActive !== false)
-                .filter(item => Number(item.expiresAt || 0) > Date.now())
-                .map((item, index) => ({
-                    title: item.title || 'סטטוס מהאירוע',
-                    category: item.category || '',
-                    description: item.description || '',
-                    videoUrl: item.videoUrl || '',
-                    createdAt: Number(item.createdAt || Date.now()),
-                    expiresAt: Number(item.expiresAt || 0),
-                    order: Number.isFinite(Number(item.order)) ? Number(item.order) : index
-                }))
-                .filter(item => item.videoUrl)
-                .sort((a, b) => a.order - b.order);
-        }
-
-        function renderStatuses(statuses) {
-            const grid = els.statusesGrid;
-            if (!grid) return;
-            if (!statuses.length) {
-                grid.innerHTML = `
-                    <div class="statuses-empty">
-                        <i class="fas fa-clock"></i>
-                        <p>אין כרגע סטטוסים פעילים. סטטוסים חדשים יופיעו כאן ל־24 שעות.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = statuses.map(item => {
-                const hoursLeft = Math.max(1, Math.ceil((item.expiresAt - Date.now()) / (60 * 60 * 1000)));
-                return `
-                    <article class="status-card">
-                        <div class="status-video-wrap">
-                            <video src="${escapeHTML(item.videoUrl)}" controls playsinline preload="metadata"></video>
-                        </div>
-                        <div class="status-content">
-                            <h3 class="status-title">${escapeHTML(item.title)}</h3>
-                            <p class="status-meta">${escapeHTML(item.category || 'אירועים')} · נשארו כ־${hoursLeft} שעות</p>
-                            ${item.description ? `<p class="status-description">${escapeHTML(item.description)}</p>` : ''}
-                        </div>
-                    </article>
-                `;
-            }).join('');
         }
 
         function normalizePortfolio(portfolio) {
@@ -1562,10 +1633,85 @@
         });
 
 
+
+        const statusGrid = document.getElementById('status-grid');
+        const statusUploadBtn = document.getElementById('statusUploadBtn');
+
+        function setupStatusUploadButton() {
+            if (!statusUploadBtn) return;
+            if (GOOGLE_STATUS_FORM_URL && !GOOGLE_STATUS_FORM_URL.includes('PASTE_')) {
+                statusUploadBtn.href = GOOGLE_STATUS_FORM_URL;
+                statusUploadBtn.style.display = 'inline-flex';
+            }
+        }
+
+        function renderStatuses(payload) {
+            if (!statusGrid) return;
+            const items = Array.isArray(payload?.items) ? payload.items : [];
+
+            if (!items.length) {
+                statusGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-video-slash"></i>
+                        <p>אין כרגע סטטוסים פעילים מה־24 שעות האחרונות.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            statusGrid.innerHTML = items.map(item => `
+                <article class="status-card">
+                    <div class="status-video">
+                        <iframe src="${escapeHTML(item.previewUrl || '')}" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="status-content">
+                        <div class="status-category"><i class="fas fa-bolt"></i>${escapeHTML(item.category || 'אירוע')}</div>
+                        <h3 class="status-title">${escapeHTML(item.title || 'סטטוס חדש')}</h3>
+                        ${item.description ? `<p class="status-desc">${escapeHTML(item.description)}</p>` : ''}
+                        <div class="status-time">נשאר עד: ${escapeHTML(item.expiresText || '24 שעות')}</div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function loadGoogleStatuses() {
+            setupStatusUploadButton();
+
+            if (!statusGrid) return;
+            if (!GOOGLE_STATUS_API_URL || GOOGLE_STATUS_API_URL.includes('PASTE_')) {
+                statusGrid.innerHTML = `
+                    <div class="status-setup-note">
+                        כדי להפעיל את אזור הסטטוסים: פרסם את קוד ה-Apps Script שקיבלת, ואז הדבק את כתובת ה-Web App בתוך המשתנה GOOGLE_STATUS_API_URL בקובץ האתר.
+                    </div>
+                `;
+                return;
+            }
+
+            const callbackName = 'renderGoogleStatuses_' + Date.now();
+            window[callbackName] = function(payload) {
+                renderStatuses(payload);
+                delete window[callbackName];
+                script.remove();
+            };
+
+            const script = document.createElement('script');
+            const separator = GOOGLE_STATUS_API_URL.includes('?') ? '&' : '?';
+            script.src = GOOGLE_STATUS_API_URL + separator + 'callback=' + encodeURIComponent(callbackName);
+            script.onerror = function() {
+                statusGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-triangle-exclamation"></i>
+                        <p>לא ניתן לטעון כרגע את הסטטוסים. בדוק שה-Apps Script פורסם כ-Web App.</p>
+                    </div>
+                `;
+                delete window[callbackName];
+            };
+            document.body.appendChild(script);
+        }
+
         function applyDynamicContent(data) {
             if (!data) {
                 renderEmptyPortfolio('עדיין לא הוגדרו פרויקטים במערכת.');
-                renderStatuses([]);
                 return;
             }
 
@@ -1591,11 +1737,6 @@
             if (data.servicesTitle) setHTML('#servicesTitle', formatSectionTitle(data.servicesTitle));
             if (data.servicesSubtitle) setTextById('servicesSubtitle', data.servicesSubtitle);
             renderServices(normalizeServices(data.services));
-
-            setHTML('#statusesTitle', formatSectionTitle(data.statusesTitle || 'סטטוסים מהאירועים'));
-            setTextById('statusesSubtitle', data.statusesSubtitle || 'רגעים קצרים שעולים לאתר ל־24 שעות ונעלמים אוטומטית.');
-            state.allStatuses = normalizeStatuses(data.statuses);
-            renderStatuses(state.allStatuses);
 
             if (data.portfolioTitle) setHTML('#portfolioTitle', formatSectionTitle(data.portfolioTitle));
             if (data.portfolioSubtitle) setTextById('portfolioSubtitle', data.portfolioSubtitle);
@@ -1849,7 +1990,10 @@
             animateCursor();
         }
 
-        window.addEventListener('DOMContentLoaded', loadDynamicContent);
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDynamicContent();
+            loadGoogleStatuses();
+        });
     </script>
 </body>
 </html>
