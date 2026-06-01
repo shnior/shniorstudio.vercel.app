@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000000c987243ab2e7952cf581848%26fn%3Dindex_single_improved_v2.html%26cd%3Dattachment%26ts%3D494531%26p%3Dfs%26cid%3D1%26sig%3De7eb03f98e8de7d8a3c18580ca9588fdbde2778739b963eb1381294d42cb9f84%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000051507243a77f3010c2a98435%26fn%3Dindex_github_logo.html%26cd%3Dattachment%26ts%3D494531%26p%3Dfs%26cid%3D1%26sig%3Dba51435bbbc67f9e80d544479f02034f51f0745ed4900b1ae0fe6ceba553db54%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -1497,14 +1497,10 @@
                 setText(document.querySelectorAll('#headerLogoText, .footer-logo'), data.logoText);
             }
 
-            if (data.logoBase64) {
-                els.logoImg.src = data.logoBase64;
-                els.logoImg.style.display = 'block';
-            } else {
-                els.logoImg.src = 'logo.webp';
-                els.logoImg.onload = () => { els.logoImg.style.display = 'block'; };
-                els.logoImg.onerror = () => { els.logoImg.style.display = 'none'; };
-            }
+            // הלוגו נטען תמיד מהקובץ המקומי בגיטהאב, ולא מפיירבייס
+            els.logoImg.src = 'logo.webp';
+            els.logoImg.onload = () => { els.logoImg.style.display = 'block'; };
+            els.logoImg.onerror = () => { els.logoImg.style.display = 'none'; };
 
             if (data.heroTitle) els.heroTitle.textContent = data.heroTitle;
             if (data.heroSubtitle) els.heroSubtitle.textContent = data.heroSubtitle;
