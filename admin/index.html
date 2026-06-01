@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000de307243b1a21d9d79518c7c%26fn%3Dadmin_github_logo.html%26cd%3Dattachment%26ts%3D494531%26p%3Dfs%26cid%3D1%26sig%3Dd1ec891bc9c1fc115ef9fc11679cb5adac5fb3c7dcb0f718f313588d1f2c1e19%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000a1b871f480b7ebf963781fd8%26fn%3Dadmin_github_logo_fixed.html%26cd%3Dattachment%26ts%3D494532%26p%3Dfs%26cid%3D1%26sig%3D937cdae1090fc31dbd7927df632176abdd612a2a351eb78fe97df33c9063f6b1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול תוכן | שניאור אייזנבך</title>
 
@@ -756,28 +756,16 @@
 
     async function saveAllContent() {
         const loader = $('loader');
-        const file = $('logoFile').files[0];
         loader.style.display = 'flex';
         try {
+            // הלוגו נטען מהקובץ logo.webp בגיטהאב, לכן האדמין לא שומר/מעדכן logoBase64 בפיירבייס.
             const dataToUpdate = collectContent();
-            if (file) {
-                if (file.size > 400000) throw new Error('קובץ הלוגו גדול מדי. עד 400KB.');
-                dataToUpdate.logoBase64 = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                });
-            } else if (lastData.logoBase64) {
-                dataToUpdate.logoBase64 = lastData.logoBase64;
-            }
             await db.ref('siteContent').update(dataToUpdate);
             lastData = { ...lastData, ...dataToUpdate };
-            $('logoFile').value = '';
             $('lastSavedText').textContent = 'נשמר עכשיו: ' + new Date().toLocaleTimeString('he-IL');
             showToast('השינויים נשמרו בהצלחה');
         } catch (err) {
-            alert('שגיאה: ' + err.message);
+            alert('שגיאה בשמירה: ' + err.message);
         } finally {
             loader.style.display = 'none';
         }
