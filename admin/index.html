@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000a1b871f480b7ebf963781fd8%26fn%3Dadmin_github_logo_fixed.html%26cd%3Dattachment%26ts%3D494532%26p%3Dfs%26cid%3D1%26sig%3D937cdae1090fc31dbd7927df632176abdd612a2a351eb78fe97df33c9063f6b1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000054287246b5ca8cf0a42f6f20%26ts%3D494534%26p%3Dfs%26cid%3D1%26sig%3D6f6174e8b645b787c8499560bf488b50e68451ccf03ab34ac25d6ae72e20c5e0%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול תוכן | שניאור אייזנבך</title>
 
@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -138,7 +139,7 @@
         .btn-danger { background: rgba(255,93,93,0.14); color: var(--danger); border: 1px solid rgba(255,93,93,0.5); }
         .btn-warning { background: var(--warning); color: #111; }
 
-        .service-item, .category-item, .portfolio-item {
+        .service-item, .category-item, .portfolio-item, .status-item {
             background: #202027; border: 1px solid var(--border); border-radius: 18px;
             padding: 16px; margin: 14px 0;
         }
@@ -147,7 +148,7 @@
         }
         .item-title { font-weight: 900; color: var(--primary); }
         .item-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-        .portfolio-item.inactive { opacity: .62; }
+        .portfolio-item.inactive, .status-item.inactive { opacity: .62; }
         .badge {
             display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px;
             border-radius: 999px; background: rgba(212,175,55,0.13); color: var(--primary);
@@ -161,6 +162,9 @@
         .empty-state { text-align: center; color: var(--text-muted); padding: 35px 10px; border: 1px dashed var(--border); border-radius: 16px; }
         .preview-row { display: grid; grid-template-columns: 130px 1fr; gap: 14px; align-items: center; margin-top: 12px; }
         .thumb { width: 130px; aspect-ratio: 16/9; border-radius: 10px; background: #111 center/cover no-repeat; border: 1px solid var(--border); }
+        .status-preview-video { width: 130px; aspect-ratio: 9/16; border-radius: 14px; background: #111; border: 1px solid var(--border); object-fit: cover; }
+        .upload-progress { height: 9px; background: #111; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; margin-top: 10px; }
+        .upload-progress span { display: block; height: 100%; width: 0%; background: var(--primary); transition: width .2s ease; }
         .counter { color: var(--text-muted); font-size: .95rem; }
 
         #toast {
@@ -222,6 +226,7 @@
         <button class="tab-btn active" data-tab="general"><i class="fas fa-pen-nib"></i> כללי</button>
         <button class="tab-btn" data-tab="services"><i class="fas fa-layer-group"></i> שירותים</button>
         <button class="tab-btn" data-tab="portfolio"><i class="fas fa-film"></i> תיק עבודות</button>
+        <button class="tab-btn" data-tab="statuses"><i class="fas fa-mobile-screen-button"></i> סטטוסים 24 שעות</button>
         <button class="tab-btn" data-tab="backup"><i class="fas fa-database"></i> גיבוי</button>
     </div>
 
@@ -363,12 +368,59 @@
         </div>
     </section>
 
+
+    <section class="tab-panel" id="tab-statuses">
+        <div class="section">
+            <div class="section-header">
+                <div>
+                    <h2><i class="fas fa-mobile-screen-button"></i> סטטוסים מהאירועים</h2>
+                    <p class="hint">כאן מעלים סרטונים קצרים שמופיעים באתר ל־24 שעות בלבד. לאחר 24 שעות הם נעלמים מהאתר, ובאדמין אפשר לנקות אותם גם מהאחסון.</p>
+                </div>
+                <div class="item-actions">
+                    <button class="btn" onclick="document.getElementById('statusVideoFile').click()"><i class="fas fa-cloud-arrow-up"></i> העלה סטטוס</button>
+                    <button class="btn btn-soft" onclick="cleanupExpiredStatuses(true)"><i class="fas fa-broom"></i> נקה פגי תוקף</button>
+                </div>
+            </div>
+
+            <input type="file" id="statusVideoFile" accept="video/*" style="display:none" onchange="uploadStatusVideo(event)">
+            <div class="grid-2">
+                <div class="field">
+                    <label>כותרת אזור הסטטוסים באתר</label>
+                    <input type="text" id="statusesTitle" placeholder="סטטוסים מהאירועים">
+                </div>
+                <div class="field">
+                    <label>תיאור קצר לאזור הסטטוסים</label>
+                    <input type="text" id="statusesSubtitle" placeholder="רגעים קצרים שעולים לאתר ל־24 שעות ונעלמים אוטומטית.">
+                </div>
+            </div>
+            <div class="grid-3">
+                <div class="field">
+                    <label>כותרת ברירת מחדל להעלאה הבאה</label>
+                    <input type="text" id="newStatusTitle" placeholder="לדוגמה: רגעים מהאירוע הערב">
+                </div>
+                <div class="field">
+                    <label>קטגוריה</label>
+                    <input type="text" id="newStatusCategory" placeholder="חתונה / אירוע / מאחורי הקלעים">
+                </div>
+                <div class="field">
+                    <label>משך הצגה בשעות</label>
+                    <input type="number" id="statusHours" value="24" min="1" max="168">
+                </div>
+            </div>
+            <div class="mini-note">מומלץ להעלות סרטונים קצרים ודחוסים, עד 60–90 שניות, כדי שהאתר יישאר מהיר.</div>
+            <div class="upload-progress" id="statusUploadProgress" style="display:none"><span></span></div>
+            <div class="counter" id="statusesCounter" style="margin-top:14px;">0 סטטוסים</div>
+            <div id="statusesContainer"></div>
+        </div>
+    </section>
+
     <section class="tab-panel" id="tab-backup">
         <div class="section">
             <div class="section-header"><h2><i class="fas fa-database"></i> גיבוי וייבוא</h2></div>
             <div class="grid-3">
                 <button class="btn btn-success" onclick="exportAllContent()"><i class="fas fa-download"></i> גיבוי כל האתר</button>
                 <button class="btn btn-info" onclick="exportPortfolio()"><i class="fas fa-file-export"></i> גיבוי פרויקטים בלבד</button>
+                <button class="btn btn-soft" onclick="exportStatuses()"><i class="fas fa-mobile-screen-button"></i> גיבוי סטטוסים בלבד</button>
                 <button class="btn btn-warning" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> ייבוא JSON</button>
             </div>
             <input type="file" id="importFile" style="display:none" accept=".json,application/json" onchange="importJson(event)">
@@ -402,6 +454,7 @@
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const auth = firebase.auth();
+    const storage = firebase.storage();
 
     const defaultCategories = [
         { id: 'עריכה', label: 'עריכות' },
@@ -416,6 +469,7 @@
     ];
 
     let portfolioItems = [];
+    let statusItems = [];
     let categories = [...defaultCategories];
     let services = [...defaultServices];
     let lastData = {};
@@ -502,6 +556,32 @@
         })).sort((a, b) => a.order - b.order);
     }
 
+
+    function normalizeStatuses(statuses) {
+        const list = Array.isArray(statuses) ? statuses : Object.values(statuses || {});
+        return list.filter(Boolean).map((item, index) => ({
+            id: item.id || ('status-' + Date.now() + '-' + index),
+            title: item.title || '',
+            category: item.category || '',
+            description: item.description || '',
+            videoUrl: item.videoUrl || '',
+            storagePath: item.storagePath || '',
+            createdAt: Number(item.createdAt || Date.now()),
+            expiresAt: Number(item.expiresAt || (Date.now() + 24 * 60 * 60 * 1000)),
+            isActive: item.isActive !== false,
+            order: Number.isFinite(Number(item.order)) ? Number(item.order) : index
+        })).sort((a, b) => b.createdAt - a.createdAt);
+    }
+
+    function isStatusExpired(item) {
+        return Number(item.expiresAt || 0) <= Date.now();
+    }
+
+    function formatStatusTime(ms) {
+        if (!ms) return '';
+        return new Date(Number(ms)).toLocaleString('he-IL');
+    }
+
     function guessCategory(text) {
         const value = String(text).toLowerCase();
         if (value.includes('הנפש') || value.includes('ai') || value.includes('אנימ')) return 'הנפשה';
@@ -547,15 +627,19 @@
             setValue('creditText', data.creditText || 'עיצוב ופיתוח: שניאור אייזנבך');
             setValue('servicesTitle', data.servicesTitle || 'מעטפת של מדיה ומוזיקה');
             setValue('servicesSubtitle', data.servicesSubtitle || 'פתרון מלא לאירועים, הפקות, קליפים ועריכות — מהרעיון ועד התוצאה הסופית.');
+            setValue('statusesTitle', data.statusesTitle || 'סטטוסים מהאירועים');
+            setValue('statusesSubtitle', data.statusesSubtitle || 'רגעים קצרים שעולים לאתר ל־24 שעות ונעלמים אוטומטית.');
 
             categories = normalizeCategories(data.categories);
             services = normalizeServices(data.services);
             portfolioItems = normalizePortfolio(data.portfolio);
+            statusItems = normalizeStatuses(data.statuses);
 
             renderCategories();
             renderServices();
             refreshCategorySelects();
             renderPortfolio();
+            renderStatuses();
             if (showNotice) showToast('הנתונים נטענו מחדש');
         }, err => alert('שגיאה בטעינת נתונים: ' + err.message));
     }
@@ -732,8 +816,184 @@
         renderPortfolio();
     }
 
+
+    async function uploadStatusVideo(event) {
+        const file = event.target.files[0];
+        event.target.value = '';
+        if (!file) return;
+        if (!file.type.startsWith('video/')) return alert('נא לבחור קובץ וידאו בלבד.');
+
+        const maxMb = 200;
+        if (file.size > maxMb * 1024 * 1024) return alert('הקובץ גדול מדי. מומלץ עד ' + maxMb + 'MB.');
+
+        const title = ($('newStatusTitle').value || '').trim() || 'סטטוס חדש';
+        const category = ($('newStatusCategory').value || '').trim() || 'אירועים';
+        const hours = Math.max(1, Math.min(168, Number($('statusHours').value || 24)));
+        const id = 'status-' + Date.now();
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
+        const storagePath = `statuses/${id}-${safeName}`;
+        const progressBox = $('statusUploadProgress');
+        const progressBar = progressBox.querySelector('span');
+        progressBox.style.display = 'block';
+        progressBar.style.width = '0%';
+        $('loader').style.display = 'flex';
+        $('loader').innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>&nbsp; מעלה סטטוס...';
+
+        try {
+            const ref = storage.ref(storagePath);
+            const task = ref.put(file, { contentType: file.type });
+            await new Promise((resolve, reject) => {
+                task.on('state_changed', snapshot => {
+                    const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                    progressBar.style.width = percent + '%';
+                    $('loader').innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>&nbsp; מעלה סטטוס... ' + percent + '%';
+                }, reject, resolve);
+            });
+
+            const videoUrl = await ref.getDownloadURL();
+            const createdAt = Date.now();
+            statusItems.unshift({
+                id, title, category, description: '', videoUrl, storagePath,
+                createdAt,
+                expiresAt: createdAt + hours * 60 * 60 * 1000,
+                isActive: true,
+                order: 0
+            });
+            statusItems = statusItems.map((item, index) => ({ ...item, order: index }));
+            renderStatuses();
+            await db.ref('siteContent/statuses').set(statusItems);
+            showToast('הסטטוס עלה ונשמר ל־' + hours + ' שעות');
+            $('newStatusTitle').value = '';
+        } catch (err) {
+            alert('שגיאה בהעלאת סטטוס: ' + err.message);
+        } finally {
+            $('loader').style.display = 'none';
+            $('loader').innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>&nbsp; שומר נתונים...';
+            setTimeout(() => { progressBox.style.display = 'none'; progressBar.style.width = '0%'; }, 1200);
+        }
+    }
+
+    function renderStatuses() {
+        const container = $('statusesContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        const activeCount = statusItems.filter(item => item.isActive !== false && !isStatusExpired(item)).length;
+        const expiredCount = statusItems.filter(item => isStatusExpired(item)).length;
+        $('statusesCounter').textContent = `${activeCount} פעילים · ${expiredCount} פגי תוקף · ${statusItems.length} סה״כ`;
+
+        if (!statusItems.length) {
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-video-slash"></i><p>עדיין אין סטטוסים. לחץ על העלה סטטוס כדי להוסיף סרטון קצר.</p></div>';
+            return;
+        }
+
+        statusItems.forEach((item, index) => {
+            const expired = isStatusExpired(item);
+            const div = document.createElement('div');
+            div.className = 'status-item' + ((item.isActive === false || expired) ? ' inactive' : '');
+            const leftMs = Number(item.expiresAt || 0) - Date.now();
+            const leftHours = Math.max(0, Math.ceil(leftMs / (60 * 60 * 1000)));
+            div.innerHTML = `
+                <div class="item-top">
+                    <span class="item-title">#${index + 1} ${escapeHTML(item.title || 'סטטוס')}</span>
+                    <div class="item-actions">
+                        <span class="badge">${expired ? 'פג תוקף' : 'נשארו כ־' + leftHours + ' שעות'}</span>
+                        <button class="btn btn-small btn-soft" onclick="moveStatus(${index}, -1)" ${index === 0 ? 'disabled' : ''}><i class="fas fa-arrow-up"></i></button>
+                        <button class="btn btn-small btn-soft" onclick="moveStatus(${index}, 1)" ${index === statusItems.length - 1 ? 'disabled' : ''}><i class="fas fa-arrow-down"></i></button>
+                        <button class="btn btn-small btn-danger" onclick="deleteStatus(${index})"><i class="fas fa-trash"></i> מחק</button>
+                    </div>
+                </div>
+                <div class="grid-3">
+                    <div><label>כותרת</label><input value="${escapeAttr(item.title)}" oninput="updateStatus(${index}, 'title', this.value)"></div>
+                    <div><label>קטגוריה</label><input value="${escapeAttr(item.category)}" oninput="updateStatus(${index}, 'category', this.value)"></div>
+                    <div><label>תוקף עד</label><input type="datetime-local" value="${toDateTimeLocal(item.expiresAt)}" onchange="updateStatus(${index}, 'expiresAt', new Date(this.value).getTime()); renderStatuses();"></div>
+                </div>
+                <label>תיאור קצר</label>
+                <textarea rows="2" oninput="updateStatus(${index}, 'description', this.value)">${escapeHTML(item.description || '')}</textarea>
+                <div class="item-actions" style="margin-top:14px;">
+                    <label style="display:inline-flex;align-items:center;margin:0;color:var(--text-main);"><input type="checkbox" ${item.isActive !== false ? 'checked' : ''} onchange="updateStatus(${index}, 'isActive', this.checked); renderStatuses();"> פעיל באתר</label>
+                    <button class="btn btn-small btn-soft" onclick="extendStatus(${index}, 24)"><i class="fas fa-clock"></i> הארך 24 שעות</button>
+                </div>
+                <div class="preview-row">
+                    <video class="status-preview-video" src="${escapeAttr(item.videoUrl)}" controls muted playsinline></video>
+                    <div class="mini-note">
+                        נוצר: ${escapeHTML(formatStatusTime(item.createdAt))}<br>
+                        תוקף עד: ${escapeHTML(formatStatusTime(item.expiresAt))}<br>
+                        קובץ: ${escapeHTML(item.storagePath || 'קישור חיצוני')}
+                    </div>
+                </div>`;
+            container.appendChild(div);
+        });
+    }
+
+    function toDateTimeLocal(ms) {
+        const date = new Date(Number(ms || Date.now()));
+        const pad = n => String(n).padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    function updateStatus(index, field, value) {
+        statusItems[index][field] = value;
+    }
+
+    function extendStatus(index, hours) {
+        statusItems[index].expiresAt = Date.now() + hours * 60 * 60 * 1000;
+        statusItems[index].isActive = true;
+        renderStatuses();
+    }
+
+    function moveStatus(index, dir) {
+        const target = index + dir;
+        if (target < 0 || target >= statusItems.length) return;
+        [statusItems[index], statusItems[target]] = [statusItems[target], statusItems[index]];
+        statusItems = statusItems.map((item, order) => ({ ...item, order }));
+        renderStatuses();
+    }
+
+    async function deleteStatus(index) {
+        const item = statusItems[index];
+        if (!confirm('למחוק את הסטטוס הזה? הפעולה תמחק גם את קובץ הווידאו מהאחסון אם הוא קיים.')) return;
+        $('loader').style.display = 'flex';
+        try {
+            if (item.storagePath) {
+                await storage.ref(item.storagePath).delete().catch(() => {});
+            }
+            statusItems.splice(index, 1);
+            await db.ref('siteContent/statuses').set(statusItems);
+            renderStatuses();
+            showToast('הסטטוס נמחק');
+        } catch (err) {
+            alert('שגיאה במחיקה: ' + err.message);
+        } finally {
+            $('loader').style.display = 'none';
+        }
+    }
+
+    async function cleanupExpiredStatuses(showNotice = true) {
+        const expired = statusItems.filter(item => isStatusExpired(item));
+        if (!expired.length) {
+            if (showNotice) alert('אין סטטוסים שפג תוקפם.');
+            return;
+        }
+        if (showNotice && !confirm(`למחוק ${expired.length} סטטוסים שפג תוקפם גם מהאחסון?`)) return;
+        $('loader').style.display = 'flex';
+        try {
+            for (const item of expired) {
+                if (item.storagePath) await storage.ref(item.storagePath).delete().catch(() => {});
+            }
+            statusItems = statusItems.filter(item => !isStatusExpired(item));
+            await db.ref('siteContent/statuses').set(statusItems);
+            renderStatuses();
+            if (showNotice) showToast('סטטוסים שפג תוקפם נמחקו');
+        } catch (err) {
+            alert('שגיאה בניקוי סטטוסים: ' + err.message);
+        } finally {
+            $('loader').style.display = 'none';
+        }
+    }
+
     function collectContent() {
         const cleanPortfolio = portfolioItems.map((item, index) => ({ ...item, order: index }));
+        const cleanStatuses = statusItems.map((item, index) => ({ ...item, order: index }));
         return {
             logoText: $('logoText').value.trim(),
             seoDescription: $('seoDescription').value.trim(),
@@ -748,9 +1008,12 @@
             creditText: $('creditText').value.trim(),
             servicesTitle: $('servicesTitle').value.trim(),
             servicesSubtitle: $('servicesSubtitle').value.trim(),
+            statusesTitle: $('statusesTitle').value.trim(),
+            statusesSubtitle: $('statusesSubtitle').value.trim(),
             categories: categories.filter(cat => cat.id && cat.label),
             services: services.filter(service => service.title || service.description),
-            portfolio: cleanPortfolio
+            portfolio: cleanPortfolio,
+            statuses: cleanStatuses
         };
     }
 
@@ -790,6 +1053,7 @@
 
     function exportAllContent() { downloadJson(collectContent(), 'siteContent-backup.json'); }
     function exportPortfolio() { downloadJson(portfolioItems, 'portfolio-backup.json'); }
+    function exportStatuses() { downloadJson(statusItems, 'statuses-backup.json'); }
 
     function importJson(event) {
         const file = event.target.files[0];
@@ -805,6 +1069,7 @@
                     categories = normalizeCategories(data.categories);
                     services = normalizeServices(data.services);
                     portfolioItems = normalizePortfolio(data.portfolio || []);
+                    statusItems = normalizeStatuses(data.statuses || []);
                     setValue('logoText', data.logoText || $('logoText').value);
                     setValue('heroTitle', data.heroTitle || $('heroTitle').value);
                     setValue('heroSubtitle', data.heroSubtitle || $('heroSubtitle').value);
@@ -817,8 +1082,10 @@
                     setValue('creditText', data.creditText || $('creditText').value);
                     setValue('servicesTitle', data.servicesTitle || $('servicesTitle').value);
                     setValue('servicesSubtitle', data.servicesSubtitle || $('servicesSubtitle').value);
+                    setValue('statusesTitle', data.statusesTitle || $('statusesTitle').value);
+                    setValue('statusesSubtitle', data.statusesSubtitle || $('statusesSubtitle').value);
                 }
-                renderCategories(); renderServices(); renderPortfolio();
+                renderCategories(); renderServices(); renderPortfolio(); renderStatuses();
                 showToast('הייבוא נטען. לחץ שמירה כדי להעלות ל־Firebase');
             } catch (err) {
                 alert('קובץ JSON לא תקין: ' + err.message);
