@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000051507243a77f3010c2a98435%26fn%3Dindex_github_logo.html%26cd%3Dattachment%26ts%3D494531%26p%3Dfs%26cid%3D1%26sig%3Dba51435bbbc67f9e80d544479f02034f51f0745ed4900b1ae0fe6ceba553db54%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000027607243844d63335a88e2c8%26ts%3D494534%26p%3Dfs%26cid%3D1%26sig%3De526d566929a84a1912e02a6d34cebdd055bf43c497467fe2270bfcee9663668%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -1023,6 +1023,7 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="#home" class="active">ראשי</a></li>
                 <li><a href="#services">שירותים</a></li>
+                <li><a href="#statuses">סטטוסים</a></li>
                 <li><a href="#portfolio">תיק עבודות</a></li>
                 <li><a href="#contact">צור קשר</a></li>
             </ul>
@@ -1107,10 +1108,33 @@
             </div>
         </div>
 
+        <section id="statuses" class="section statuses-section">
+            <div class="section-inner">
+                <h2 class="section-title" id="statusesTitle">סטטוסים <span>מהאירועים</span></h2>
+                <p class="section-kicker" id="statusesSubtitle">רגעים קצרים שעולים לאתר ל־24 שעות ונעלמים אוטומטית.</p>
+                <div class="statuses-strip" id="statusesGrid">
+                    <div class="statuses-empty">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                        <p>טוען סטטוסים...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider" aria-hidden="true">
+            <div class="sound-wave-small">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+
         <section id="portfolio" class="section">
             <div class="section-inner">
                 <h2 class="section-title" id="portfolioTitle">תיק <span>עבודות</span></h2>
-                <p class="section-kicker" id="portfolioSubtitle"></p>
+                <p class="section-kicker" id="portfolioSubtitle">הפרויקטים נטענים ישירות מ־Firebase, ומופיעים כאן באותו עמוד ללא מעבר לדף נוסף.</p>
 
                 <div class="portfolio-toolbar" id="portfolio-toolbar" aria-label="סינון תיק עבודות">
                     <button class="filter-btn active" type="button" data-filter="all">הכול</button>
@@ -1175,6 +1199,7 @@
             players: [],
             allPortfolio: [],
             filteredPortfolio: [],
+            allStatuses: [],
             currentPage: 0,
             itemsPerPage: 12,
             activeFilter: 'all'
@@ -1187,6 +1212,7 @@
             heroTitle: document.getElementById('mainHeroTitle'),
             heroSubtitle: document.getElementById('mainHeroSubtitle'),
             portfolioGrid: document.getElementById('portfolio-grid'),
+            statusesGrid: document.getElementById('statusesGrid'),
             prevPage: document.getElementById('prev-page'),
             nextPage: document.getElementById('next-page'),
             pageInfo: document.getElementById('page-info'),
@@ -1328,6 +1354,55 @@
 
             if (/^[a-zA-Z0-9_-]{8,20}$/.test(value)) return value;
             return '';
+        }
+
+        function normalizeStatuses(statuses) {
+            const list = Array.isArray(statuses) ? statuses : Object.values(statuses || {});
+            return list
+                .filter(Boolean)
+                .filter(item => item.isActive !== false)
+                .filter(item => Number(item.expiresAt || 0) > Date.now())
+                .map((item, index) => ({
+                    title: item.title || 'סטטוס מהאירוע',
+                    category: item.category || '',
+                    description: item.description || '',
+                    videoUrl: item.videoUrl || '',
+                    createdAt: Number(item.createdAt || Date.now()),
+                    expiresAt: Number(item.expiresAt || 0),
+                    order: Number.isFinite(Number(item.order)) ? Number(item.order) : index
+                }))
+                .filter(item => item.videoUrl)
+                .sort((a, b) => a.order - b.order);
+        }
+
+        function renderStatuses(statuses) {
+            const grid = els.statusesGrid;
+            if (!grid) return;
+            if (!statuses.length) {
+                grid.innerHTML = `
+                    <div class="statuses-empty">
+                        <i class="fas fa-clock"></i>
+                        <p>אין כרגע סטטוסים פעילים. סטטוסים חדשים יופיעו כאן ל־24 שעות.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = statuses.map(item => {
+                const hoursLeft = Math.max(1, Math.ceil((item.expiresAt - Date.now()) / (60 * 60 * 1000)));
+                return `
+                    <article class="status-card">
+                        <div class="status-video-wrap">
+                            <video src="${escapeHTML(item.videoUrl)}" controls playsinline preload="metadata"></video>
+                        </div>
+                        <div class="status-content">
+                            <h3 class="status-title">${escapeHTML(item.title)}</h3>
+                            <p class="status-meta">${escapeHTML(item.category || 'אירועים')} · נשארו כ־${hoursLeft} שעות</p>
+                            ${item.description ? `<p class="status-description">${escapeHTML(item.description)}</p>` : ''}
+                        </div>
+                    </article>
+                `;
+            }).join('');
         }
 
         function normalizePortfolio(portfolio) {
@@ -1490,6 +1565,7 @@
         function applyDynamicContent(data) {
             if (!data) {
                 renderEmptyPortfolio('עדיין לא הוגדרו פרויקטים במערכת.');
+                renderStatuses([]);
                 return;
             }
 
@@ -1515,6 +1591,11 @@
             if (data.servicesTitle) setHTML('#servicesTitle', formatSectionTitle(data.servicesTitle));
             if (data.servicesSubtitle) setTextById('servicesSubtitle', data.servicesSubtitle);
             renderServices(normalizeServices(data.services));
+
+            setHTML('#statusesTitle', formatSectionTitle(data.statusesTitle || 'סטטוסים מהאירועים'));
+            setTextById('statusesSubtitle', data.statusesSubtitle || 'רגעים קצרים שעולים לאתר ל־24 שעות ונעלמים אוטומטית.');
+            state.allStatuses = normalizeStatuses(data.statuses);
+            renderStatuses(state.allStatuses);
 
             if (data.portfolioTitle) setHTML('#portfolioTitle', formatSectionTitle(data.portfolioTitle));
             if (data.portfolioSubtitle) setTextById('portfolioSubtitle', data.portfolioSubtitle);
