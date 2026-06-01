@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000000de07243a73cf87af0bf214f%26ts%3D494531%26p%3Dfs%26cid%3D1%26sig%3Dd4ba08e9936a5c67b1e857e1bd70a5ea94e0c0a29a2a10d235c45fc2c550c808%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000000c987243ab2e7952cf581848%26fn%3Dindex_single_improved_v2.html%26cd%3Dattachment%26ts%3D494531%26p%3Dfs%26cid%3D1%26sig%3De7eb03f98e8de7d8a3c18580ca9588fdbde2778739b963eb1381294d42cb9f84%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -1033,7 +1033,7 @@
         <section id="home" class="hero">
             <h1 id="mainHeroTitle">הסאונד. הוויזואל. התוצאה.</h1>
             <h2 id="mainHeroSubtitle">קלידן, מפיק מוזיקלי, עריכות מקצועיות והנפשות מתקדמות</h2>
-            <a href="#contact" class="cta-btn">להזמנת אירועים והפקות 054-8528425</a>
+            <a href="#contact" class="cta-btn" id="heroCtaBtn">להזמנת אירועים והפקות 054-8528425</a>
         </section>
 
         <div class="section-divider" aria-hidden="true">
@@ -1048,10 +1048,10 @@
 
         <section id="services" class="section section-alt">
             <div class="section-inner">
-                <h2 class="section-title">מעטפת של <span>מדיה ומוזיקה</span></h2>
-                <p class="section-kicker">פתרון מלא לאירועים, הפקות, קליפים ועריכות — מהרעיון ועד התוצאה הסופית.</p>
+                <h2 class="section-title" id="servicesTitle">מעטפת של <span>מדיה ומוזיקה</span></h2>
+                <p class="section-kicker" id="servicesSubtitle">פתרון מלא לאירועים, הפקות, קליפים ועריכות — מהרעיון ועד התוצאה הסופית.</p>
 
-                <div class="services-grid">
+                <div class="services-grid" id="servicesGrid">
                     <article class="service-card">
                         <div class="service-card-inner">
                             <div class="service-card-front">
@@ -1109,8 +1109,8 @@
 
         <section id="portfolio" class="section">
             <div class="section-inner">
-                <h2 class="section-title">תיק <span>עבודות</span></h2>
-                <p class="section-kicker"></p>
+                <h2 class="section-title" id="portfolioTitle">תיק <span>עבודות</span></h2>
+                <p class="section-kicker" id="portfolioSubtitle">הפרויקטים נטענים ישירות מ־Firebase, ומופיעים כאן באותו עמוד ללא מעבר לדף נוסף.</p>
 
                 <div class="portfolio-toolbar" id="portfolio-toolbar" aria-label="סינון תיק עבודות">
                     <button class="filter-btn active" type="button" data-filter="all">הכול</button>
@@ -1138,16 +1138,16 @@
     <footer id="contact">
         <div class="footer-logo">שניאור אייזנבך</div>
         <div class="contact-info">
-            <strong>זמין לאירועי בוטיק, חתונות והפקות סטודיו.</strong>
-            אזור פעילות: כל הארץ
+            <strong id="contactTitle">זמין לאירועי בוטיק, חתונות והפקות סטודיו.</strong>
+            <span id="activityArea">אזור פעילות: כל הארץ</span>
         </div>
-        <a href="https://wa.me/972548528425" target="_blank" rel="noopener" class="cta-btn footer-cta">
-            <i class="fab fa-whatsapp"></i> שלח הודעת וואטסאפ
+        <a href="https://wa.me/972548528425" target="_blank" rel="noopener" class="cta-btn footer-cta" id="whatsappBtn">
+            <i class="fab fa-whatsapp"></i> <span id="whatsappButtonText">שלח הודעת וואטסאפ</span>
         </a>
     </footer>
 
     <div class="site-credit">
-        עיצוב ופיתוח: <span>שניאור אייזנבך</span>
+        <span id="creditText">עיצוב ופיתוח: שניאור אייזנבך</span>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -1214,6 +1214,92 @@
             elements.forEach(el => el.textContent = value);
         }
 
+        function setHTML(selector, value) {
+            if (!value) return;
+            const el = document.querySelector(selector);
+            if (el) el.innerHTML = value;
+        }
+
+        function setTextById(id, value) {
+            if (!value) return;
+            const el = document.getElementById(id);
+            if (el) el.textContent = value;
+        }
+
+        function formatSectionTitle(value) {
+            const text = escapeHTML(value || '');
+            if (!text) return '';
+            const parts = text.trim().split(/\s+/);
+            if (parts.length < 2) return text;
+            const last = parts.pop();
+            return parts.join(' ') + ' <span>' + last + '</span>';
+        }
+
+        function normalizeCategories(categories) {
+            const list = Array.isArray(categories) ? categories : Object.values(categories || {});
+            const normalized = list.filter(Boolean).map(cat => ({
+                id: String(cat.id || cat.label || '').trim(),
+                label: String(cat.label || cat.id || '').trim()
+            })).filter(cat => cat.id && cat.label);
+
+            return normalized.length ? normalized : [
+                { id: 'עריכה', label: 'עריכות' },
+                { id: 'הנפשה', label: 'הנפשות' },
+                { id: 'מוזיקה', label: 'מוזיקה' }
+            ];
+        }
+
+        function normalizeServices(services) {
+            const list = Array.isArray(services) ? services : Object.values(services || {});
+            const normalized = list.filter(Boolean).map(service => ({
+                icon: service.icon || 'fas fa-star',
+                title: service.title || '',
+                description: service.description || ''
+            })).filter(service => service.title || service.description);
+
+            return normalized.length ? normalized : [
+                { icon: 'fas fa-music', title: 'לייב על הבמה', description: 'נגינה חיה אנרגטית ומדויקת על מערכות הקלידים המובילות בעולם.' },
+                { icon: 'fas fa-video', title: 'עריכה והפקות', description: 'פוסט-פרודקשן מוקפד, קליפים, פרומואים וסרטונים ברמה גבוהה.' },
+                { icon: 'fas fa-wand-magic-sparkles', title: 'הנפשה ו-AI', description: 'קליפי מילים, גרפיקה והנפשות מתקדמות בשילוב כלים חדשניים.' }
+            ];
+        }
+
+        function renderCategories(categories) {
+            const toolbar = document.getElementById('portfolio-toolbar');
+            if (!toolbar) return;
+            toolbar.innerHTML = '<button class="filter-btn active" type="button" data-filter="all">הכול</button>' +
+                categories.map(cat => `<button class="filter-btn" type="button" data-filter="${escapeHTML(cat.id)}">${escapeHTML(cat.label)}</button>`).join('');
+
+            toolbar.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    toolbar.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    state.activeFilter = button.dataset.filter || 'all';
+                    filterPortfolio();
+                });
+            });
+        }
+
+        function renderServices(services) {
+            const grid = document.getElementById('servicesGrid');
+            if (!grid) return;
+            grid.innerHTML = services.map(service => `
+                <article class="service-card">
+                    <div class="service-card-inner">
+                        <div class="service-card-front">
+                            <i class="${escapeHTML(service.icon)} service-icon"></i>
+                            <h3>${escapeHTML(service.title)}</h3>
+                        </div>
+                        <div class="service-card-back">
+                            <i class="${escapeHTML(service.icon)} service-icon"></i>
+                            <h3>${escapeHTML(service.title)}</h3>
+                            <p>${escapeHTML(service.description)}</p>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
         function escapeHTML(value = '') {
             return String(value).replace(/[&<>"']/g, char => ({
                 '&': '&amp;',
@@ -1248,11 +1334,15 @@
             const list = Array.isArray(portfolio) ? portfolio : Object.values(portfolio || {});
             return list
                 .filter(Boolean)
+                .filter(item => item.isActive !== false)
                 .map((item, index) => ({
                     title: item.title || `פרויקט ${index + 1}`,
                     role: item.role || '',
                     youtubeEmbed: item.youtubeEmbed || item.videoUrl || item.youtube || '',
                     category: item.category || item.role || item.title || '',
+                    description: item.description || '',
+                    date: item.date || '',
+                    featured: Boolean(item.featured),
                     order: Number.isFinite(Number(item.order)) ? Number(item.order) : index
                 }))
                 .sort((a, b) => a.order - b.order);
@@ -1396,14 +1486,6 @@
             }
         });
 
-        document.querySelectorAll('.filter-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                state.activeFilter = button.dataset.filter || 'all';
-                filterPortfolio();
-            });
-        });
 
         function applyDynamicContent(data) {
             if (!data) {
@@ -1427,6 +1509,29 @@
             if (data.heroTitle) els.heroTitle.textContent = data.heroTitle;
             if (data.heroSubtitle) els.heroSubtitle.textContent = data.heroSubtitle;
 
+            const heroCtaBtn = document.getElementById('heroCtaBtn');
+            if (heroCtaBtn) {
+                const btnText = data.heroButtonText || 'להזמנת אירועים והפקות';
+                const btnPhone = data.heroButtonPhone || '054-8528425';
+                heroCtaBtn.textContent = `${btnText} ${btnPhone}`.trim();
+            }
+
+            if (data.servicesTitle) setHTML('#servicesTitle', formatSectionTitle(data.servicesTitle));
+            if (data.servicesSubtitle) setTextById('servicesSubtitle', data.servicesSubtitle);
+            renderServices(normalizeServices(data.services));
+
+            if (data.portfolioTitle) setHTML('#portfolioTitle', formatSectionTitle(data.portfolioTitle));
+            if (data.portfolioSubtitle) setTextById('portfolioSubtitle', data.portfolioSubtitle);
+
+            setTextById('contactTitle', data.contactTitle || 'זמין לאירועי בוטיק, חתונות והפקות סטודיו.');
+            setTextById('activityArea', data.activityArea || 'אזור פעילות: כל הארץ');
+            setTextById('whatsappButtonText', data.whatsappButtonText || 'שלח הודעת וואטסאפ');
+            setTextById('creditText', data.creditText || 'עיצוב ופיתוח: שניאור אייזנבך');
+
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            if (whatsappBtn) whatsappBtn.href = `https://wa.me/${data.whatsappNumber || '972548528425'}`;
+
+            renderCategories(normalizeCategories(data.categories));
             state.allPortfolio = normalizePortfolio(data.portfolio);
             state.activeFilter = 'all';
             document.querySelectorAll('.filter-btn').forEach(btn => {
