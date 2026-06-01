@@ -2,63 +2,187 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000f3287243bc13a2d4de0d6493%26fn%3Dadmin_improved.html%26cd%3Dattachment%26ts%3D494531%26p%3Dfs%26cid%3D1%26sig%3D9c5108895b549cdddbfbeafa75fa3b9880d1004fbe26780806f54258f77ee34d%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780312030834&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ניהול תוכן | Shneior Eisenbach</title>
-    
+    <title>ניהול תוכן | שניאור אייזנבך</title>
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap">
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --primary: #D4AF37;
             --primary-dark: #b8952e;
-            --bg-dark: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #e0e0e0;
-            --text-muted: #a0a0a0;
-            --input-bg: #2a2a2a;
-            --border: #333;
+            --success: #3fb950;
+            --danger: #ff5d5d;
+            --info: #58a6ff;
+            --warning: #f0b429;
+            --bg-dark: #0b0b0e;
+            --card-bg: #17171c;
+            --card-soft: #202027;
+            --text-main: #f0f0f0;
+            --text-muted: #a7a7ad;
+            --input-bg: #262631;
+            --border: #33333d;
+            --shadow: 0 16px 45px rgba(0,0,0,0.45);
         }
 
-        body { font-family: 'Google Sans', sans-serif; background: var(--bg-dark); color: var(--text-main); padding: 40px 20px; line-height: 1.6; margin: 0; direction: rtl; }
-        .container { max-width: 1000px; margin: 0 auto; display: none; /* מוסתר עד להתחברות */ }
-        h1 { color: var(--primary); text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; min-height: 100%; }
+        body {
+            font-family: 'Google Sans', Arial, sans-serif;
+            background:
+                radial-gradient(circle at top right, rgba(122,21,40,0.28), transparent 35%),
+                linear-gradient(180deg, #09090c 0%, var(--bg-dark) 100%);
+            color: var(--text-main);
+            direction: rtl;
+            line-height: 1.6;
+        }
 
-        /* כפתור שמירה עליון */
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 10px; z-index: 100; }
+        a { color: inherit; }
+        button, input, textarea, select { font-family: inherit; }
+        .container { max-width: 1180px; margin: 0 auto; padding: 28px 18px 60px; display: none; }
 
-        .section { background: var(--card-bg); padding: 30px; border-radius: 16px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
-        .section-header h2 { margin: 0; font-size: 1.5rem; color: var(--primary); }
+        #loginOverlay {
+            position: fixed; inset: 0; z-index: 3000;
+            background: var(--bg-dark);
+            display: flex; justify-content: center; align-items: center;
+            padding: 20px;
+        }
+        .login-card {
+            width: min(430px, 100%);
+            background: linear-gradient(180deg, #1d1d23, #131317);
+            padding: 38px;
+            border-radius: 24px;
+            border: 1px solid rgba(212,175,55,0.45);
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .login-card i { color: var(--primary); font-size: 3rem; margin-bottom: 16px; }
+        .login-card h2 { color: var(--primary); margin: 0 0 8px; }
+        .login-card p { color: var(--text-muted); margin: 0 0 20px; }
 
-        label { display: block; margin: 15px 0 8px; font-weight: 500; color: var(--text-muted); font-size: 0.9rem; }
-        input, textarea { width: 100%; padding: 12px 15px; background: var(--input-bg); border: 1px solid var(--border); color: white; border-radius: 8px; font-family: inherit; box-sizing: border-box; font-size: 1rem; }
-        input:focus, textarea:focus { outline: 1px solid var(--primary); border-color: var(--primary); }
-        
-        .btn { background: var(--primary); color: #000; padding: 12px 25px; font-size: 1rem; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px; }
-        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .btn-save-top { box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
-        .btn-logout { background: #ff4d4d; color: white; padding: 8px 16px; font-size: 0.9rem; }
-        .btn-logout:hover { background: #cc0000; color: white; }
+        .top-bar {
+            position: sticky; top: 10px; z-index: 200;
+            background: rgba(13,13,17,0.82);
+            border: 1px solid rgba(212,175,55,0.18);
+            backdrop-filter: blur(14px);
+            padding: 12px;
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        .top-actions, .top-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .top-status small { color: var(--text-muted); }
+        h1 { color: var(--primary); text-align: center; font-size: clamp(2rem, 4vw, 3rem); margin: 22px 0 8px; }
+        .lead { color: var(--text-muted); text-align: center; margin: 0 0 28px; }
 
-        /* עיצוב התחברות */
-        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 3000; }
-        .login-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 100%; max-width: 400px; }
-        .login-card i { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+        .tabs {
+            display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+            margin-bottom: 26px;
+        }
+        .tab-btn {
+            background: #15151b; color: var(--text-main); border: 1px solid var(--border);
+            padding: 11px 16px; border-radius: 999px; cursor: pointer; font-weight: 700;
+        }
+        .tab-btn.active { color: #000; background: var(--primary); border-color: var(--primary); }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
 
-        /* פריטי פורטפוליו */
-        .portfolio-item { border: 1px solid var(--border); padding: 12px 15px; margin: 10px 0; border-radius: 8px; background: #252525; }
-        .item-actions { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
-        .btn-move { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border); padding: 6px 12px; cursor: pointer; border-radius: 8px; font-size: 0.85rem; }
-        .btn-delete { background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 6px 12px; font-size: 0.85rem; border-radius: 8px; cursor: pointer; }
+        .section {
+            background: rgba(23,23,28,0.95);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: clamp(18px, 3vw, 30px);
+            margin-bottom: 22px;
+            box-shadow: var(--shadow);
+        }
+        .section-header {
+            display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+            border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 18px;
+        }
+        .section-header h2 { margin: 0; color: var(--primary); font-size: 1.45rem; display: flex; gap: 10px; align-items: center; }
+        .hint { color: var(--text-muted); font-size: 0.93rem; margin: 0; }
 
-        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 4000; }
-        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 5000; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+        .field { min-width: 0; }
+        label { display: block; margin: 14px 0 7px; color: var(--text-muted); font-size: 0.92rem; font-weight: 700; }
+        input, textarea, select {
+            width: 100%; border: 1px solid var(--border); background: var(--input-bg); color: #fff;
+            border-radius: 12px; padding: 12px 14px; font-size: 1rem; outline: none;
+        }
+        textarea { resize: vertical; min-height: 72px; }
+        input:focus, textarea:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(212,175,55,0.14); }
+        input[type="checkbox"] { width: auto; transform: scale(1.2); margin-left: 8px; }
+        input[type="file"] { padding: 10px; }
+
+        .btn {
+            border: 0; border-radius: 12px; padding: 11px 18px; cursor: pointer;
+            background: var(--primary); color: #050505; font-weight: 800;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            transition: transform .2s ease, filter .2s ease, opacity .2s ease;
+            text-decoration: none;
+        }
+        .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+        .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+        .btn-small { padding: 8px 11px; font-size: .9rem; border-radius: 10px; }
+        .btn-soft { background: var(--card-soft); color: var(--text-main); border: 1px solid var(--border); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-info { background: var(--info); color: #06111d; }
+        .btn-danger { background: rgba(255,93,93,0.14); color: var(--danger); border: 1px solid rgba(255,93,93,0.5); }
+        .btn-warning { background: var(--warning); color: #111; }
+
+        .service-item, .category-item, .portfolio-item {
+            background: #202027; border: 1px solid var(--border); border-radius: 18px;
+            padding: 16px; margin: 14px 0;
+        }
+        .item-top {
+            display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 10px;
+        }
+        .item-title { font-weight: 900; color: var(--primary); }
+        .item-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .portfolio-item.inactive { opacity: .62; }
+        .badge {
+            display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px;
+            border-radius: 999px; background: rgba(212,175,55,0.13); color: var(--primary);
+            font-size: .85rem; font-weight: 800;
+        }
+
+        .portfolio-tools {
+            display: grid; grid-template-columns: 1.4fr .8fr .8fr auto; gap: 12px; align-items: end;
+            margin-bottom: 18px;
+        }
+        .empty-state { text-align: center; color: var(--text-muted); padding: 35px 10px; border: 1px dashed var(--border); border-radius: 16px; }
+        .preview-row { display: grid; grid-template-columns: 130px 1fr; gap: 14px; align-items: center; margin-top: 12px; }
+        .thumb { width: 130px; aspect-ratio: 16/9; border-radius: 10px; background: #111 center/cover no-repeat; border: 1px solid var(--border); }
+        .counter { color: var(--text-muted); font-size: .95rem; }
+
+        #toast {
+            position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 4000;
+            background: #238636; color: white; padding: 13px 24px; border-radius: 999px;
+            display: none; box-shadow: var(--shadow); font-weight: 800;
+        }
+        #loader {
+            position: fixed; inset: 0; z-index: 5000; display: none; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.76); color: #fff; font-size: 1.3rem; font-weight: 800;
+        }
+
+        .mini-note { color: var(--text-muted); font-size: .88rem; margin-top: 8px; }
+        .danger-zone { border-color: rgba(255,93,93,0.35); }
+
+        @media (max-width: 900px) {
+            .grid-2, .grid-3, .grid-4, .portfolio-tools { grid-template-columns: 1fr; }
+            .top-bar { align-items: stretch; flex-direction: column; }
+            .top-actions, .top-status { justify-content: center; }
+            .preview-row { grid-template-columns: 1fr; }
+            .thumb { width: 100%; max-width: 280px; }
+        }
     </style>
 </head>
 <body>
@@ -66,308 +190,661 @@
 <div id="loginOverlay">
     <div class="login-card">
         <i class="fas fa-lock"></i>
-        <h2 style="color: var(--primary);">כניסת מנהל</h2>
-        <p style="color: var(--text-muted);">הזן פרטי התחברות כדי להמשיך</p>
-        <input type="email" id="emailInput" placeholder="אימייל..." style="text-align: center; margin-bottom: 15px;">
-        <input type="password" id="passInput" placeholder="סיסמה..." style="text-align: center; margin-bottom: 20px;">
-        <button class="btn" style="width: 100%; justify-content: center;" onclick="checkLogin()">כניסה למערכת</button>
-        <p id="loginError" style="color: #ff4d4d; margin-top: 15px; display: none; font-size: 0.9rem;"></p>
+        <h2>כניסת מנהל</h2>
+        <p>הזן פרטי התחברות כדי להמשיך</p>
+        <input type="email" id="emailInput" placeholder="אימייל" style="text-align:center;margin-bottom:12px;">
+        <input type="password" id="passInput" placeholder="סיסמה" style="text-align:center;margin-bottom:18px;">
+        <button class="btn" style="width:100%;" onclick="checkLogin()"><i class="fas fa-right-to-bracket"></i> כניסה למערכת</button>
+        <p id="loginError" style="color:var(--danger);margin-top:15px;display:none;font-size:.92rem;"></p>
     </div>
 </div>
 
-<div id="loader" class="loading-overlay">שומר נתונים...</div>
+<div id="loader"><i class="fas fa-circle-notch fa-spin"></i>&nbsp; שומר נתונים...</div>
 
 <div class="container" id="mainContainer">
     <div class="top-bar">
-        <button class="btn btn-logout" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i> התנתק
-        </button>
-        <button class="btn btn-save-top" onclick="saveAllContent()">
-            <i class="fas fa-save"></i> שמירה מהירה
-        </button>
+        <div class="top-status">
+            <span class="badge"><i class="fas fa-shield-halved"></i> מחובר למערכת</span>
+            <small id="lastSavedText">עדיין לא נשמר בסשן הזה</small>
+        </div>
+        <div class="top-actions">
+            <a class="btn btn-soft" href="../index.html" target="_blank" rel="noopener"><i class="fas fa-eye"></i> צפייה באתר</a>
+            <button class="btn btn-soft" onclick="loadExistingData(true)"><i class="fas fa-rotate"></i> רענון</button>
+            <button class="btn" onclick="saveAllContent()"><i class="fas fa-save"></i> שמירה מהירה</button>
+            <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> התנתק</button>
+        </div>
     </div>
 
-    <h1>🛠 מנהל תוכן מקצועי</h1>
+    <h1>מנהל תוכן מקצועי</h1>
+    <p class="lead">עריכת האתר המאוחד: מיתוג, מסך ראשי, שירותים, תיק עבודות, קטגוריות ויצירת קשר.</p>
 
-    <div class="section">
-        <div class="section-header">
-            <h2><i class="fas fa-id-card"></i> מיתוג ולוגו</h2>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div>
-                <label>טקסט לוגו (השם שלך)</label>
-                <input type="text" id="logoText" placeholder="לדוגמה: Shneior Eisenbach">
+    <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-tab="general"><i class="fas fa-pen-nib"></i> כללי</button>
+        <button class="tab-btn" data-tab="services"><i class="fas fa-layer-group"></i> שירותים</button>
+        <button class="tab-btn" data-tab="portfolio"><i class="fas fa-film"></i> תיק עבודות</button>
+        <button class="tab-btn" data-tab="backup"><i class="fas fa-database"></i> גיבוי</button>
+    </div>
+
+    <section class="tab-panel active" id="tab-general">
+        <div class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-id-card"></i> מיתוג ולוגו</h2>
+                <p class="hint">שדות אלו נשמרים תחת siteContent ומשמשים את האתר.</p>
             </div>
-            <div>
-                <label>החלפת לוגו (תמונה עד 400KB)</label>
-                <input type="file" id="logoFile" accept="image/*">
-            </div>
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="section-header">
-            <h2><i class="fas fa-home"></i> מסך ראשי (Hero)</h2>
-        </div>
-        <label>כותרת ראשית</label>
-        <input type="text" id="heroTitle" placeholder="הסאונד. הוויזואל. ההפקה.">
-        <label>תיאור תת-כותרת</label>
-        <textarea id="heroSubtitle" rows="2" placeholder="קלידן, מפיק מוזיקלי, עורך וידאו ואנימטור"></textarea>
-    </div>
-
-    <div class="section">
-        <div class="section-header">
-            <h2><i class="fas fa-film"></i> תיק עבודות</h2>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="btn" style="background: #4CAF50; color: white;" onclick="exportPortfolio()">
-                    <i class="fas fa-download"></i> גיבוי
-                </button>
-                <input type="file" id="importFile" style="display: none;" accept=".json" onchange="importPortfolio(event)">
-                <button class="btn" style="background: #2196F3; color: white;" onclick="document.getElementById('importFile').click()">
-                    <i class="fas fa-upload"></i> ייבוא
-                </button>
-                <button class="btn" onclick="addPortfolioItemTop()">
-                    <i class="fas fa-arrow-up"></i> הוסף להתחלה
-                </button>
+            <div class="grid-3">
+                <div class="field">
+                    <label>טקסט לוגו / שם באתר</label>
+                    <input type="text" id="logoText" placeholder="שניאור אייזנבך">
+                </div>
+                <div class="field">
+                    <label>לוגו חדש - עד 400KB</label>
+                    <input type="file" id="logoFile" accept="image/*">
+                    <div class="mini-note">אם לא תעלה קובץ חדש, הלוגו הקיים יישאר.</div>
+                </div>
+                <div class="field">
+                    <label>תיאור SEO קצר</label>
+                    <textarea id="seoDescription" rows="2" placeholder="תיאור שיוכל לשמש בהמשך למנועי חיפוש"></textarea>
+                </div>
             </div>
         </div>
-        <div id="portfolioContainer"></div>
-        <div style="text-align: center; margin-top: 20px;">
-             <button class="btn" onclick="addPortfolioItemBottom()">
-                <i class="fas fa-plus"></i> הוסף פרויקט חדש לסוף
-            </button>
-        </div>
-    </div>
 
-    <div style="text-align: center; margin-bottom: 50px;">
-        <button class="btn" onclick="saveAllContent()" style="padding: 15px 50px; font-size: 1.2rem;">
-            <i class="fas fa-save"></i> שמור את כל השינויים
-        </button>
+        <div class="section">
+            <div class="section-header"><h2><i class="fas fa-home"></i> מסך ראשי</h2></div>
+            <div class="grid-2">
+                <div class="field">
+                    <label>כותרת ראשית</label>
+                    <input type="text" id="heroTitle" placeholder="הסאונד. הוויזואל. התוצאה.">
+                </div>
+                <div class="field">
+                    <label>טקסט כפתור ראשי</label>
+                    <input type="text" id="heroButtonText" placeholder="להזמנת אירועים והפקות">
+                </div>
+            </div>
+            <label>תת כותרת</label>
+            <textarea id="heroSubtitle" rows="2" placeholder="קלידן, מפיק מוזיקלי, עריכות מקצועיות והנפשות מתקדמות"></textarea>
+            <div class="grid-2">
+                <div class="field">
+                    <label>טלפון להצגה בכפתור</label>
+                    <input type="text" id="heroButtonPhone" placeholder="054-8528425">
+                </div>
+                <div class="field">
+                    <label>מספר וואטסאפ בינלאומי</label>
+                    <input type="text" id="whatsappNumber" placeholder="972548528425">
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2><i class="fas fa-address-book"></i> יצירת קשר ופוטר</h2></div>
+            <div class="grid-2">
+                <div class="field">
+                    <label>כותרת יצירת קשר</label>
+                    <input type="text" id="contactTitle" placeholder="זמין לאירועי בוטיק, חתונות והפקות סטודיו.">
+                </div>
+                <div class="field">
+                    <label>אזור פעילות / טקסט נוסף</label>
+                    <input type="text" id="activityArea" placeholder="אזור פעילות: כל הארץ">
+                </div>
+                <div class="field">
+                    <label>טקסט כפתור וואטסאפ</label>
+                    <input type="text" id="whatsappButtonText" placeholder="שלח הודעת וואטסאפ">
+                </div>
+                <div class="field">
+                    <label>קרדיט תחתון</label>
+                    <input type="text" id="creditText" placeholder="עיצוב ופיתוח: שניאור אייזנבך">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tab-panel" id="tab-services">
+        <div class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-layer-group"></i> שירותים באתר</h2>
+                <button class="btn" onclick="addService()"><i class="fas fa-plus"></i> הוסף שירות</button>
+            </div>
+            <div class="grid-2">
+                <div class="field">
+                    <label>כותרת אזור השירותים</label>
+                    <input type="text" id="servicesTitle" placeholder="מעטפת של מדיה ומוזיקה">
+                </div>
+                <div class="field">
+                    <label>תיאור קצר לאזור השירותים</label>
+                    <input type="text" id="servicesSubtitle" placeholder="פתרון מלא לאירועים, הפקות, קליפים ועריכות">
+                </div>
+            </div>
+            <div id="servicesContainer"></div>
+        </div>
+    </section>
+
+    <section class="tab-panel" id="tab-portfolio">
+        <div class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-tags"></i> קטגוריות תיק עבודות</h2>
+                <button class="btn" onclick="addCategory()"><i class="fas fa-plus"></i> הוסף קטגוריה</button>
+            </div>
+            <p class="hint">הקטגוריות כאן מסתנכרנות עם בחירת הקטגוריה בכל פרויקט. ברירת המחדל: עריכות, הנפשות, מוזיקה.</p>
+            <div id="categoriesContainer"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-film"></i> פרויקטים</h2>
+                <div class="item-actions">
+                    <button class="btn" onclick="addPortfolioItemTop()"><i class="fas fa-arrow-up"></i> הוסף להתחלה</button>
+                    <button class="btn btn-soft" onclick="addPortfolioItemBottom()"><i class="fas fa-plus"></i> הוסף לסוף</button>
+                </div>
+            </div>
+
+            <div class="portfolio-tools">
+                <div class="field">
+                    <label>חיפוש פרויקט</label>
+                    <input type="search" id="portfolioSearch" placeholder="חפש לפי שם, תפקיד, קטגוריה או קישור" oninput="renderPortfolio()">
+                </div>
+                <div class="field">
+                    <label>סינון קטגוריה</label>
+                    <select id="portfolioCategoryFilter" onchange="renderPortfolio()"></select>
+                </div>
+                <div class="field">
+                    <label>מצב</label>
+                    <select id="portfolioStatusFilter" onchange="renderPortfolio()">
+                        <option value="all">הכול</option>
+                        <option value="active">פעילים בלבד</option>
+                        <option value="inactive">מוסתרים בלבד</option>
+                        <option value="featured">מומלצים בלבד</option>
+                    </select>
+                </div>
+                <div class="counter" id="portfolioCounter">0 פרויקטים</div>
+            </div>
+
+            <div id="portfolioContainer"></div>
+        </div>
+    </section>
+
+    <section class="tab-panel" id="tab-backup">
+        <div class="section">
+            <div class="section-header"><h2><i class="fas fa-database"></i> גיבוי וייבוא</h2></div>
+            <div class="grid-3">
+                <button class="btn btn-success" onclick="exportAllContent()"><i class="fas fa-download"></i> גיבוי כל האתר</button>
+                <button class="btn btn-info" onclick="exportPortfolio()"><i class="fas fa-file-export"></i> גיבוי פרויקטים בלבד</button>
+                <button class="btn btn-warning" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> ייבוא JSON</button>
+            </div>
+            <input type="file" id="importFile" style="display:none" accept=".json,application/json" onchange="importJson(event)">
+            <p class="mini-note">ייבוא JSON יכול להיות של כל האתר או של מערך פרויקטים בלבד. לאחר ייבוא צריך ללחוץ שמירה.</p>
+        </div>
+
+        <div class="section danger-zone">
+            <div class="section-header"><h2><i class="fas fa-triangle-exclamation"></i> פעולות זהירות</h2></div>
+            <button class="btn btn-danger" onclick="clearInactiveProjects()"><i class="fas fa-trash-can"></i> מחק את כל הפרויקטים המוסתרים מהרשימה</button>
+        </div>
+    </section>
+
+    <div style="text-align:center;margin-top:24px;">
+        <button class="btn" onclick="saveAllContent()" style="font-size:1.12rem;padding:15px 44px;"><i class="fas fa-save"></i> שמור את כל השינויים</button>
     </div>
 </div>
 
-<div id="toast">✅ השינויים נשמרו בהצלחה!</div>
+<div id="toast">✅ השינויים נשמרו בהצלחה</div>
 
 <script>
     const firebaseConfig = {
         apiKey: "AIzaSyA_AHhjzcAYeVoBNEwF5mlzsvUqbnw2maY",
         authDomain: "shnior-studio.firebaseapp.com",
         databaseURL: "https://shnior-studio-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "shnior-studio"
+        projectId: "shnior-studio",
+        storageBucket: "shnior-studio.firebasestorage.app",
+        messagingSenderId: "163064507259",
+        appId: "1:163064507259:web:3fb46c6795eba5b84f6bde"
     };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    const auth = firebase.auth(); // אתחול מערכת האימות
-    let portfolioItems = [];
 
-    // מאזין למצב התחברות - מפעיל או מסתיר את המערכת אוטומטית
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+
+    const defaultCategories = [
+        { id: 'עריכה', label: 'עריכות' },
+        { id: 'הנפשה', label: 'הנפשות' },
+        { id: 'מוזיקה', label: 'מוזיקה' }
+    ];
+
+    const defaultServices = [
+        { icon: 'fas fa-music', title: 'לייב על הבמה', description: 'נגינה חיה אנרגטית ומדויקת על מערכות הקלידים המובילות בעולם.' },
+        { icon: 'fas fa-video', title: 'עריכה והפקות', description: 'פוסט-פרודקשן מוקפד, קליפים, פרומואים וסרטונים ברמה גבוהה.' },
+        { icon: 'fas fa-wand-magic-sparkles', title: 'הנפשה ו-AI', description: 'קליפי מילים, גרפיקה והנפשות מתקדמות בשילוב כלים חדשניים.' }
+    ];
+
+    let portfolioItems = [];
+    let categories = [...defaultCategories];
+    let services = [...defaultServices];
+    let lastData = {};
+
+    const $ = (id) => document.getElementById(id);
+
     auth.onAuthStateChanged((user) => {
-        const loginOverlay = document.getElementById('loginOverlay');
-        const mainContainer = document.getElementById('mainContainer');
-        
-        if (user) {
-            // המשתמש מחובר!
-            loginOverlay.style.display = 'none';
-            mainContainer.style.display = 'block';
-            loadExistingData(); // נטען נתונים רק עכשיו
-        } else {
-            // המשתמש מנותק
-            loginOverlay.style.display = 'flex';
-            mainContainer.style.display = 'none';
-        }
+        $('loginOverlay').style.display = user ? 'none' : 'flex';
+        $('mainContainer').style.display = user ? 'block' : 'none';
+        if (user) loadExistingData();
     });
 
     function checkLogin() {
-        const email = document.getElementById('emailInput').value;
-        const password = document.getElementById('passInput').value;
-        const error = document.getElementById('loginError');
-        
-        error.style.display = 'none'; // איפוס שגיאה
+        const email = $('emailInput').value.trim();
+        const password = $('passInput').value;
+        const error = $('loginError');
+        error.style.display = 'none';
 
-        if(!email || !password) {
-            error.textContent = "נא להזין אימייל וסיסמה.";
+        if (!email || !password) {
+            error.textContent = 'נא להזין אימייל וסיסמה.';
             error.style.display = 'block';
             return;
         }
 
-        // בקשת התחברות לפיירבייס
         auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
-                // הצלחה! אין צורך לעשות כאן כלום, ה-onAuthStateChanged יטפל בשאר
-                document.getElementById('emailInput').value = '';
-                document.getElementById('passInput').value = '';
-            })
+            .then(() => { $('emailInput').value = ''; $('passInput').value = ''; })
             .catch((err) => {
-                // במקרה של שגיאה (סיסמה שגויה, משתמש לא קיים וכו')
-                if(err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
-                    error.textContent = "פרטי התחברות שגויים, נסה שוב.";
-                } else {
-                    error.textContent = "שגיאה: " + err.message;
-                }
+                error.textContent = (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password')
+                    ? 'פרטי התחברות שגויים, נסה שוב.'
+                    : 'שגיאה: ' + err.message;
                 error.style.display = 'block';
             });
     }
 
     function logout() {
-        auth.signOut().catch((err) => {
-            alert("שגיאה בהתנתקות: " + err.message);
-        });
+        auth.signOut().catch((err) => alert('שגיאה בהתנתקות: ' + err.message));
     }
 
-    // מאפשר לחיצה על Enter לכניסה גם משדה האימייל וגם משדה הסיסמה
-    document.getElementById('passInput').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') checkLogin();
-    });
-    document.getElementById('emailInput').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') checkLogin();
+    $('passInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkLogin(); });
+    $('emailInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkLogin(); });
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            $('tab-' + btn.dataset.tab).classList.add('active');
+        });
     });
 
-    function loadExistingData() {
+    function escapeHTML(value = '') {
+        return String(value).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[c]));
+    }
+
+    function escapeAttr(value = '') { return escapeHTML(value); }
+
+    function getYouTubeId(source = '') {
+        const value = String(source).trim();
+        const patterns = [
+            /youtube\.com\/watch\?v=([^&]+)/,
+            /youtu\.be\/([^?&/]+)/,
+            /youtube\.com\/embed\/([^?&/]+)/,
+            /youtube\.com\/shorts\/([^?&/]+)/
+        ];
+        for (const pattern of patterns) {
+            const match = value.match(pattern);
+            if (match && match[1]) return match[1];
+        }
+        return /^[a-zA-Z0-9_-]{8,20}$/.test(value) ? value : '';
+    }
+
+    function normalizePortfolio(portfolio) {
+        const list = Array.isArray(portfolio) ? portfolio : Object.values(portfolio || {});
+        return list.filter(Boolean).map((item, index) => ({
+            title: item.title || '',
+            role: item.role || '',
+            category: item.category || guessCategory(item.role || item.title || ''),
+            youtubeEmbed: item.youtubeEmbed || item.videoUrl || item.youtube || '',
+            description: item.description || '',
+            date: item.date || '',
+            featured: Boolean(item.featured),
+            isActive: item.isActive !== false,
+            order: Number.isFinite(Number(item.order)) ? Number(item.order) : index
+        })).sort((a, b) => a.order - b.order);
+    }
+
+    function guessCategory(text) {
+        const value = String(text).toLowerCase();
+        if (value.includes('הנפש') || value.includes('ai') || value.includes('אנימ')) return 'הנפשה';
+        if (value.includes('מוז') || value.includes('קליד') || value.includes('לייב')) return 'מוזיקה';
+        return 'עריכה';
+    }
+
+    function normalizeCategories(dataCategories) {
+        const list = Array.isArray(dataCategories) ? dataCategories : Object.values(dataCategories || {});
+        const normalized = list.filter(Boolean).map(cat => ({
+            id: String(cat.id || cat.label || '').trim(),
+            label: String(cat.label || cat.id || '').trim()
+        })).filter(cat => cat.id && cat.label);
+        return normalized.length ? normalized : [...defaultCategories];
+    }
+
+    function normalizeServices(dataServices) {
+        const list = Array.isArray(dataServices) ? dataServices : Object.values(dataServices || {});
+        const normalized = list.filter(Boolean).map(service => ({
+            icon: service.icon || 'fas fa-star',
+            title: service.title || '',
+            description: service.description || ''
+        })).filter(service => service.title || service.description);
+        return normalized.length ? normalized : [...defaultServices];
+    }
+
+    function setValue(id, value = '') { if ($(id)) $(id).value = value || ''; }
+
+    function loadExistingData(showNotice = false) {
         db.ref('siteContent').once('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                document.getElementById("logoText").value = data.logoText || "";
-                document.getElementById("heroTitle").value = data.heroTitle || "";
-                document.getElementById("heroSubtitle").value = data.heroSubtitle || "";
-                
-                if (data.portfolio) {
-                    portfolioItems = Object.values(data.portfolio).filter(item => item !== null);
-                } else {
-                    portfolioItems = [];
-                }
-                renderPortfolio();
-            }
+            const data = snapshot.val() || {};
+            lastData = data;
+            setValue('logoText', data.logoText || '');
+            setValue('seoDescription', data.seoDescription || '');
+            setValue('heroTitle', data.heroTitle || '');
+            setValue('heroSubtitle', data.heroSubtitle || '');
+            setValue('heroButtonText', data.heroButtonText || 'להזמנת אירועים והפקות');
+            setValue('heroButtonPhone', data.heroButtonPhone || '054-8528425');
+            setValue('whatsappNumber', data.whatsappNumber || '972548528425');
+            setValue('contactTitle', data.contactTitle || 'זמין לאירועי בוטיק, חתונות והפקות סטודיו.');
+            setValue('activityArea', data.activityArea || 'אזור פעילות: כל הארץ');
+            setValue('whatsappButtonText', data.whatsappButtonText || 'שלח הודעת וואטסאפ');
+            setValue('creditText', data.creditText || 'עיצוב ופיתוח: שניאור אייזנבך');
+            setValue('servicesTitle', data.servicesTitle || 'מעטפת של מדיה ומוזיקה');
+            setValue('servicesSubtitle', data.servicesSubtitle || 'פתרון מלא לאירועים, הפקות, קליפים ועריכות — מהרעיון ועד התוצאה הסופית.');
+
+            categories = normalizeCategories(data.categories);
+            services = normalizeServices(data.services);
+            portfolioItems = normalizePortfolio(data.portfolio);
+
+            renderCategories();
+            renderServices();
+            refreshCategorySelects();
+            renderPortfolio();
+            if (showNotice) showToast('הנתונים נטענו מחדש');
+        }, err => alert('שגיאה בטעינת נתונים: ' + err.message));
+    }
+
+    function renderCategories() {
+        const container = $('categoriesContainer');
+        container.innerHTML = '';
+        categories.forEach((cat, i) => {
+            const div = document.createElement('div');
+            div.className = 'category-item';
+            div.innerHTML = `
+                <div class="item-top">
+                    <span class="item-title">קטגוריה ${i + 1}</span>
+                    <div class="item-actions">
+                        <button class="btn btn-small btn-soft" onclick="moveCategory(${i}, -1)" ${i === 0 ? 'disabled' : ''}><i class="fas fa-arrow-up"></i></button>
+                        <button class="btn btn-small btn-soft" onclick="moveCategory(${i}, 1)" ${i === categories.length - 1 ? 'disabled' : ''}><i class="fas fa-arrow-down"></i></button>
+                        <button class="btn btn-small btn-danger" onclick="deleteCategory(${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div><label>מילת סינון / מזהה</label><input value="${escapeAttr(cat.id)}" oninput="updateCategory(${i}, 'id', this.value)"></div>
+                    <div><label>שם להצגה באתר</label><input value="${escapeAttr(cat.label)}" oninput="updateCategory(${i}, 'label', this.value)"></div>
+                </div>`;
+            container.appendChild(div);
+        });
+        refreshCategorySelects();
+    }
+
+    function updateCategory(i, field, value) { categories[i][field] = value; refreshCategorySelects(); }
+    function addCategory() { categories.push({ id: 'קטגוריה חדשה', label: 'קטגוריה חדשה' }); renderCategories(); }
+    function deleteCategory(i) {
+        if (!confirm('למחוק קטגוריה זו? הפרויקטים לא יימחקו, רק הקטגוריה מהרשימה.')) return;
+        categories.splice(i, 1); renderCategories(); renderPortfolio();
+    }
+    function moveCategory(i, dir) {
+        const target = i + dir; if (target < 0 || target >= categories.length) return;
+        [categories[i], categories[target]] = [categories[target], categories[i]]; renderCategories();
+    }
+
+    function renderServices() {
+        const container = $('servicesContainer');
+        container.innerHTML = '';
+        services.forEach((service, i) => {
+            const div = document.createElement('div');
+            div.className = 'service-item';
+            div.innerHTML = `
+                <div class="item-top">
+                    <span class="item-title"><i class="${escapeAttr(service.icon)}"></i> שירות ${i + 1}</span>
+                    <div class="item-actions">
+                        <button class="btn btn-small btn-soft" onclick="moveService(${i}, -1)" ${i === 0 ? 'disabled' : ''}><i class="fas fa-arrow-up"></i></button>
+                        <button class="btn btn-small btn-soft" onclick="moveService(${i}, 1)" ${i === services.length - 1 ? 'disabled' : ''}><i class="fas fa-arrow-down"></i></button>
+                        <button class="btn btn-small btn-danger" onclick="deleteService(${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="grid-3">
+                    <div><label>אייקון Font Awesome</label><input value="${escapeAttr(service.icon)}" oninput="updateService(${i}, 'icon', this.value)" placeholder="fas fa-music"></div>
+                    <div><label>כותרת</label><input value="${escapeAttr(service.title)}" oninput="updateService(${i}, 'title', this.value)"></div>
+                    <div><label>תיאור</label><input value="${escapeAttr(service.description)}" oninput="updateService(${i}, 'description', this.value)"></div>
+                </div>`;
+            container.appendChild(div);
+        });
+    }
+    function updateService(i, field, value) { services[i][field] = value; }
+    function addService() { services.push({ icon: 'fas fa-star', title: '', description: '' }); renderServices(); }
+    function deleteService(i) { if (confirm('למחוק שירות זה?')) { services.splice(i, 1); renderServices(); } }
+    function moveService(i, dir) {
+        const target = i + dir; if (target < 0 || target >= services.length) return;
+        [services[i], services[target]] = [services[target], services[i]]; renderServices();
+    }
+
+    function refreshCategorySelects() {
+        const filter = $('portfolioCategoryFilter');
+        const current = filter.value;
+        filter.innerHTML = '<option value="all">כל הקטגוריות</option>' + categories.map(cat => `<option value="${escapeAttr(cat.id)}">${escapeHTML(cat.label)}</option>`).join('');
+        filter.value = current || 'all';
+    }
+
+    function getVisiblePortfolioIndexes() {
+        const search = ($('portfolioSearch').value || '').toLowerCase().trim();
+        const cat = $('portfolioCategoryFilter').value || 'all';
+        const status = $('portfolioStatusFilter').value || 'all';
+        return portfolioItems.map((item, index) => ({ item, index })).filter(({ item }) => {
+            const haystack = `${item.title} ${item.role} ${item.category} ${item.youtubeEmbed} ${item.description}`.toLowerCase();
+            if (search && !haystack.includes(search)) return false;
+            if (cat !== 'all' && item.category !== cat) return false;
+            if (status === 'active' && item.isActive === false) return false;
+            if (status === 'inactive' && item.isActive !== false) return false;
+            if (status === 'featured' && !item.featured) return false;
+            return true;
         });
     }
 
     function renderPortfolio() {
-        const container = document.getElementById("portfolioContainer");
-        container.innerHTML = "";
-        
-        portfolioItems.forEach((item, i) => {
-            const div = document.createElement("div");
-            div.className = "portfolio-item";
-            
-            const disableUp = i === 0 ? "disabled" : "";
-            const disableDown = i === portfolioItems.length - 1 ? "disabled" : "";
-
-            const safeTitle = (item.title || '').replace(/"/g, '&quot;');
-            const safeRole = (item.role || '').replace(/"/g, '&quot;');
-            const safeEmbed = (item.youtubeEmbed || '').replace(/"/g, '&quot;');
-
+        const container = $('portfolioContainer');
+        const rows = getVisiblePortfolioIndexes();
+        $('portfolioCounter').textContent = `${rows.length} מתוך ${portfolioItems.length} פרויקטים`;
+        if (!rows.length) {
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open"></i><br>אין פרויקטים שמתאימים לסינון.</div>';
+            return;
+        }
+        container.innerHTML = '';
+        rows.forEach(({ item, index }) => {
+            const videoId = getYouTubeId(item.youtubeEmbed);
+            const thumb = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
+            const categoryOptions = categories.map(cat => `<option value="${escapeAttr(cat.id)}" ${item.category === cat.id ? 'selected' : ''}>${escapeHTML(cat.label)}</option>`).join('');
+            const div = document.createElement('div');
+            div.className = 'portfolio-item' + (item.isActive === false ? ' inactive' : '');
             div.innerHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; align-items: end;">
-                    <div>
-                        <label>שם הפרויקט</label>
-                        <input type="text" value="${safeTitle}" oninput="updateItem(${i}, 'title', this.value)">
-                    </div>
-                    <div>
-                        <label>תפקיד</label>
-                        <input type="text" value="${safeRole}" oninput="updateItem(${i}, 'role', this.value)">
-                    </div>
-                    <div>
-                        <label>קוד יוטיוב</label>
-                        <input type="text" value="${safeEmbed}" oninput="updateItem(${i}, 'youtubeEmbed', this.value)">
+                <div class="item-top">
+                    <span class="item-title">#${index + 1} ${escapeHTML(item.title || 'פרויקט חדש')}</span>
+                    <div class="item-actions">
+                        <button class="btn btn-small btn-soft" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled' : ''}><i class="fas fa-arrow-up"></i></button>
+                        <button class="btn btn-small btn-soft" onclick="moveItem(${index}, 1)" ${index === portfolioItems.length - 1 ? 'disabled' : ''}><i class="fas fa-arrow-down"></i></button>
+                        <button class="btn btn-small btn-info" onclick="duplicateItem(${index})"><i class="fas fa-copy"></i> שכפל</button>
+                        <button class="btn btn-small btn-danger" onclick="deletePortfolioItem(${index})"><i class="fas fa-trash"></i> מחק</button>
                     </div>
                 </div>
-                <div class="item-actions">
-                    <button class="btn-delete" onclick="deletePortfolioItem(${i})"><i class="fas fa-trash"></i> מחק</button>
-                    <button class="btn-move" onclick="moveItemUp(${i})" ${disableUp}><i class="fas fa-arrow-up"></i></button>
-                    <button class="btn-move" onclick="moveItemDown(${i})" ${disableDown}><i class="fas fa-arrow-down"></i></button>
+                <div class="grid-3">
+                    <div><label>שם הפרויקט</label><input value="${escapeAttr(item.title)}" oninput="updateItem(${index}, 'title', this.value)"></div>
+                    <div><label>תפקיד / סוג עבודה</label><input value="${escapeAttr(item.role)}" oninput="updateItem(${index}, 'role', this.value)"></div>
+                    <div><label>קטגוריה</label><select onchange="updateItem(${index}, 'category', this.value)">${categoryOptions}</select></div>
+                </div>
+                <div class="grid-2">
+                    <div><label>קישור יוטיוב / Embed / ID</label><input value="${escapeAttr(item.youtubeEmbed)}" oninput="updateItem(${index}, 'youtubeEmbed', this.value); renderPortfolio();" placeholder="https://youtu.be/... או ID"></div>
+                    <div><label>תאריך / שנה אופציונלי</label><input value="${escapeAttr(item.date)}" oninput="updateItem(${index}, 'date', this.value)" placeholder="2026"></div>
+                </div>
+                <label>תיאור פנימי / תיאור להצגה בהמשך</label>
+                <textarea rows="2" oninput="updateItem(${index}, 'description', this.value)">${escapeHTML(item.description)}</textarea>
+                <div class="item-actions" style="margin-top:14px;">
+                    <label style="display:inline-flex;align-items:center;margin:0;color:var(--text-main);"><input type="checkbox" ${item.isActive !== false ? 'checked' : ''} onchange="updateItem(${index}, 'isActive', this.checked); renderPortfolio();"> פעיל באתר</label>
+                    <label style="display:inline-flex;align-items:center;margin:0;color:var(--text-main);"><input type="checkbox" ${item.featured ? 'checked' : ''} onchange="updateItem(${index}, 'featured', this.checked)"> מומלץ</label>
+                </div>
+                <div class="preview-row">
+                    <div class="thumb" style="background-image:url('${thumb || ''}')"></div>
+                    <div class="mini-note">${videoId ? 'זוהה סרטון יוטיוב: ' + escapeHTML(videoId) : 'לא זוהה קישור יוטיוב תקין עדיין.'}</div>
                 </div>`;
             container.appendChild(div);
         });
     }
 
-    function moveItemUp(index) {
-        if (index > 0) {
-            [portfolioItems[index], portfolioItems[index - 1]] = [portfolioItems[index - 1], portfolioItems[index]];
-            renderPortfolio();
-        }
-    }
-
-    function moveItemDown(index) {
-        if (index < portfolioItems.length - 1) {
-            [portfolioItems[index], portfolioItems[index + 1]] = [portfolioItems[index + 1], portfolioItems[index]];
-            renderPortfolio();
-        }
-    }
-
     function updateItem(index, field, value) {
         portfolioItems[index][field] = value;
+        if (field === 'category') renderPortfolio();
     }
 
     function addPortfolioItemTop() {
-        portfolioItems.unshift({title: "", role: "", youtubeEmbed: ""});
+        portfolioItems.unshift({ title: '', role: '', category: categories[0]?.id || 'עריכה', youtubeEmbed: '', description: '', date: '', featured: false, isActive: true });
         renderPortfolio();
     }
 
     function addPortfolioItemBottom() {
-        portfolioItems.push({title: "", role: "", youtubeEmbed: ""});
+        portfolioItems.push({ title: '', role: '', category: categories[0]?.id || 'עריכה', youtubeEmbed: '', description: '', date: '', featured: false, isActive: true });
         renderPortfolio();
     }
 
-    function deletePortfolioItem(i) {
-        if(confirm("למחוק פרויקט זה?")) {
-            portfolioItems.splice(i, 1);
+    function duplicateItem(index) {
+        const copy = JSON.parse(JSON.stringify(portfolioItems[index]));
+        copy.title = (copy.title || 'פרויקט') + ' - עותק';
+        portfolioItems.splice(index + 1, 0, copy);
+        renderPortfolio();
+    }
+
+    function deletePortfolioItem(index) {
+        if (confirm('למחוק פרויקט זה?')) {
+            portfolioItems.splice(index, 1);
             renderPortfolio();
         }
+    }
+
+    function moveItem(index, dir) {
+        const target = index + dir;
+        if (target < 0 || target >= portfolioItems.length) return;
+        [portfolioItems[index], portfolioItems[target]] = [portfolioItems[target], portfolioItems[index]];
+        renderPortfolio();
+    }
+
+    function collectContent() {
+        const cleanPortfolio = portfolioItems.map((item, index) => ({ ...item, order: index }));
+        return {
+            logoText: $('logoText').value.trim(),
+            seoDescription: $('seoDescription').value.trim(),
+            heroTitle: $('heroTitle').value.trim(),
+            heroSubtitle: $('heroSubtitle').value.trim(),
+            heroButtonText: $('heroButtonText').value.trim(),
+            heroButtonPhone: $('heroButtonPhone').value.trim(),
+            whatsappNumber: $('whatsappNumber').value.trim(),
+            contactTitle: $('contactTitle').value.trim(),
+            activityArea: $('activityArea').value.trim(),
+            whatsappButtonText: $('whatsappButtonText').value.trim(),
+            creditText: $('creditText').value.trim(),
+            servicesTitle: $('servicesTitle').value.trim(),
+            servicesSubtitle: $('servicesSubtitle').value.trim(),
+            categories: categories.filter(cat => cat.id && cat.label),
+            services: services.filter(service => service.title || service.description),
+            portfolio: cleanPortfolio
+        };
     }
 
     async function saveAllContent() {
-        const loader = document.getElementById('loader');
-        const fileInput = document.getElementById('logoFile');
-        const file = fileInput.files[0];
-        loader.style.display = "flex";
-
+        const loader = $('loader');
+        const file = $('logoFile').files[0];
+        loader.style.display = 'flex';
         try {
-            const dataToUpdate = {
-                logoText: document.getElementById("logoText").value,
-                heroTitle: document.getElementById("heroTitle").value,
-                heroSubtitle: document.getElementById("heroSubtitle").value,
-                portfolio: portfolioItems
-            };
-
+            const dataToUpdate = collectContent();
             if (file) {
-                if (file.size > 400000) throw new Error("קובץ גדול מדי (עד 400KB)");
-                dataToUpdate.logoBase64 = await new Promise((res, rej) => {
-                    const r = new FileReader();
-                    r.onload = () => res(r.result);
-                    r.readAsDataURL(file);
+                if (file.size > 400000) throw new Error('קובץ הלוגו גדול מדי. עד 400KB.');
+                dataToUpdate.logoBase64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
                 });
+            } else if (lastData.logoBase64) {
+                dataToUpdate.logoBase64 = lastData.logoBase64;
             }
-
             await db.ref('siteContent').update(dataToUpdate);
-            showToast();
+            lastData = { ...lastData, ...dataToUpdate };
+            $('logoFile').value = '';
+            $('lastSavedText').textContent = 'נשמר עכשיו: ' + new Date().toLocaleTimeString('he-IL');
+            showToast('השינויים נשמרו בהצלחה');
         } catch (err) {
-            alert("שגיאה: " + err.message);
+            alert('שגיאה: ' + err.message);
         } finally {
-            loader.style.display = "none";
+            loader.style.display = 'none';
         }
     }
 
-    function showToast() {
-        const toast = document.getElementById("toast");
-        toast.style.display = "block";
-        setTimeout(() => toast.style.display = "none", 3000);
+    function showToast(message = 'בוצע בהצלחה') {
+        const toast = $('toast');
+        toast.textContent = '✅ ' + message;
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 3000);
     }
 
-    function exportPortfolio() {
-        const dataStr = JSON.stringify(portfolioItems, null, 2);
-        const blob = new Blob([dataStr], { type: "application/json" });
+    function downloadJson(data, filename) {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url; a.download = "backup.json"; a.click();
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
     }
 
-    function importPortfolio(event) {
+    function exportAllContent() { downloadJson(collectContent(), 'siteContent-backup.json'); }
+    function exportPortfolio() { downloadJson(portfolioItems, 'portfolio-backup.json'); }
+
+    function importJson(event) {
+        const file = event.target.files[0];
+        if (!file) return;
         const reader = new FileReader();
         reader.onload = (e) => {
-            portfolioItems = JSON.parse(e.target.result);
-            renderPortfolio();
+            try {
+                const imported = JSON.parse(e.target.result);
+                if (Array.isArray(imported)) {
+                    portfolioItems = normalizePortfolio(imported);
+                } else {
+                    const data = imported || {};
+                    categories = normalizeCategories(data.categories);
+                    services = normalizeServices(data.services);
+                    portfolioItems = normalizePortfolio(data.portfolio || []);
+                    setValue('logoText', data.logoText || $('logoText').value);
+                    setValue('heroTitle', data.heroTitle || $('heroTitle').value);
+                    setValue('heroSubtitle', data.heroSubtitle || $('heroSubtitle').value);
+                    setValue('heroButtonText', data.heroButtonText || $('heroButtonText').value);
+                    setValue('heroButtonPhone', data.heroButtonPhone || $('heroButtonPhone').value);
+                    setValue('whatsappNumber', data.whatsappNumber || $('whatsappNumber').value);
+                    setValue('contactTitle', data.contactTitle || $('contactTitle').value);
+                    setValue('activityArea', data.activityArea || $('activityArea').value);
+                    setValue('whatsappButtonText', data.whatsappButtonText || $('whatsappButtonText').value);
+                    setValue('creditText', data.creditText || $('creditText').value);
+                    setValue('servicesTitle', data.servicesTitle || $('servicesTitle').value);
+                    setValue('servicesSubtitle', data.servicesSubtitle || $('servicesSubtitle').value);
+                }
+                renderCategories(); renderServices(); renderPortfolio();
+                showToast('הייבוא נטען. לחץ שמירה כדי להעלות ל־Firebase');
+            } catch (err) {
+                alert('קובץ JSON לא תקין: ' + err.message);
+            } finally {
+                event.target.value = '';
+            }
         };
-        reader.readAsText(event.target.files[0]);
+        reader.readAsText(file);
+    }
+
+    function clearInactiveProjects() {
+        const count = portfolioItems.filter(item => item.isActive === false).length;
+        if (!count) return alert('אין פרויקטים מוסתרים למחיקה.');
+        if (!confirm(`למחוק ${count} פרויקטים מוסתרים מהרשימה?`)) return;
+        portfolioItems = portfolioItems.filter(item => item.isActive !== false);
+        renderPortfolio();
     }
 </script>
 </body>
