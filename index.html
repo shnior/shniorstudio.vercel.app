@@ -898,6 +898,42 @@
             background: #050505;
         }
 
+        .status-center-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 74px;
+            height: 74px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.88);
+            background: rgba(0, 0, 0, 0.46);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 4;
+            backdrop-filter: blur(7px);
+            transition: opacity .2s ease, transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+        }
+
+        .status-center-play i {
+            margin-right: -4px;
+        }
+
+        .status-card.is-playing .status-center-play {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(.9);
+        }
+
+        .status-center-play:hover {
+            border-color: var(--gold-solid);
+            box-shadow: 0 0 22px rgba(212,175,55,.32);
+        }
+
         .status-player-controls {
             position: absolute;
             right: 10px;
@@ -908,10 +944,10 @@
             justify-content: space-between;
             gap: 10px;
             z-index: 3;
-            background: rgba(0, 0, 0, 0.55);
-            border: 1px solid rgba(212, 175, 55, 0.25);
+            background: rgba(0, 0, 0, 0.50);
+            border: 1px solid rgba(212, 175, 55, 0.22);
             border-radius: 999px;
-            padding: 8px 10px;
+            padding: 8px 12px;
             backdrop-filter: blur(8px);
         }
 
@@ -920,7 +956,7 @@
             background: transparent;
             color: var(--gold-solid);
             font-family: 'Tel Aviv', Arial, sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -934,7 +970,7 @@
             font-size: 0.9rem;
             white-space: nowrap;
             min-width: 66px;
-            text-align: center;
+            text-align: right;
         }
 
         .status-content {
@@ -1685,25 +1721,48 @@
             }
         }
 
+        function getGoogleDriveFileId(url = '') {
+            const value = String(url || '').trim();
+            if (!value) return '';
+
+            const patterns = [
+                /drive\.google\.com\/file\/d\/([^/]+)/,
+                /drive\.google\.com\/open\?id=([^&]+)/,
+                /drive\.google\.com\/uc\?id=([^&]+)/,
+                /drive\.google\.com\/thumbnail\?id=([^&]+)/,
+                /[?&]id=([^&]+)/
+            ];
+
+            for (const pattern of patterns) {
+                const match = value.match(pattern);
+                if (match && match[1]) return decodeURIComponent(match[1]);
+            }
+
+            return '';
+        }
+
         function normalizeStatusVideoUrl(url = '') {
             const value = String(url || '').trim();
             if (!value) return '';
 
-            const drivePatterns = [
-                /drive\.google\.com\/file\/d\/([^/]+)/,
-                /drive\.google\.com\/open\?id=([^&]+)/,
-                /drive\.google\.com\/uc\?id=([^&]+)/,
-                /[?&]id=([^&]+)/
-            ];
-
-            for (const pattern of drivePatterns) {
-                const match = value.match(pattern);
-                if (match && match[1]) {
-                    return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(match[1])}`;
-                }
+            const fileId = getGoogleDriveFileId(value);
+            if (fileId) {
+                return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(fileId)}`;
             }
 
             return value;
+        }
+
+        function normalizeStatusPosterUrl(item = {}) {
+            const possiblePoster = item.thumbnailUrl || item.thumbUrl || item.posterUrl || item.imageUrl || '';
+            if (possiblePoster) return String(possiblePoster).trim();
+
+            const fileId = getGoogleDriveFileId(item.videoUrl || item.fileUrl || item.previewUrl || '');
+            if (fileId) {
+                return `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w900`;
+            }
+
+            return '';
         }
 
         function formatStatusSeconds(seconds) {
@@ -1713,22 +1772,23 @@
         function setupCustomStatusPlayers() {
             document.querySelectorAll('.status-card').forEach(card => {
                 const video = card.querySelector('.status-video-el');
-                const playBtn = card.querySelector('.status-play-btn');
+                const playOverlay = card.querySelector('.status-center-play');
                 const muteBtn = card.querySelector('.status-mute-btn');
                 const timeEl = card.querySelector('.status-current-time');
 
-                if (!video || !playBtn || !muteBtn || !timeEl) return;
+                if (!video || !playOverlay || !muteBtn || !timeEl) return;
 
                 let lastAllowedTime = 0;
                 let internalSeek = false;
 
                 video.controls = false;
                 video.muted = false;
+                video.volume = 1;
                 video.disablePictureInPicture = true;
                 video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
                 video.addEventListener('contextmenu', event => event.preventDefault());
 
-                playBtn.addEventListener('click', async () => {
+                const togglePlay = async () => {
                     document.querySelectorAll('.status-video-el').forEach(otherVideo => {
                         if (otherVideo !== video) otherVideo.pause();
                     });
@@ -1737,14 +1797,19 @@
                         try {
                             await video.play();
                         } catch (error) {
-                            console.warn('Video play blocked:', error);
+                            console.warn('Video play blocked or unavailable:', error);
+                            card.classList.remove('is-playing');
                         }
                     } else {
                         video.pause();
                     }
-                });
+                };
 
-                muteBtn.addEventListener('click', () => {
+                playOverlay.addEventListener('click', togglePlay);
+                video.addEventListener('click', togglePlay);
+
+                muteBtn.addEventListener('click', event => {
+                    event.stopPropagation();
                     video.muted = !video.muted;
                     muteBtn.innerHTML = video.muted
                         ? '<i class="fas fa-volume-xmark"></i> שמע כבוי'
@@ -1752,11 +1817,18 @@
                 });
 
                 video.addEventListener('play', () => {
-                    playBtn.innerHTML = '<i class="fas fa-pause"></i> עצור';
+                    card.classList.add('is-playing');
                 });
 
                 video.addEventListener('pause', () => {
-                    playBtn.innerHTML = '<i class="fas fa-play"></i> נגן';
+                    card.classList.remove('is-playing');
+                });
+
+                video.addEventListener('ended', () => {
+                    card.classList.remove('is-playing');
+                    lastAllowedTime = 0;
+                    timeEl.textContent = '0 שניות';
+                    try { video.currentTime = 0; } catch (error) {}
                 });
 
                 video.addEventListener('timeupdate', () => {
@@ -1791,6 +1863,7 @@
 
             statusGrid.innerHTML = items.map(item => {
                 const videoUrl = normalizeStatusVideoUrl(item.videoUrl || item.fileUrl || item.previewUrl || '');
+                const posterUrl = normalizeStatusPosterUrl(item);
 
                 return `
                     <article class="status-card">
@@ -1798,17 +1871,18 @@
                             <video
                                 class="status-video-el"
                                 src="${escapeHTML(videoUrl)}"
+                                poster="${escapeHTML(posterUrl)}"
                                 playsinline
                                 preload="metadata"
                                 controlsList="nodownload noplaybackrate noremoteplayback"
                                 disablePictureInPicture
                             ></video>
 
-                            <div class="status-player-controls">
-                                <button class="status-player-btn status-play-btn" type="button">
-                                    <i class="fas fa-play"></i> נגן
-                                </button>
+                            <button class="status-center-play" type="button" aria-label="הפעלת הסרטון">
+                                <i class="fas fa-play"></i>
+                            </button>
 
+                            <div class="status-player-controls">
                                 <span class="status-current-time">0 שניות</span>
 
                                 <button class="status-player-btn status-mute-btn" type="button">
