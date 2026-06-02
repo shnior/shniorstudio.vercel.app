@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000008e507246883411b528250e73%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3D40ba3f57a74dcbad07122fad7f4ead241e92e5dd9bf59fc1f1cfd3b1098d22f3%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000f46c72438f7ba26fefa81e8f%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3Ddef5525239795319cadebeadf455e8ec539a0b089c1ef20ff72a427188cecacf%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -1311,12 +1311,6 @@
                 <h2 class="section-title">סטטוסים <span>מהאירועים</span></h2>
                 <p class="section-kicker">סרטונים קצרים - מוצגים כאן רק ל־24 שעות.</p>
 
-                <div class="statuses-actions">
-                    <a href="#" class="cta-btn" id="statusUploadBtn" target="_blank" rel="noopener" style="display:none; padding: 12px 28px; font-size: 1rem;">
-                        <i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס
-                    </a>
-                </div>
-
                 <div class="status-grid" id="status-grid">
                     <div class="inline-loader-container">
                         <i class="fas fa-circle-notch fa-spin"></i>
@@ -1381,7 +1375,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <script id="free_accessibility_plugin_script" src="https://accessibility.f-static.com/site/free-accessibility-plugin/accessibility.min.js?lan=he&place=bottom-right&distance=20" crossorigin="anonymous"></script>
 
     <script>
@@ -1744,21 +1737,8 @@
         }
 
         function setupStatusUploadButton() {
-            if (!statusUploadBtn) return;
-
-            if (!isStatusAdminMode()) {
-                statusUploadBtn.style.display = 'none';
-                return;
-            }
-
-            statusUploadBtn.href = '#';
-            statusUploadBtn.target = '_self';
-            statusUploadBtn.style.display = 'inline-flex';
-            statusUploadBtn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס';
-            statusUploadBtn.onclick = event => {
-                event.preventDefault();
-                openCloudinaryStatusUpload();
-            };
+            // כפתור ההעלאה לא מוצג באתר הראשי. ההעלאה מתבצעת רק בקובץ admin-status.html
+            if (statusUploadBtn) statusUploadBtn.style.display = 'none';
         }
 
         function openCloudinaryStatusUpload() {
