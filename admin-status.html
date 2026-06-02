@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול סטטוסים | שניאור אייזנבך</title>
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000001fe071f49f3680128032fcf5%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3D51b0b3782845510fc2fdbef12622649e4e35f6298e2a7e8dd3d249d5c1e92e30%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000b440720a87a944de4a1476e6%26ts%3D494556%26p%3Dfs%26cid%3D1%26sig%3Dd0526834b7f35f5e3ad61cf34713c60b58200b6d3008f7c653ddfa70b19915db%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -130,6 +130,45 @@
         }
         body.is-logged-in .auth-line { display: flex; }
         .statuses-list { display: grid; gap: 16px; margin-top: 18px; }
+        .settings-panel {
+            margin: 16px 0 18px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(212,175,55,.06);
+            border: 1px solid rgba(212,175,55,.18);
+        }
+        .check-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-light);
+            margin: 0;
+            cursor: pointer;
+        }
+        .check-line input {
+            width: auto;
+            min-width: 20px;
+            height: 20px;
+            accent-color: var(--gold-solid);
+        }
+        .metrics-line {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 8px 0 10px;
+        }
+        .metric-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(212,175,55,.18);
+            background: rgba(255,255,255,.035);
+            border-radius: 999px;
+            padding: 6px 10px;
+            color: var(--text-muted);
+            font-size: .9rem;
+        }
+        .metric-pill i { color: var(--gold-solid); }
         .status-row {
             display: grid;
             grid-template-columns: 160px 1fr;
@@ -235,6 +274,12 @@
 
                 <div class="manager-area">
                     <h2>סטטוסים קיימים</h2>
+                    <div class="settings-panel">
+                        <label class="check-line">
+                            <input id="showViewsToggle" type="checkbox">
+                            <span>להציג באתר כמה צפיות יש לכל סטטוס</span>
+                        </label>
+                    </div>
                     <button class="small-btn" id="refreshBtn" type="button"><i class="fas fa-rotate"></i> רענון רשימה</button>
                     <div class="statuses-list" id="statusesList">
                         <div class="empty">טוען סטטוסים...</div>
@@ -282,8 +327,10 @@
         const loggedInText = document.getElementById('loggedInText');
         const statusesList = document.getElementById('statusesList');
         const refreshBtn = document.getElementById('refreshBtn');
+        const showViewsToggle = document.getElementById('showViewsToggle');
 
         let statusesUnsubscribe = null;
+        let settingsUnsubscribe = null;
 
         function setStatus(message, type = '') {
             box.className = 'status-box' + (type ? ' ' + type : '');
@@ -323,9 +370,11 @@
                 loggedInText.textContent = `מחובר כאדמין: ${user.email}`;
                 setStatus('מחובר. אפשר להעלות ולנהל סטטוסים.', 'good');
                 listenToStatuses();
+                listenToSettings();
             } else {
                 if (user) auth.signOut();
                 stopListenToStatuses();
+                stopListenToSettings();
                 setStatus('נא להתחבר כדי לנהל סטטוסים.', '');
             }
         });
@@ -350,6 +399,10 @@
 
         function isActiveStatus(item) {
             return Number(item.expiresAt || 0) > Date.now();
+        }
+
+        function countObjectKeys(value) {
+            return value && typeof value === 'object' ? Object.keys(value).length : 0;
         }
 
         async function saveUploadedStatus(info) {
@@ -414,6 +467,36 @@
             widget.open();
         }
 
+        function stopListenToSettings() {
+            if (settingsUnsubscribe) {
+                db.ref('settings/statuses/showViews').off('value', settingsUnsubscribe);
+                settingsUnsubscribe = null;
+            }
+            if (showViewsToggle) showViewsToggle.checked = false;
+        }
+
+        function listenToSettings() {
+            stopListenToSettings();
+            settingsUnsubscribe = snapshot => {
+                if (showViewsToggle) showViewsToggle.checked = snapshot.val() === true;
+            };
+            db.ref('settings/statuses/showViews').on('value', settingsUnsubscribe, error => {
+                console.error('Load settings error:', error);
+                setStatus('לא ניתן לטעון הגדרות תצוגה. בדוק Rules.', 'bad');
+            });
+        }
+
+        async function saveShowViewsSetting() {
+            if (!isAdmin(auth.currentUser)) return setStatus('נא להתחבר כאדמין.', 'bad');
+            try {
+                await db.ref('settings/statuses/showViews').set(Boolean(showViewsToggle.checked));
+                setStatus(showViewsToggle.checked ? 'הצגת צפיות הופעלה באתר.' : 'הצגת צפיות כובתה באתר.', 'good');
+            } catch (error) {
+                console.error('Save settings error:', error);
+                setStatus('שמירת ההגדרה נכשלה. בדוק Rules ל־settings/statuses/showViews.', 'bad');
+            }
+        }
+
         function stopListenToStatuses() {
             if (statusesUnsubscribe) {
                 db.ref('statuses').off('value', statusesUnsubscribe);
@@ -447,6 +530,8 @@
             statusesList.innerHTML = items.map(item => {
                 const active = isActiveStatus(item);
                 const poster = item.posterUrl || buildCloudinaryPosterUrl(item.publicId || '');
+                const likeCount = countObjectKeys(item.likes);
+                const viewCount = countObjectKeys(item.views);
                 return `
                     <article class="status-row" data-key="${escapeHTML(item.key)}">
                         <div class="thumb-box">
@@ -467,6 +552,10 @@
                                     <label>תיאור קצר, לא חובה</label>
                                     <textarea class="edit-description">${escapeHTML(item.description || '')}</textarea>
                                 </div>
+                            </div>
+                            <div class="metrics-line">
+                                <span class="metric-pill"><i class="fas fa-heart"></i> ${likeCount} לבבות</span>
+                                <span class="metric-pill"><i class="fas fa-eye"></i> ${viewCount} צפיות</span>
                             </div>
                             <div class="meta">
                                 נוצר: ${escapeHTML(formatDate(item.createdAt))}<br>
@@ -567,6 +656,7 @@
         logoutBtn.addEventListener('click', logoutAdmin);
         passwordInput.addEventListener('keydown', event => { if (event.key === 'Enter') loginAdmin(); });
         uploadBtn.addEventListener('click', openUploadWidget);
+        if (showViewsToggle) showViewsToggle.addEventListener('change', saveShowViewsSetting);
         refreshBtn.addEventListener('click', listenToStatuses);
     </script>
 </body>
