@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ניהול סטטוסים | שניאור אייזנבך</title>
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000011a87243ae0c70bfd68516e3%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3Dbe0c788a63478918e817fc49ea6278f906a46191871ffd9c15a8511d60bc3a97%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #070709;
+            --gold-solid: #D4AF37;
+            --text-light: #f4f4f4;
+            --text-muted: #a0a0a5;
+            --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: var(--text-light);
+            background:
+                radial-gradient(circle at 80% 5%, rgba(122, 21, 40, 0.26), transparent 28%),
+                radial-gradient(circle at 10% 80%, rgba(212, 175, 55, 0.10), transparent 26%),
+                var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+        }
+        .admin-card {
+            width: min(100%, 760px);
+            background: rgba(15, 10, 12, 0.88);
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            border-radius: 26px;
+            padding: clamp(24px, 5vw, 46px);
+            box-shadow: 0 24px 70px rgba(0,0,0,.55);
+            text-align: center;
+        }
+        .logo-line {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .logo-line img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+        h1 {
+            margin: 0 0 10px;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: var(--text-muted);
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            max-width: 560px;
+            line-height: 1.7;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        label {
+            display: block;
+            color: var(--gold-solid);
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+        input {
+            width: 100%;
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            border-radius: 14px;
+            background: rgba(255,255,255,.04);
+            color: #fff;
+            padding: 13px 14px;
+            font-size: 1rem;
+            outline: none;
+        }
+        input:focus {
+            border-color: var(--gold-solid);
+            box-shadow: 0 0 0 3px rgba(212,175,55,.13);
+        }
+        .upload-btn, .site-btn {
+            border: 2px solid var(--gold-solid);
+            background: transparent;
+            color: var(--gold-solid);
+            border-radius: 999px;
+            padding: 14px 28px;
+            font-size: 1.12rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 8px;
+            transition: all .25s ease;
+        }
+        .upload-btn:hover, .site-btn:hover {
+            background: var(--gold-gradient);
+            color: #080808;
+        }
+        .status-box {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,.04);
+            color: var(--text-muted);
+            min-height: 56px;
+            line-height: 1.6;
+        }
+        .status-box.good { color: #b9f6ca; border: 1px solid rgba(185,246,202,.22); }
+        .status-box.bad { color: #ffb3b3; border: 1px solid rgba(255,179,179,.22); }
+        @media (max-width: 640px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .upload-btn, .site-btn { width: 100%; margin-inline: 0; }
+        }
+    </style>
+</head>
+<body>
+    <main class="admin-card">
+        <div class="logo-line">
+            <img src="logo.webp" alt="לוגו" onerror="this.style.display='none'">
+        </div>
+        <h1>ניהול סטטוסים</h1>
+        <p class="subtitle">מכאן מעלים סטטוס חדש. הסרטון יישמר ב־Cloudinary ויופיע באתר למשך 24 שעות.</p>
+
+        <div class="form-grid">
+            <div>
+                <label for="statusTitle">כותרת</label>
+                <input id="statusTitle" value="סטטוס מהאירוע" autocomplete="off">
+            </div>
+            <div>
+                <label for="statusCategory">קטגוריה</label>
+                <input id="statusCategory" value="אירוע בוטיק" autocomplete="off">
+            </div>
+        </div>
+
+        <button class="upload-btn" id="uploadStatusBtn" type="button">
+            <i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס
+        </button>
+        <a class="site-btn" href="index.html#statuses">
+            <i class="fas fa-eye"></i> צפייה באתר
+        </a>
+
+        <div class="status-box" id="adminStatusBox">מוכן להעלאה.</div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_AHhjzcAYeVoBNEwF5mlzsvUqbnw2maY",
+            authDomain: "shnior-studio.firebaseapp.com",
+            databaseURL: "https://shnior-studio-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "shnior-studio",
+            storageBucket: "shnior-studio.firebasestorage.app",
+            messagingSenderId: "163064507259",
+            appId: "1:163064507259:web:3fb46c6795eba5b84f6bde"
+        };
+
+        const CLOUDINARY_CLOUD_NAME = 'dli8bbmpa';
+        const CLOUDINARY_UPLOAD_PRESET = 'statuses_unsigned';
+        const STATUS_DURATION_MS = 24 * 60 * 60 * 1000;
+
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        const uploadBtn = document.getElementById('uploadStatusBtn');
+        const box = document.getElementById('adminStatusBox');
+        const titleInput = document.getElementById('statusTitle');
+        const categoryInput = document.getElementById('statusCategory');
+
+        function setStatus(message, type = '') {
+            box.className = 'status-box' + (type ? ' ' + type : '');
+            box.textContent = message;
+        }
+
+        function buildCloudinaryVideoUrl(publicId, format, fallbackUrl) {
+            if (!publicId) return fallbackUrl || '';
+            const ext = format || 'mp4';
+            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/${publicId}.${ext}`;
+        }
+
+        function buildCloudinaryPosterUrl(publicId) {
+            if (!publicId) return '';
+            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_0,w_720,h_1280,c_fill,q_auto,f_jpg/${publicId}.jpg`;
+        }
+
+        async function saveUploadedStatus(info) {
+            const now = Date.now();
+            const title = (titleInput.value || 'סטטוס מהאירוע').trim();
+            const category = (categoryInput.value || 'אירוע בוטיק').trim();
+            const publicId = info.public_id || '';
+
+            const status = {
+                title,
+                category,
+                description: '',
+                publicId,
+                videoUrl: buildCloudinaryVideoUrl(publicId, info.format, info.secure_url),
+                posterUrl: buildCloudinaryPosterUrl(publicId),
+                createdAt: now,
+                expiresAt: now + STATUS_DURATION_MS,
+                cloudinaryAssetId: info.asset_id || '',
+                cloudinarySecureUrl: info.secure_url || ''
+            };
+
+            setStatus('שומר את הסטטוס באתר...', '');
+
+            try {
+                await db.ref('statuses').push(status);
+                setStatus('הסטטוס עלה ונשמר בהצלחה. הוא יופיע באתר למשך 24 שעות.', 'good');
+            } catch (error) {
+                console.error('Firebase save error:', error);
+                setStatus('הסרטון עלה ל־Cloudinary, אבל לא נשמר ב־Firebase. צריך לבדוק הרשאות כתיבה ב־Firebase.', 'bad');
+            }
+        }
+
+        function openUploadWidget() {
+            if (!window.cloudinary) {
+                setStatus('Cloudinary עדיין לא נטען. רענן את הדף ונסה שוב.', 'bad');
+                return;
+            }
+
+            const widget = cloudinary.createUploadWidget({
+                cloudName: CLOUDINARY_CLOUD_NAME,
+                uploadPreset: CLOUDINARY_UPLOAD_PRESET,
+                resourceType: 'video',
+                sources: ['local', 'camera'],
+                multiple: false,
+                maxFiles: 1,
+                folder: 'statuses',
+                clientAllowedFormats: ['mp4', 'mov', 'webm'],
+                maxFileSize: 120000000
+            }, async (error, result) => {
+                if (error) {
+                    console.error('Cloudinary upload error:', error);
+                    setStatus('ההעלאה נכשלה. נסה שוב.', 'bad');
+                    return;
+                }
+
+                if (result && result.event === 'success') {
+                    setStatus('הסרטון עלה ל־Cloudinary. שומר באתר...', '');
+                    await saveUploadedStatus(result.info);
+                }
+            });
+
+            widget.open();
+        }
+
+        uploadBtn.addEventListener('click', openUploadWidget);
+    </script>
+</body>
+</html>
