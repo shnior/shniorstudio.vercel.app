@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול סטטוסים | שניאור אייזנבך</title>
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000011a87243ae0c70bfd68516e3%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3Dbe0c788a63478918e817fc49ea6278f906a46191871ffd9c15a8511d60bc3a97%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000002a2871f4ac092a852288840c%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3D49725dcbb4133dd3e3229a3567efc98cb4c839e610b898a488d9367434653a54%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -124,8 +124,45 @@
         }
         .status-box.good { color: #b9f6ca; border: 1px solid rgba(185,246,202,.22); }
         .status-box.bad { color: #ffb3b3; border: 1px solid rgba(255,179,179,.22); }
+
+        .login-box {
+            margin: 24px 0;
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            text-align: right;
+        }
+        .login-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+        .admin-area { display: none; }
+        body.is-logged-in .admin-area { display: block; }
+        body.is-logged-in .login-box { display: none; }
+        .auth-line {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            margin: 10px 0 22px;
+        }
+        body.is-logged-in .auth-line { display: flex; }
+        .small-btn {
+            border: 1px solid rgba(212,175,55,.45);
+            background: rgba(255,255,255,.035);
+            color: var(--gold-solid);
+            border-radius: 999px;
+            padding: 8px 14px;
+            cursor: pointer;
+        }
+
         @media (max-width: 640px) {
-            .form-grid { grid-template-columns: 1fr; }
+            .login-grid, .form-grid { grid-template-columns: 1fr; }
             .upload-btn, .site-btn { width: 100%; margin-inline: 0; }
         }
     </style>
@@ -138,29 +175,53 @@
         <h1>ניהול סטטוסים</h1>
         <p class="subtitle">מכאן מעלים סטטוס חדש. הסרטון יישמר ב־Cloudinary ויופיע באתר למשך 24 שעות.</p>
 
-        <div class="form-grid">
-            <div>
-                <label for="statusTitle">כותרת</label>
-                <input id="statusTitle" value="סטטוס מהאירוע" autocomplete="off">
+        <div class="login-box" id="loginBox">
+            <div class="login-grid">
+                <div>
+                    <label for="adminEmail">אימייל אדמין</label>
+                    <input id="adminEmail" type="email" value="sh9999425@gmail.com" autocomplete="username">
+                </div>
+                <div>
+                    <label for="adminPassword">סיסמה</label>
+                    <input id="adminPassword" type="password" autocomplete="current-password">
+                </div>
             </div>
-            <div>
-                <label for="statusCategory">קטגוריה</label>
-                <input id="statusCategory" value="אירוע בוטיק" autocomplete="off">
-            </div>
+            <button class="upload-btn" id="loginBtn" type="button">
+                <i class="fas fa-lock"></i> כניסה לאדמין
+            </button>
         </div>
 
-        <button class="upload-btn" id="uploadStatusBtn" type="button">
-            <i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס
-        </button>
-        <a class="site-btn" href="index.html#statuses">
-            <i class="fas fa-eye"></i> צפייה באתר
-        </a>
+        <div class="auth-line" id="authLine">
+            <span id="loggedInText">מחובר</span>
+            <button class="small-btn" id="logoutBtn" type="button">יציאה</button>
+        </div>
 
-        <div class="status-box" id="adminStatusBox">מוכן להעלאה.</div>
+        <div class="admin-area" id="adminArea">
+            <div class="form-grid">
+                <div>
+                    <label for="statusTitle">כותרת</label>
+                    <input id="statusTitle" value="סטטוס מהאירוע" autocomplete="off">
+                </div>
+                <div>
+                    <label for="statusCategory">קטגוריה</label>
+                    <input id="statusCategory" value="אירוע בוטיק" autocomplete="off">
+                </div>
+            </div>
+
+            <button class="upload-btn" id="uploadStatusBtn" type="button">
+                <i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס
+            </button>
+            <a class="site-btn" href="index.html#statuses">
+                <i class="fas fa-eye"></i> צפייה באתר
+            </a>
+        </div>
+
+        <div class="status-box" id="adminStatusBox">נא להתחבר כדי להעלות סטטוס.</div>
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 
     <script>
@@ -177,19 +238,68 @@
         const CLOUDINARY_CLOUD_NAME = 'dli8bbmpa';
         const CLOUDINARY_UPLOAD_PRESET = 'statuses_unsigned';
         const STATUS_DURATION_MS = 24 * 60 * 60 * 1000;
+        const ADMIN_EMAIL = 'sh9999425@gmail.com';
 
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+        const auth = firebase.auth();
 
         const uploadBtn = document.getElementById('uploadStatusBtn');
         const box = document.getElementById('adminStatusBox');
         const titleInput = document.getElementById('statusTitle');
         const categoryInput = document.getElementById('statusCategory');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const emailInput = document.getElementById('adminEmail');
+        const passwordInput = document.getElementById('adminPassword');
+        const loggedInText = document.getElementById('loggedInText');
 
         function setStatus(message, type = '') {
             box.className = 'status-box' + (type ? ' ' + type : '');
             box.textContent = message;
         }
+
+
+
+        async function loginAdmin() {
+            const email = (emailInput.value || '').trim();
+            const password = passwordInput.value || '';
+
+            if (!email || !password) {
+                setStatus('נא למלא אימייל וסיסמה.', 'bad');
+                return;
+            }
+
+            if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+                setStatus('האימייל הזה לא מורשה לניהול סטטוסים.', 'bad');
+                return;
+            }
+
+            try {
+                setStatus('מתחבר...', '');
+                await auth.signInWithEmailAndPassword(email, password);
+            } catch (error) {
+                console.error('Login error:', error);
+                setStatus('הכניסה נכשלה. בדוק שהמשתמש נוצר ב־Firebase Authentication ושהסיסמה נכונה.', 'bad');
+            }
+        }
+
+        async function logoutAdmin() {
+            await auth.signOut();
+        }
+
+        auth.onAuthStateChanged(user => {
+            const isAllowed = user && (user.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase();
+            document.body.classList.toggle('is-logged-in', Boolean(isAllowed));
+
+            if (isAllowed) {
+                loggedInText.textContent = `מחובר כאדמין: ${user.email}`;
+                setStatus('מחובר. מוכן להעלאה.', 'good');
+            } else {
+                if (user) auth.signOut();
+                setStatus('נא להתחבר כדי להעלות סטטוס.', '');
+            }
+        });
 
         function buildCloudinaryVideoUrl(publicId, format, fallbackUrl) {
             if (!publicId) return fallbackUrl || '';
@@ -233,6 +343,12 @@
         }
 
         function openUploadWidget() {
+            const user = auth.currentUser;
+            if (!user || (user.email || '').toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+                setStatus('נא להתחבר כאדמין לפני העלאה.', 'bad');
+                return;
+            }
+
             if (!window.cloudinary) {
                 setStatus('Cloudinary עדיין לא נטען. רענן את הדף ונסה שוב.', 'bad');
                 return;
@@ -264,6 +380,11 @@
             widget.open();
         }
 
+        loginBtn.addEventListener('click', loginAdmin);
+        logoutBtn.addEventListener('click', logoutAdmin);
+        passwordInput.addEventListener('keydown', event => {
+            if (event.key === 'Enter') loginAdmin();
+        });
         uploadBtn.addEventListener('click', openUploadWidget);
     </script>
 </body>
