@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000b41c720a9264450429307d8f%26ts%3D494553%26p%3Dfs%26cid%3D1%26sig%3D9d7aa83851f2ae3fdf4e447002af1c9a05fd85dc56305ad03ab4988dd7932c91%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000b9e8720a921b38faeba8ef41%26fn%3Dindex_status_player_drive_fallback.html%26cd%3Dattachment%26ts%3D494553%26p%3Dfs%26cid%3D1%26sig%3D4101ac8e439414ce9b479af7c7091f68b1a195dc4210dd58b0fd042427915868%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -898,6 +898,29 @@
             background: #050505;
         }
 
+
+        .status-video iframe.status-drive-preview-frame {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #050505;
+            display: none;
+            z-index: 2;
+        }
+
+        .status-card.uses-drive-preview .status-video-el,
+        .status-card.uses-drive-preview .status-center-play,
+        .status-card.uses-drive-preview .status-player-controls,
+        .status-card.uses-drive-preview .status-video-message {
+            display: none !important;
+        }
+
+        .status-card.uses-drive-preview iframe.status-drive-preview-frame {
+            display: block;
+        }
+
         .status-center-play {
             position: absolute;
             top: 50%;
@@ -1781,8 +1804,7 @@
                 item.videoDirectUrl,
                 item.downloadUrl,
                 item.videoUrl,
-                item.fileUrl,
-                item.previewUrl
+                item.fileUrl
             ].map(value => String(value || '').trim()).filter(Boolean);
 
             const urls = [];
@@ -1811,6 +1833,21 @@
             return urls;
         }
 
+
+        function normalizeStatusDrivePreviewUrl(item = {}) {
+            const values = [item.previewUrl, item.fileUrl, item.videoUrl, item.directUrl, item.videoDirectUrl, item.downloadUrl]
+                .map(value => String(value || '').trim())
+                .filter(Boolean);
+
+            for (const value of values) {
+                const fileId = getGoogleDriveFileId(value);
+                if (fileId) return `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview`;
+                if (/drive\.google\.com\/file\/d\//i.test(value) && /\/preview/i.test(value)) return value;
+            }
+
+            return '';
+        }
+
         function normalizeStatusPosterUrl(item = {}) {
             const possiblePoster = item.thumbnailUrl || item.thumbUrl || item.posterUrl || item.imageUrl || '';
             if (possiblePoster) return String(possiblePoster).trim();
@@ -1835,6 +1872,14 @@
                 const timeEl = card.querySelector('.status-current-time');
                 const messageEl = card.querySelector('.status-video-message');
                 const sources = JSON.parse(card.dataset.sources || '[]');
+                const driveFrame = card.querySelector('.status-drive-preview-frame');
+                const hasDrivePreview = Boolean(driveFrame && driveFrame.dataset.previewUrl);
+
+                if (!sources.length && hasDrivePreview) {
+                    card.classList.add('uses-drive-preview');
+                    driveFrame.src = driveFrame.dataset.previewUrl;
+                    return;
+                }
 
                 if (!video || !playOverlay || !muteBtn || !timeEl) return;
 
@@ -1893,7 +1938,12 @@
                         } else {
                             console.warn('Video play failed for all sources:', error);
                             card.classList.remove('is-playing');
-                            showMessage('הסרטון לא נטען. ודא שב-Google Drive הקובץ פתוח לצפייה לכל מי שיש לו קישור, או שה-Apps Script מחזיר קישור ישיר לקובץ וידאו.');
+                            if (hasDrivePreview) {
+                                card.classList.add('uses-drive-preview');
+                                driveFrame.src = driveFrame.dataset.previewUrl;
+                            } else {
+                                showMessage('הסרטון לא נטען. צריך קישור ישיר לקובץ וידאו, או קובץ Drive פתוח לצפייה לכל מי שיש לו קישור.');
+                            }
                         }
                     }
                 };
@@ -1989,6 +2039,7 @@
             statusGrid.innerHTML = items.map(item => {
                 const videoUrls = normalizeStatusVideoUrls(item);
                 const posterUrl = normalizeStatusPosterUrl(item);
+                const drivePreviewUrl = normalizeStatusDrivePreviewUrl(item);
 
                 return `
                     <article class="status-card" data-sources='${escapeHTML(JSON.stringify(videoUrls))}'>
@@ -2001,6 +2052,14 @@
                                 controlsList="nodownload noplaybackrate noremoteplayback"
                                 disablePictureInPicture
                             ></video>
+
+                            <iframe
+                                class="status-drive-preview-frame"
+                                data-preview-url="${escapeHTML(drivePreviewUrl)}"
+                                allow="autoplay; fullscreen"
+                                allowfullscreen
+                                loading="lazy"
+                            ></iframe>
 
                             <div class="status-video-message"></div>
 
