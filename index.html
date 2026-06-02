@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000192c7243a7e39132c6e22756%26fn%3Dindex_status_player_top_cover_fixed.html%26cd%3Dattachment%26ts%3D494554%26p%3Dfs%26cid%3D1%26sig%3D1f23703d9f929af9c45732057d04a12dcd7aa8fe65b2f984f26ea04e56c67280%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000005a247243ad461738c01e5903%26fn%3Dindex_status_drive_modal_clean.html%26cd%3Dattachment%26ts%3D494554%26p%3Dfs%26cid%3D1%26sig%3Dc30b70c60b0aa52e76c4701207deea99525308953ec74d0f8659eeeb5e2b20c7%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -887,101 +887,55 @@
             aspect-ratio: 9 / 16;
             background: #050505;
             overflow: hidden;
+            cursor: pointer;
         }
 
-        .status-video video {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: #050505;
-        }
-
-
-        .status-video iframe.status-drive-preview-frame {
+        .status-preview-btn {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             border: 0;
+            padding: 0;
             background: #050505;
-            display: none;
-            z-index: 2;
-        }
-
-        .status-card.uses-drive-preview .status-video-el,
-        .status-card.uses-drive-preview .status-player-controls,
-        .status-card.uses-drive-preview .status-video-message {
-            display: none !important;
-        }
-
-        .status-card.uses-drive-preview iframe.status-drive-preview-frame {
-            display: block;
-        }
-
-        .status-drive-poster {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            background-color: #050505;
-            display: none;
-            z-index: 1;
-        }
-
-        .status-card.uses-drive-preview .status-drive-poster {
-            display: block;
-        }
-
-        .status-card.uses-drive-preview.drive-loaded .status-drive-poster {
-            display: none;
-        }
-
-        .status-card.uses-drive-preview.drive-loaded .status-center-play {
-            display: none !important;
-        }
-
-        .status-drive-block-open {
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            width: 100%;
-            height: 72px;
-            background: rgba(5, 5, 5, 0.88);
-            border-radius: 0;
-            z-index: 30;
-            display: none;
-            pointer-events: auto;
-        }
-
-        .status-drive-block-open::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            left: 0;
-            bottom: -18px;
-            height: 18px;
-            background: linear-gradient(to bottom, rgba(5, 5, 5, 0.52), rgba(5, 5, 5, 0));
-            pointer-events: none;
-        }
-
-        .status-drive-click-layer {
-            position: absolute;
-            inset: 0;
-            z-index: 5;
-            display: none;
             cursor: pointer;
-            background: transparent;
+            display: block;
+            font-family: 'Tel Aviv', Arial, sans-serif;
         }
 
-        .status-card.uses-drive-preview .status-drive-block-open {
-            display: block;
+        .status-preview-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .92;
+            transition: transform .35s ease, opacity .35s ease;
         }
 
-        .status-card.uses-drive-preview.drive-loaded .status-drive-click-layer {
-            display: block;
+        .status-card:hover .status-preview-img {
+            transform: scale(1.035);
+            opacity: 1;
+        }
+
+        .status-preview-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at center, rgba(212,175,55,.11), transparent 32%),
+                #050505;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .status-preview-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.08) 45%, rgba(0,0,0,.24));
+            pointer-events: none;
         }
 
         .status-center-play {
@@ -989,108 +943,87 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 74px;
-            height: 74px;
+            width: 76px;
+            height: 76px;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.88);
-            background: rgba(0, 0, 0, 0.46);
-            color: #fff;
+            border: 2px solid rgba(255,255,255,.9);
+            background: rgba(0,0,0,.52);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            cursor: pointer;
-            z-index: 4;
-            backdrop-filter: blur(7px);
-            transition: opacity .2s ease, transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+            color: #fff;
+            font-size: 2.1rem;
+            box-shadow: 0 10px 28px rgba(0,0,0,.45);
+            backdrop-filter: blur(5px);
+            transition: transform .25s ease, background .25s ease, border-color .25s ease;
+            pointer-events: none;
+        }
+
+        .status-card:hover .status-center-play {
+            transform: translate(-50%, -50%) scale(1.06);
+            border-color: var(--gold-solid);
+            background: rgba(0,0,0,.62);
         }
 
         .status-center-play i {
             margin-right: -4px;
         }
 
-        .status-card.is-playing .status-center-play {
-            opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, -50%) scale(.9);
-        }
-
-        .status-center-play:hover {
-            border-color: var(--gold-solid);
-            box-shadow: 0 0 22px rgba(212,175,55,.32);
-        }
-
-
-        .status-card.is-loading .status-center-play i::before {
-            content: "\f1ce";
-        }
-
-        .status-card.is-loading .status-center-play i {
-            animation: statusSpin .9s linear infinite;
-        }
-
-        @keyframes statusSpin {
-            to { transform: rotate(360deg); }
-        }
-
-        .status-video-message {
-            position: absolute;
-            right: 12px;
-            left: 12px;
-            top: 12px;
-            z-index: 5;
+        .status-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
             display: none;
-            background: rgba(0,0,0,.62);
-            color: #fff;
-            border: 1px solid rgba(212,175,55,.28);
-            border-radius: 14px;
-            padding: 9px 11px;
-            font-size: .9rem;
-            line-height: 1.45;
-            text-align: center;
-        }
-
-        .status-video-message.show {
-            display: block;
-        }
-
-        .status-player-controls {
-            position: absolute;
-            right: 10px;
-            left: 10px;
-            bottom: 10px;
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            z-index: 3;
-            background: rgba(0, 0, 0, 0.50);
-            border: 1px solid rgba(212, 175, 55, 0.22);
-            border-radius: 999px;
-            padding: 8px 12px;
-            backdrop-filter: blur(8px);
+            justify-content: center;
+            padding: 18px;
+            background: rgba(0,0,0,.82);
+            backdrop-filter: blur(10px);
         }
 
-        .status-player-btn {
+        .status-modal.open {
+            display: flex;
+        }
+
+        .status-modal-box {
+            position: relative;
+            width: min(92vw, 430px);
+            aspect-ratio: 9 / 16;
+            background: #000;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(212,175,55,.42);
+            box-shadow: 0 30px 70px rgba(0,0,0,.72), 0 0 30px rgba(212,175,55,.16);
+        }
+
+        .status-modal iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             border: 0;
-            background: transparent;
+        }
+
+        .status-modal-close {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 1px solid rgba(212,175,55,.42);
+            background: rgba(7,7,9,.88);
             color: var(--gold-solid);
-            font-family: 'Tel Aviv', Arial, sans-serif;
-            font-size: 0.92rem;
+            font-size: 1.35rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 6px;
-            white-space: nowrap;
+            justify-content: center;
+            z-index: 9999;
         }
 
-        .status-current-time {
-            color: #fff;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            min-width: 66px;
-            text-align: right;
+        body.status-modal-open {
+            overflow: hidden;
         }
 
         .status-content {
@@ -1841,7 +1774,7 @@
             }
         }
 
-        function getGoogleDriveFileId(url = '') {
+        function getDriveFileId(url = '') {
             const value = String(url || '').trim();
             if (!value) return '';
 
@@ -1849,7 +1782,6 @@
                 /drive\.google\.com\/file\/d\/([^/]+)/,
                 /drive\.google\.com\/open\?id=([^&]+)/,
                 /drive\.google\.com\/uc\?id=([^&]+)/,
-                /drive\.google\.com\/thumbnail\?id=([^&]+)/,
                 /[?&]id=([^&]+)/
             ];
 
@@ -1861,277 +1793,78 @@
             return '';
         }
 
-        function normalizeStatusVideoUrls(item = {}) {
-            const rawValues = [
-                item.directUrl,
-                item.videoDirectUrl,
-                item.downloadUrl,
-                item.videoUrl,
-                item.fileUrl
-            ].map(value => String(value || '').trim()).filter(Boolean);
-
-            const urls = [];
-            const addUrl = url => {
-                if (url && !urls.includes(url)) urls.push(url);
-            };
-
-            rawValues.forEach(value => {
-                const fileId = getGoogleDriveFileId(value);
-
-                // אם זה קישור רגיל לקובץ mp4/webm/mov - משאירים אותו ראשון.
-                if (/\.(mp4|webm|mov)(\?|#|$)/i.test(value)) {
-                    addUrl(value);
-                }
-
-                if (fileId) {
-                    // export=view עובד טוב יותר לתצוגה בתוך video בחלק מהחשבונות.
-                    addUrl(`https://drive.google.com/uc?export=view&id=${encodeURIComponent(fileId)}`);
-                    addUrl(`https://drive.google.com/uc?export=download&id=${encodeURIComponent(fileId)}`);
-                    addUrl(`https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`);
-                } else if (!/drive\.google\.com\/file\/d\//i.test(value) && !/drive\.google\.com\/open\?/i.test(value)) {
-                    addUrl(value);
-                }
-            });
-
-            return urls;
+        function buildDrivePreviewUrl(item = {}) {
+            const source = item.previewUrl || item.videoUrl || item.fileUrl || '';
+            const fileId = getDriveFileId(source);
+            if (fileId) return `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview`;
+            return source;
         }
 
+        function buildDriveThumbnailUrl(item = {}) {
+            const thumb = item.thumbnailUrl || item.thumbnail || item.poster || '';
+            if (thumb) return thumb;
 
-        function normalizeStatusDrivePreviewUrl(item = {}) {
-            const values = [item.previewUrl, item.fileUrl, item.videoUrl, item.directUrl, item.videoDirectUrl, item.downloadUrl]
-                .map(value => String(value || '').trim())
-                .filter(Boolean);
-
-            for (const value of values) {
-                const fileId = getGoogleDriveFileId(value);
-                if (fileId) return `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview`;
-                if (/drive\.google\.com\/file\/d\//i.test(value) && /\/preview/i.test(value)) return value;
-            }
-
+            const source = item.previewUrl || item.videoUrl || item.fileUrl || '';
+            const fileId = getDriveFileId(source);
+            if (fileId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w1000`;
             return '';
         }
 
-        function normalizeStatusPosterUrl(item = {}) {
-            const possiblePoster = item.thumbnailUrl || item.thumbUrl || item.posterUrl || item.imageUrl || '';
-            if (possiblePoster) return String(possiblePoster).trim();
+        function getStatusModal() {
+            let modal = document.getElementById('status-modal');
+            if (modal) return modal;
 
-            const fileId = getGoogleDriveFileId(item.videoUrl || item.fileUrl || item.previewUrl || '');
-            if (fileId) {
-                return `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w900`;
-            }
+            modal = document.createElement('div');
+            modal.id = 'status-modal';
+            modal.className = 'status-modal';
+            modal.setAttribute('aria-hidden', 'true');
+            modal.innerHTML = `
+                <button class="status-modal-close" type="button" aria-label="סגירת הסרטון">
+                    <i class="fas fa-xmark"></i>
+                </button>
+                <div class="status-modal-box" role="dialog" aria-label="צפייה בסטטוס"></div>
+            `;
+            document.body.appendChild(modal);
 
-            return '';
-        }
-
-        function formatStatusSeconds(seconds) {
-            return `${Math.floor(seconds || 0)} שניות`;
-        }
-
-        function addAutoplayToDrivePreview(url = '') {
-            if (!url) return '';
-            return url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
-        }
-
-        function stopAllStatusMedia(exceptCard = null, exceptVideo = null) {
-            document.querySelectorAll('.status-video-el').forEach(otherVideo => {
-                if (otherVideo !== exceptVideo) {
-                    try { otherVideo.pause(); } catch (error) {}
-                }
+            modal.addEventListener('click', event => {
+                if (event.target === modal) closeStatusModal();
             });
 
-            document.querySelectorAll('.status-card').forEach(otherCard => {
-                if (otherCard === exceptCard) return;
+            modal.querySelector('.status-modal-close').addEventListener('click', closeStatusModal);
 
-                otherCard.classList.remove('is-playing', 'is-loading', 'drive-loaded');
-
-                const frame = otherCard.querySelector('.status-drive-preview-frame');
-                if (frame) {
-                    const previewUrl = frame.dataset.previewUrl || '';
-                    if (previewUrl) frame.src = previewUrl;
-                    else frame.removeAttribute('src');
-                }
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') closeStatusModal();
             });
+
+            return modal;
         }
 
-        function setupCustomStatusPlayers() {
-            document.querySelectorAll('.status-card').forEach(card => {
-                const video = card.querySelector('.status-video-el');
-                const playOverlay = card.querySelector('.status-center-play');
-                const muteBtn = card.querySelector('.status-mute-btn');
-                const timeEl = card.querySelector('.status-current-time');
-                const messageEl = card.querySelector('.status-video-message');
-                const sources = JSON.parse(card.dataset.sources || '[]');
-                const driveFrame = card.querySelector('.status-drive-preview-frame');
-                const hasDrivePreview = Boolean(driveFrame && driveFrame.dataset.previewUrl);
+        function openStatusModal(previewUrl) {
+            const modal = getStatusModal();
+            const box = modal.querySelector('.status-modal-box');
+            box.innerHTML = '';
 
-                if (!sources.length && hasDrivePreview) {
-                    card.classList.add('uses-drive-preview');
+            const iframe = document.createElement('iframe');
+            iframe.src = previewUrl;
+            iframe.allow = 'autoplay; fullscreen';
+            iframe.allowFullscreen = true;
+            iframe.loading = 'eager';
+            box.appendChild(iframe);
 
-                    const startDrivePreview = event => {
-                        if (event) event.stopPropagation();
-                        stopAllStatusMedia(card, null);
-                        driveFrame.src = addAutoplayToDrivePreview(driveFrame.dataset.previewUrl);
-                        card.classList.add('drive-loaded', 'is-playing');
-                    };
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('status-modal-open');
+        }
 
-                    const stopDrivePreview = event => {
-                        if (event) event.stopPropagation();
-                        driveFrame.src = driveFrame.dataset.previewUrl || '';
-                        card.classList.remove('drive-loaded', 'is-playing', 'is-loading');
-                    };
+        function closeStatusModal() {
+            const modal = document.getElementById('status-modal');
+            if (!modal) return;
 
-                    if (playOverlay) playOverlay.addEventListener('click', startDrivePreview);
-                    card.querySelector('.status-drive-poster')?.addEventListener('click', startDrivePreview);
-                    card.querySelector('.status-drive-click-layer')?.addEventListener('click', stopDrivePreview);
-                    card.querySelector('.status-drive-block-open')?.addEventListener('click', event => event.preventDefault());
-                    return;
-                }
-
-                if (!video || !playOverlay || !muteBtn || !timeEl) return;
-
-                card.querySelector('.status-drive-click-layer')?.addEventListener('click', event => {
-                    event.stopPropagation();
-                    if (driveFrame) driveFrame.src = driveFrame.dataset.previewUrl || '';
-                    card.classList.remove('uses-drive-preview', 'drive-loaded', 'is-playing', 'is-loading');
-                });
-
-                let lastAllowedTime = 0;
-                let internalSeek = false;
-                let sourceIndex = 0;
-                let isTryingFallback = false;
-
-                video.controls = false;
-                video.muted = false;
-                video.volume = 1;
-                video.disablePictureInPicture = true;
-                video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
-                video.addEventListener('contextmenu', event => event.preventDefault());
-
-                const showMessage = text => {
-                    if (!messageEl) return;
-                    messageEl.textContent = text;
-                    messageEl.classList.add('show');
-                };
-
-                const hideMessage = () => {
-                    if (!messageEl) return;
-                    messageEl.classList.remove('show');
-                    messageEl.textContent = '';
-                };
-
-                const setVideoSource = index => {
-                    if (!sources[index]) return false;
-                    sourceIndex = index;
-                    if (video.src !== sources[index]) {
-                        video.src = sources[index];
-                        video.load();
-                    }
-                    return true;
-                };
-
-                const tryPlayCurrentSource = async () => {
-                    if (!sources.length) {
-                        showMessage('לא נמצא קישור וידאו תקין לסטטוס הזה.');
-                        return;
-                    }
-
-                    card.classList.add('is-loading');
-                    hideMessage();
-
-                    try {
-                        await video.play();
-                        card.classList.remove('is-loading');
-                    } catch (error) {
-                        card.classList.remove('is-loading');
-                        if (sourceIndex < sources.length - 1) {
-                            sourceIndex++;
-                            setVideoSource(sourceIndex);
-                            setTimeout(() => { tryPlayCurrentSource(); }, 120);
-                        } else {
-                            console.warn('Video play failed for all sources:', error);
-                            card.classList.remove('is-playing');
-                            if (hasDrivePreview) {
-                                stopAllStatusMedia(card, video);
-                                card.classList.add('uses-drive-preview', 'drive-loaded', 'is-playing');
-                                driveFrame.src = addAutoplayToDrivePreview(driveFrame.dataset.previewUrl);
-                            } else {
-                                showMessage('הסרטון לא נטען. צריך קישור ישיר לקובץ וידאו, או קובץ Drive פתוח לצפייה לכל מי שיש לו קישור.');
-                            }
-                        }
-                    }
-                };
-
-                const togglePlay = async event => {
-                    if (event) event.stopPropagation();
-
-                    stopAllStatusMedia(card, video);
-
-                    if (video.paused) {
-                        if (!video.getAttribute('src')) setVideoSource(0);
-                        await tryPlayCurrentSource();
-                    } else {
-                        video.pause();
-                    }
-                };
-
-                playOverlay.addEventListener('click', togglePlay);
-                video.addEventListener('click', togglePlay);
-
-                muteBtn.addEventListener('click', event => {
-                    event.stopPropagation();
-                    video.muted = !video.muted;
-                    muteBtn.innerHTML = video.muted
-                        ? '<i class="fas fa-volume-xmark"></i> שמע כבוי'
-                        : '<i class="fas fa-volume-high"></i> שמע דלוק';
-                });
-
-                video.addEventListener('play', () => {
-                    stopAllStatusMedia(card, video);
-                    hideMessage();
-                    card.classList.add('is-playing');
-                    card.classList.remove('is-loading');
-                });
-
-                video.addEventListener('pause', () => {
-                    card.classList.remove('is-playing');
-                    card.classList.remove('is-loading');
-                });
-
-                video.addEventListener('ended', () => {
-                    card.classList.remove('is-playing');
-                    card.classList.remove('is-loading');
-                    lastAllowedTime = 0;
-                    timeEl.textContent = '0 שניות';
-                    try { video.currentTime = 0; } catch (error) {}
-                });
-
-                video.addEventListener('error', () => {
-                    if (isTryingFallback) return;
-                    if (!video.paused) return;
-                    if (sourceIndex < sources.length - 1) {
-                        isTryingFallback = true;
-                        sourceIndex++;
-                        setVideoSource(sourceIndex);
-                        setTimeout(() => { isTryingFallback = false; }, 150);
-                    }
-                });
-
-                video.addEventListener('timeupdate', () => {
-                    lastAllowedTime = video.currentTime;
-                    timeEl.textContent = formatStatusSeconds(video.currentTime);
-                });
-
-                video.addEventListener('seeking', () => {
-                    if (internalSeek) return;
-                    if (Math.abs(video.currentTime - lastAllowedTime) > 1.5) {
-                        internalSeek = true;
-                        video.currentTime = lastAllowedTime;
-                        setTimeout(() => { internalSeek = false; }, 0);
-                    }
-                });
-
-                setVideoSource(0);
-            });
+            const box = modal.querySelector('.status-modal-box');
+            if (box) box.innerHTML = '';
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('status-modal-open');
         }
 
         function renderStatuses(payload) {
@@ -2148,51 +1881,20 @@
                 return;
             }
 
-            statusGrid.innerHTML = items.map(item => {
-                const videoUrls = normalizeStatusVideoUrls(item);
-                const posterUrl = normalizeStatusPosterUrl(item);
-                const drivePreviewUrl = normalizeStatusDrivePreviewUrl(item);
+            statusGrid.innerHTML = items.map((item, index) => {
+                const previewUrl = buildDrivePreviewUrl(item);
+                const thumbnailUrl = buildDriveThumbnailUrl(item);
 
                 return `
-                    <article class="status-card" data-sources='${escapeHTML(JSON.stringify(videoUrls))}'>
+                    <article class="status-card">
                         <div class="status-video">
-                            <video
-                                class="status-video-el"
-                                poster="${escapeHTML(posterUrl)}"
-                                playsinline
-                                preload="metadata"
-                                controlsList="nodownload noplaybackrate noremoteplayback"
-                                disablePictureInPicture
-                            ></video>
-
-                            <div class="status-drive-poster" style="background-image: url('${escapeHTML(posterUrl)}');"></div>
-
-                            <iframe
-                                class="status-drive-preview-frame"
-                                data-preview-url="${escapeHTML(drivePreviewUrl)}"
-                                src="${escapeHTML(drivePreviewUrl)}"
-                                allow="autoplay"
-                                loading="lazy"
-                            ></iframe>
-
-                            <div class="status-drive-block-open" title=""></div>
-                            <div class="status-drive-click-layer" title="לחיצה לעצירת הסרטון"></div>
-
-                            <div class="status-video-message"></div>
-
-                            <button class="status-center-play" type="button" aria-label="הפעלת הסרטון">
-                                <i class="fas fa-play"></i>
+                            <button class="status-preview-btn" type="button" data-preview-url="${escapeHTML(previewUrl)}" aria-label="צפייה בסטטוס ${escapeHTML(item.title || 'חדש')}">
+                                ${thumbnailUrl ? `<img class="status-preview-img" src="${escapeHTML(thumbnailUrl)}" alt="" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : ''}
+                                <span class="status-preview-placeholder" style="${thumbnailUrl ? 'display:none;' : ''}">תצוגה מקדימה</span>
+                                <span class="status-preview-overlay"></span>
+                                <span class="status-center-play"><i class="fas fa-play"></i></span>
                             </button>
-
-                            <div class="status-player-controls">
-                                <span class="status-current-time">0 שניות</span>
-
-                                <button class="status-player-btn status-mute-btn" type="button">
-                                    <i class="fas fa-volume-high"></i> שמע דלוק
-                                </button>
-                            </div>
                         </div>
-
                         <div class="status-content">
                             <div class="status-category"><i class="fas fa-bolt"></i>${escapeHTML(item.category || 'אירוע')}</div>
                             <h3 class="status-title">${escapeHTML(item.title || 'סטטוס חדש')}</h3>
@@ -2203,7 +1905,12 @@
                 `;
             }).join('');
 
-            setupCustomStatusPlayers();
+            statusGrid.querySelectorAll('.status-preview-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const previewUrl = button.dataset.previewUrl || '';
+                    if (previewUrl) openStatusModal(previewUrl);
+                });
+            });
         }
 
         function loadGoogleStatuses() {
