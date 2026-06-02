@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000b41c720a9264450429307d8f%26ts%3D494553%26p%3Dfs%26cid%3D1%26sig%3D9d7aa83851f2ae3fdf4e447002af1c9a05fd85dc56305ad03ab4988dd7932c91%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -934,6 +934,40 @@
             box-shadow: 0 0 22px rgba(212,175,55,.32);
         }
 
+
+        .status-card.is-loading .status-center-play i::before {
+            content: "\f1ce";
+        }
+
+        .status-card.is-loading .status-center-play i {
+            animation: statusSpin .9s linear infinite;
+        }
+
+        @keyframes statusSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-video-message {
+            position: absolute;
+            right: 12px;
+            left: 12px;
+            top: 12px;
+            z-index: 5;
+            display: none;
+            background: rgba(0,0,0,.62);
+            color: #fff;
+            border: 1px solid rgba(212,175,55,.28);
+            border-radius: 14px;
+            padding: 9px 11px;
+            font-size: .9rem;
+            line-height: 1.45;
+            text-align: center;
+        }
+
+        .status-video-message.show {
+            display: block;
+        }
+
         .status-player-controls {
             position: absolute;
             right: 10px;
@@ -1741,16 +1775,40 @@
             return '';
         }
 
-        function normalizeStatusVideoUrl(url = '') {
-            const value = String(url || '').trim();
-            if (!value) return '';
+        function normalizeStatusVideoUrls(item = {}) {
+            const rawValues = [
+                item.directUrl,
+                item.videoDirectUrl,
+                item.downloadUrl,
+                item.videoUrl,
+                item.fileUrl,
+                item.previewUrl
+            ].map(value => String(value || '').trim()).filter(Boolean);
 
-            const fileId = getGoogleDriveFileId(value);
-            if (fileId) {
-                return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(fileId)}`;
-            }
+            const urls = [];
+            const addUrl = url => {
+                if (url && !urls.includes(url)) urls.push(url);
+            };
 
-            return value;
+            rawValues.forEach(value => {
+                const fileId = getGoogleDriveFileId(value);
+
+                // אם זה קישור רגיל לקובץ mp4/webm/mov - משאירים אותו ראשון.
+                if (/\.(mp4|webm|mov)(\?|#|$)/i.test(value)) {
+                    addUrl(value);
+                }
+
+                if (fileId) {
+                    // export=view עובד טוב יותר לתצוגה בתוך video בחלק מהחשבונות.
+                    addUrl(`https://drive.google.com/uc?export=view&id=${encodeURIComponent(fileId)}`);
+                    addUrl(`https://drive.google.com/uc?export=download&id=${encodeURIComponent(fileId)}`);
+                    addUrl(`https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`);
+                } else if (!/drive\.google\.com\/file\/d\//i.test(value) && !/drive\.google\.com\/open\?/i.test(value)) {
+                    addUrl(value);
+                }
+            });
+
+            return urls;
         }
 
         function normalizeStatusPosterUrl(item = {}) {
@@ -1775,11 +1833,15 @@
                 const playOverlay = card.querySelector('.status-center-play');
                 const muteBtn = card.querySelector('.status-mute-btn');
                 const timeEl = card.querySelector('.status-current-time');
+                const messageEl = card.querySelector('.status-video-message');
+                const sources = JSON.parse(card.dataset.sources || '[]');
 
                 if (!video || !playOverlay || !muteBtn || !timeEl) return;
 
                 let lastAllowedTime = 0;
                 let internalSeek = false;
+                let sourceIndex = 0;
+                let isTryingFallback = false;
 
                 video.controls = false;
                 video.muted = false;
@@ -1788,18 +1850,64 @@
                 video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
                 video.addEventListener('contextmenu', event => event.preventDefault());
 
-                const togglePlay = async () => {
+                const showMessage = text => {
+                    if (!messageEl) return;
+                    messageEl.textContent = text;
+                    messageEl.classList.add('show');
+                };
+
+                const hideMessage = () => {
+                    if (!messageEl) return;
+                    messageEl.classList.remove('show');
+                    messageEl.textContent = '';
+                };
+
+                const setVideoSource = index => {
+                    if (!sources[index]) return false;
+                    sourceIndex = index;
+                    if (video.src !== sources[index]) {
+                        video.src = sources[index];
+                        video.load();
+                    }
+                    return true;
+                };
+
+                const tryPlayCurrentSource = async () => {
+                    if (!sources.length) {
+                        showMessage('לא נמצא קישור וידאו תקין לסטטוס הזה.');
+                        return;
+                    }
+
+                    card.classList.add('is-loading');
+                    hideMessage();
+
+                    try {
+                        await video.play();
+                        card.classList.remove('is-loading');
+                    } catch (error) {
+                        card.classList.remove('is-loading');
+                        if (sourceIndex < sources.length - 1) {
+                            sourceIndex++;
+                            setVideoSource(sourceIndex);
+                            setTimeout(() => { tryPlayCurrentSource(); }, 120);
+                        } else {
+                            console.warn('Video play failed for all sources:', error);
+                            card.classList.remove('is-playing');
+                            showMessage('הסרטון לא נטען. ודא שב-Google Drive הקובץ פתוח לצפייה לכל מי שיש לו קישור, או שה-Apps Script מחזיר קישור ישיר לקובץ וידאו.');
+                        }
+                    }
+                };
+
+                const togglePlay = async event => {
+                    if (event) event.stopPropagation();
+
                     document.querySelectorAll('.status-video-el').forEach(otherVideo => {
                         if (otherVideo !== video) otherVideo.pause();
                     });
 
                     if (video.paused) {
-                        try {
-                            await video.play();
-                        } catch (error) {
-                            console.warn('Video play blocked or unavailable:', error);
-                            card.classList.remove('is-playing');
-                        }
+                        if (!video.getAttribute('src')) setVideoSource(0);
+                        await tryPlayCurrentSource();
                     } else {
                         video.pause();
                     }
@@ -1817,18 +1925,33 @@
                 });
 
                 video.addEventListener('play', () => {
+                    hideMessage();
                     card.classList.add('is-playing');
+                    card.classList.remove('is-loading');
                 });
 
                 video.addEventListener('pause', () => {
                     card.classList.remove('is-playing');
+                    card.classList.remove('is-loading');
                 });
 
                 video.addEventListener('ended', () => {
                     card.classList.remove('is-playing');
+                    card.classList.remove('is-loading');
                     lastAllowedTime = 0;
                     timeEl.textContent = '0 שניות';
                     try { video.currentTime = 0; } catch (error) {}
+                });
+
+                video.addEventListener('error', () => {
+                    if (isTryingFallback) return;
+                    if (!video.paused) return;
+                    if (sourceIndex < sources.length - 1) {
+                        isTryingFallback = true;
+                        sourceIndex++;
+                        setVideoSource(sourceIndex);
+                        setTimeout(() => { isTryingFallback = false; }, 150);
+                    }
                 });
 
                 video.addEventListener('timeupdate', () => {
@@ -1844,6 +1967,8 @@
                         setTimeout(() => { internalSeek = false; }, 0);
                     }
                 });
+
+                setVideoSource(0);
             });
         }
 
@@ -1862,21 +1987,22 @@
             }
 
             statusGrid.innerHTML = items.map(item => {
-                const videoUrl = normalizeStatusVideoUrl(item.videoUrl || item.fileUrl || item.previewUrl || '');
+                const videoUrls = normalizeStatusVideoUrls(item);
                 const posterUrl = normalizeStatusPosterUrl(item);
 
                 return `
-                    <article class="status-card">
+                    <article class="status-card" data-sources='${escapeHTML(JSON.stringify(videoUrls))}'>
                         <div class="status-video">
                             <video
                                 class="status-video-el"
-                                src="${escapeHTML(videoUrl)}"
                                 poster="${escapeHTML(posterUrl)}"
                                 playsinline
                                 preload="metadata"
                                 controlsList="nodownload noplaybackrate noremoteplayback"
                                 disablePictureInPicture
                             ></video>
+
+                            <div class="status-video-message"></div>
 
                             <button class="status-center-play" type="button" aria-label="הפעלת הסרטון">
                                 <i class="fas fa-play"></i>
