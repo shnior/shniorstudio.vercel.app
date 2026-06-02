@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000005a247243ad461738c01e5903%26fn%3Dindex_status_drive_modal_clean.html%26cd%3Dattachment%26ts%3D494554%26p%3Dfs%26cid%3D1%26sig%3Dc30b70c60b0aa52e76c4701207deea99525308953ec74d0f8659eeeb5e2b20c7%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000008e507246883411b528250e73%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3D40ba3f57a74dcbad07122fad7f4ead241e92e5dd9bf59fc1f1cfd3b1098d22f3%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -887,55 +887,21 @@
             aspect-ratio: 9 / 16;
             background: #050505;
             overflow: hidden;
-            cursor: pointer;
         }
 
-        .status-preview-btn {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-            padding: 0;
-            background: #050505;
-            cursor: pointer;
-            display: block;
-            font-family: 'Tel Aviv', Arial, sans-serif;
-        }
-
-        .status-preview-img {
+        .status-video video,
+        .status-video .status-preview-fallback {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: .92;
-            transition: transform .35s ease, opacity .35s ease;
+            background: #050505;
+            display: block;
         }
 
-        .status-card:hover .status-preview-img {
-            transform: scale(1.035);
-            opacity: 1;
-        }
-
-        .status-preview-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background:
-                radial-gradient(circle at center, rgba(212,175,55,.11), transparent 32%),
-                #050505;
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        .status-preview-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.08) 45%, rgba(0,0,0,.24));
-            pointer-events: none;
+        .status-video-el {
+            cursor: pointer;
         }
 
         .status-center-play {
@@ -943,87 +909,84 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 76px;
-            height: 76px;
+            width: 74px;
+            height: 74px;
             border-radius: 50%;
-            border: 2px solid rgba(255,255,255,.9);
-            background: rgba(0,0,0,.52);
+            border: 2px solid rgba(255, 255, 255, 0.92);
+            background: rgba(0, 0, 0, 0.42);
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            font-size: 2.1rem;
-            box-shadow: 0 10px 28px rgba(0,0,0,.45);
-            backdrop-filter: blur(5px);
-            transition: transform .25s ease, background .25s ease, border-color .25s ease;
+            font-size: 1.75rem;
+            cursor: pointer;
+            z-index: 4;
+            backdrop-filter: blur(6px);
+            transition: opacity .2s ease, transform .2s ease;
+        }
+
+        .status-center-play:hover {
+            transform: translate(-50%, -50%) scale(1.06);
+        }
+
+        .status-card.is-playing .status-center-play {
+            opacity: 0;
             pointer-events: none;
         }
 
-        .status-card:hover .status-center-play {
-            transform: translate(-50%, -50%) scale(1.06);
-            border-color: var(--gold-solid);
-            background: rgba(0,0,0,.62);
-        }
-
-        .status-center-play i {
-            margin-right: -4px;
-        }
-
-        .status-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 9998;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 18px;
-            background: rgba(0,0,0,.82);
-            backdrop-filter: blur(10px);
-        }
-
-        .status-modal.open {
-            display: flex;
-        }
-
-        .status-modal-box {
-            position: relative;
-            width: min(92vw, 430px);
-            aspect-ratio: 9 / 16;
-            background: #000;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid rgba(212,175,55,.42);
-            box-shadow: 0 30px 70px rgba(0,0,0,.72), 0 0 30px rgba(212,175,55,.16);
-        }
-
-        .status-modal iframe {
+        .status-player-bottom {
             position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
+            right: 10px;
+            left: 10px;
+            bottom: 10px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.50);
+            border: 1px solid rgba(212, 175, 55, 0.24);
+            backdrop-filter: blur(8px);
         }
 
-        .status-modal-close {
-            position: fixed;
-            top: 18px;
-            left: 18px;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            border: 1px solid rgba(212,175,55,.42);
-            background: rgba(7,7,9,.88);
+        .status-current-time {
+            color: #fff;
+            font-size: .88rem;
+            white-space: nowrap;
+            min-width: 64px;
+        }
+
+        .status-mute-btn {
+            border: 0;
+            background: transparent;
             color: var(--gold-solid);
-            font-size: 1.35rem;
-            cursor: pointer;
+            font-family: 'Tel Aviv', Arial, sans-serif;
+            font-size: .9rem;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            z-index: 9999;
+            gap: 6px;
+            cursor: pointer;
+            padding: 3px 5px;
         }
 
-        body.status-modal-open {
-            overflow: hidden;
+        .status-error {
+            position: absolute;
+            inset: auto 12px 18px 12px;
+            z-index: 6;
+            background: rgba(0, 0, 0, .72);
+            border: 1px solid rgba(212, 175, 55, .25);
+            border-radius: 14px;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-size: .92rem;
+            display: none;
+        }
+
+        .status-card.has-video-error .status-error {
+            display: block;
         }
 
         .status-content {
@@ -1418,6 +1381,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <script id="free_accessibility_plugin_script" src="https://accessibility.f-static.com/site/free-accessibility-plugin/accessibility.min.js?lan=he&place=bottom-right&distance=20" crossorigin="anonymous"></script>
 
     <script>
@@ -1444,6 +1408,11 @@
         */
         const GOOGLE_STATUS_API_URL = 'https://script.google.com/macros/s/AKfycbw7646y6Iy1Aw1L6DZ32SPW8zfW1gTNb0A1fqRcDB_SDJEI0FGC7UoWoN3KLv5v_yMA/exec';
         const GOOGLE_STATUS_FORM_URL = 'PASTE_GOOGLE_FORM_URL_HERE';
+
+        // סטטוסים דרך Cloudinary + Firebase Realtime Database
+        const CLOUDINARY_CLOUD_NAME = 'dli8bbmpa';
+        const CLOUDINARY_UPLOAD_PRESET = 'statuses_unsigned';
+        const STATUS_DURATION_MS = 24 * 60 * 60 * 1000;
 
 
         const state = {
@@ -1766,105 +1735,228 @@
         const statusGrid = document.getElementById('status-grid');
         const statusUploadBtn = document.getElementById('statusUploadBtn');
 
+        function isStatusAdminMode() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('admin') === '1' || params.get('statusAdmin') === '1') {
+                localStorage.setItem('statusAdmin', '1');
+            }
+            return localStorage.getItem('statusAdmin') === '1';
+        }
+
         function setupStatusUploadButton() {
             if (!statusUploadBtn) return;
-            if (GOOGLE_STATUS_FORM_URL && !GOOGLE_STATUS_FORM_URL.includes('PASTE_')) {
-                statusUploadBtn.href = GOOGLE_STATUS_FORM_URL;
-                statusUploadBtn.style.display = 'inline-flex';
+
+            if (!isStatusAdminMode()) {
+                statusUploadBtn.style.display = 'none';
+                return;
+            }
+
+            statusUploadBtn.href = '#';
+            statusUploadBtn.target = '_self';
+            statusUploadBtn.style.display = 'inline-flex';
+            statusUploadBtn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס';
+            statusUploadBtn.onclick = event => {
+                event.preventDefault();
+                openCloudinaryStatusUpload();
+            };
+        }
+
+        function openCloudinaryStatusUpload() {
+            if (!window.cloudinary) {
+                alert('Cloudinary עדיין לא נטען. רענן את הדף ונסה שוב.');
+                return;
+            }
+
+            const widget = cloudinary.createUploadWidget({
+                cloudName: CLOUDINARY_CLOUD_NAME,
+                uploadPreset: CLOUDINARY_UPLOAD_PRESET,
+                resourceType: 'video',
+                sources: ['local', 'camera'],
+                multiple: false,
+                maxFiles: 1,
+                folder: 'statuses',
+                clientAllowedFormats: ['mp4', 'mov', 'webm'],
+                maxFileSize: 120000000,
+                styles: {
+                    palette: {
+                        window: '#070709',
+                        sourceBg: '#0d090b',
+                        windowBorder: '#D4AF37',
+                        tabIcon: '#D4AF37',
+                        menuIcons: '#D4AF37',
+                        textDark: '#f4f4f4',
+                        textLight: '#ffffff',
+                        link: '#D4AF37',
+                        action: '#D4AF37',
+                        inactiveTabIcon: '#a0a0a5',
+                        error: '#ff4d4d',
+                        inProgress: '#D4AF37',
+                        complete: '#20c997',
+                        sourceBg: '#070709'
+                    }
+                }
+            }, async (error, result) => {
+                if (error) {
+                    console.error('Cloudinary upload error:', error);
+                    alert('ההעלאה נכשלה. נסה שוב.');
+                    return;
+                }
+
+                if (result && result.event === 'success') {
+                    await saveUploadedStatus(result.info);
+                }
+            });
+
+            widget.open();
+        }
+
+        async function saveUploadedStatus(info) {
+            const now = Date.now();
+            const title = (prompt('כותרת לסטטוס:', 'סטטוס מהאירוע') || 'סטטוס מהאירוע').trim();
+            const category = (prompt('קטגוריה:', 'אירוע בוטיק') || 'אירוע בוטיק').trim();
+
+            const publicId = info.public_id || '';
+            const videoUrl = buildCloudinaryVideoUrl(publicId, info.format, info.secure_url);
+            const posterUrl = buildCloudinaryPosterUrl(publicId);
+
+            const status = {
+                title,
+                category,
+                description: '',
+                publicId,
+                videoUrl,
+                posterUrl,
+                createdAt: now,
+                expiresAt: now + STATUS_DURATION_MS,
+                cloudinaryAssetId: info.asset_id || '',
+                cloudinarySecureUrl: info.secure_url || ''
+            };
+
+            try {
+                await db.ref('statuses').push(status);
+                alert('הסטטוס עלה בהצלחה ויופיע באתר.');
+            } catch (error) {
+                console.error('Firebase status save error:', error);
+                alert('הסרטון עלה ל־Cloudinary, אבל לא נשמר באתר. בדוק הרשאות כתיבה ב־Firebase.');
             }
         }
 
-        function getDriveFileId(url = '') {
-            const value = String(url || '').trim();
-            if (!value) return '';
+        function buildCloudinaryVideoUrl(publicId, format, fallbackUrl) {
+            if (!publicId) return fallbackUrl || '';
+            const ext = format || 'mp4';
+            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/${publicId}.${ext}`;
+        }
 
-            const patterns = [
-                /drive\.google\.com\/file\/d\/([^/]+)/,
-                /drive\.google\.com\/open\?id=([^&]+)/,
-                /drive\.google\.com\/uc\?id=([^&]+)/,
-                /[?&]id=([^&]+)/
-            ];
+        function buildCloudinaryPosterUrl(publicId) {
+            if (!publicId) return '';
+            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_0,w_720,h_1280,c_fill,q_auto,f_jpg/${publicId}.jpg`;
+        }
 
-            for (const pattern of patterns) {
-                const match = value.match(pattern);
-                if (match && match[1]) return decodeURIComponent(match[1]);
+        function formatStatusSeconds(seconds) {
+            return `${Math.floor(seconds || 0)} שניות`;
+        }
+
+        function formatStatusRemaining(expiresAt) {
+            const remaining = Math.max(0, Number(expiresAt || 0) - Date.now());
+            const hours = Math.floor(remaining / (60 * 60 * 1000));
+            const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+            if (hours > 0) return `${hours} שעות ו־${minutes} דקות`;
+            return `${minutes} דקות`;
+        }
+
+        function stopOtherStatuses(currentVideo) {
+            document.querySelectorAll('.status-video-el').forEach(video => {
+                if (video !== currentVideo) {
+                    video.pause();
+                    const otherCard = video.closest('.status-card');
+                    if (otherCard) otherCard.classList.remove('is-playing');
+                }
+            });
+        }
+
+        async function toggleStatusVideo(video) {
+            const card = video.closest('.status-card');
+            if (!card) return;
+
+            if (video.paused) {
+                stopOtherStatuses(video);
+                video.muted = false;
+                try {
+                    await video.play();
+                    card.classList.add('is-playing');
+                } catch (error) {
+                    console.warn('Status video play blocked:', error);
+                    card.classList.add('has-video-error');
+                }
+            } else {
+                video.pause();
+                card.classList.remove('is-playing');
             }
-
-            return '';
         }
 
-        function buildDrivePreviewUrl(item = {}) {
-            const source = item.previewUrl || item.videoUrl || item.fileUrl || '';
-            const fileId = getDriveFileId(source);
-            if (fileId) return `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview`;
-            return source;
-        }
+        function setupCustomStatusPlayers() {
+            document.querySelectorAll('.status-card').forEach(card => {
+                const video = card.querySelector('.status-video-el');
+                const playButton = card.querySelector('.status-center-play');
+                const muteButton = card.querySelector('.status-mute-btn');
+                const timeEl = card.querySelector('.status-current-time');
 
-        function buildDriveThumbnailUrl(item = {}) {
-            const thumb = item.thumbnailUrl || item.thumbnail || item.poster || '';
-            if (thumb) return thumb;
+                if (!video || !playButton || !muteButton || !timeEl) return;
 
-            const source = item.previewUrl || item.videoUrl || item.fileUrl || '';
-            const fileId = getDriveFileId(source);
-            if (fileId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w1000`;
-            return '';
-        }
+                video.controls = false;
+                video.muted = false;
+                video.disablePictureInPicture = true;
+                video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
+                video.addEventListener('contextmenu', event => event.preventDefault());
 
-        function getStatusModal() {
-            let modal = document.getElementById('status-modal');
-            if (modal) return modal;
+                playButton.addEventListener('click', event => {
+                    event.stopPropagation();
+                    toggleStatusVideo(video);
+                });
 
-            modal = document.createElement('div');
-            modal.id = 'status-modal';
-            modal.className = 'status-modal';
-            modal.setAttribute('aria-hidden', 'true');
-            modal.innerHTML = `
-                <button class="status-modal-close" type="button" aria-label="סגירת הסרטון">
-                    <i class="fas fa-xmark"></i>
-                </button>
-                <div class="status-modal-box" role="dialog" aria-label="צפייה בסטטוס"></div>
-            `;
-            document.body.appendChild(modal);
+                video.addEventListener('click', () => toggleStatusVideo(video));
 
-            modal.addEventListener('click', event => {
-                if (event.target === modal) closeStatusModal();
+                muteButton.addEventListener('click', event => {
+                    event.stopPropagation();
+                    video.muted = !video.muted;
+                    muteButton.innerHTML = video.muted
+                        ? '<i class="fas fa-volume-xmark"></i> שמע כבוי'
+                        : '<i class="fas fa-volume-high"></i> שמע דלוק';
+                });
+
+                video.addEventListener('play', () => card.classList.add('is-playing'));
+                video.addEventListener('pause', () => card.classList.remove('is-playing'));
+                video.addEventListener('ended', () => {
+                    card.classList.remove('is-playing');
+                    video.currentTime = 0;
+                });
+                video.addEventListener('timeupdate', () => {
+                    timeEl.textContent = formatStatusSeconds(video.currentTime);
+                });
+                video.addEventListener('error', () => {
+                    card.classList.add('has-video-error');
+                });
             });
-
-            modal.querySelector('.status-modal-close').addEventListener('click', closeStatusModal);
-
-            document.addEventListener('keydown', event => {
-                if (event.key === 'Escape') closeStatusModal();
-            });
-
-            return modal;
         }
 
-        function openStatusModal(previewUrl) {
-            const modal = getStatusModal();
-            const box = modal.querySelector('.status-modal-box');
-            box.innerHTML = '';
+        function normalizeStatusItems(rawStatuses) {
+            const list = Array.isArray(rawStatuses) ? rawStatuses : Object.values(rawStatuses || {});
+            const now = Date.now();
 
-            const iframe = document.createElement('iframe');
-            iframe.src = previewUrl;
-            iframe.allow = 'autoplay; fullscreen';
-            iframe.allowFullscreen = true;
-            iframe.loading = 'eager';
-            box.appendChild(iframe);
-
-            modal.classList.add('open');
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('status-modal-open');
-        }
-
-        function closeStatusModal() {
-            const modal = document.getElementById('status-modal');
-            if (!modal) return;
-
-            const box = modal.querySelector('.status-modal-box');
-            if (box) box.innerHTML = '';
-            modal.classList.remove('open');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('status-modal-open');
+            return list
+                .filter(Boolean)
+                .filter(item => Number(item.expiresAt || 0) > now)
+                .map(item => ({
+                    title: item.title || 'סטטוס חדש',
+                    category: item.category || 'אירוע',
+                    description: item.description || '',
+                    videoUrl: item.videoUrl || item.cloudinarySecureUrl || '',
+                    posterUrl: item.posterUrl || buildCloudinaryPosterUrl(item.publicId || ''),
+                    expiresAt: Number(item.expiresAt || 0),
+                    createdAt: Number(item.createdAt || 0),
+                    expiresText: formatStatusRemaining(item.expiresAt)
+                }))
+                .sort((a, b) => b.createdAt - a.createdAt);
         }
 
         function renderStatuses(payload) {
@@ -1881,71 +1973,67 @@
                 return;
             }
 
-            statusGrid.innerHTML = items.map((item, index) => {
-                const previewUrl = buildDrivePreviewUrl(item);
-                const thumbnailUrl = buildDriveThumbnailUrl(item);
+            statusGrid.innerHTML = items.map(item => `
+                <article class="status-card">
+                    <div class="status-video">
+                        <video
+                            class="status-video-el"
+                            src="${escapeHTML(item.videoUrl || '')}"
+                            poster="${escapeHTML(item.posterUrl || '')}"
+                            playsinline
+                            preload="metadata"
+                            controlsList="nodownload noplaybackrate noremoteplayback"
+                            disablePictureInPicture
+                        ></video>
 
-                return `
-                    <article class="status-card">
-                        <div class="status-video">
-                            <button class="status-preview-btn" type="button" data-preview-url="${escapeHTML(previewUrl)}" aria-label="צפייה בסטטוס ${escapeHTML(item.title || 'חדש')}">
-                                ${thumbnailUrl ? `<img class="status-preview-img" src="${escapeHTML(thumbnailUrl)}" alt="" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : ''}
-                                <span class="status-preview-placeholder" style="${thumbnailUrl ? 'display:none;' : ''}">תצוגה מקדימה</span>
-                                <span class="status-preview-overlay"></span>
-                                <span class="status-center-play"><i class="fas fa-play"></i></span>
+                        <button class="status-center-play" type="button" aria-label="הפעלת סטטוס">
+                            <i class="fas fa-play"></i>
+                        </button>
+
+                        <div class="status-player-bottom">
+                            <span class="status-current-time">0 שניות</span>
+                            <button class="status-mute-btn" type="button">
+                                <i class="fas fa-volume-high"></i> שמע דלוק
                             </button>
                         </div>
-                        <div class="status-content">
-                            <div class="status-category"><i class="fas fa-bolt"></i>${escapeHTML(item.category || 'אירוע')}</div>
-                            <h3 class="status-title">${escapeHTML(item.title || 'סטטוס חדש')}</h3>
-                            ${item.description ? `<p class="status-desc">${escapeHTML(item.description)}</p>` : ''}
-                            <div class="status-time">נשאר עד: ${escapeHTML(item.expiresText || '24 שעות')}</div>
-                        </div>
-                    </article>
-                `;
-            }).join('');
 
-            statusGrid.querySelectorAll('.status-preview-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const previewUrl = button.dataset.previewUrl || '';
-                    if (previewUrl) openStatusModal(previewUrl);
-                });
-            });
+                        <div class="status-error">לא ניתן להפעיל את הסרטון כרגע.</div>
+                    </div>
+                    <div class="status-content">
+                        <div class="status-category"><i class="fas fa-bolt"></i>${escapeHTML(item.category || 'אירוע')}</div>
+                        <h3 class="status-title">${escapeHTML(item.title || 'סטטוס חדש')}</h3>
+                        ${item.description ? `<p class="status-desc">${escapeHTML(item.description)}</p>` : ''}
+                        <div class="status-time">נשאר עוד: ${escapeHTML(item.expiresText || '24 שעות')}</div>
+                    </div>
+                </article>
+            `).join('');
+
+            setupCustomStatusPlayers();
         }
 
         function loadGoogleStatuses() {
             setupStatusUploadButton();
 
             if (!statusGrid) return;
-            if (!GOOGLE_STATUS_API_URL || GOOGLE_STATUS_API_URL.includes('PASTE_')) {
-                statusGrid.innerHTML = `
-                    <div class="status-setup-note">
-                        כדי להפעיל את אזור הסטטוסים: פרסם את קוד ה-Apps Script שקיבלת, ואז הדבק את כתובת ה-Web App בתוך המשתנה GOOGLE_STATUS_API_URL בקובץ האתר.
-                    </div>
-                `;
-                return;
-            }
 
-            const callbackName = 'renderGoogleStatuses_' + Date.now();
-            window[callbackName] = function(payload) {
-                renderStatuses(payload);
-                delete window[callbackName];
-                script.remove();
-            };
+            statusGrid.innerHTML = `
+                <div class="inline-loader-container">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                    <p>טוען סטטוסים...</p>
+                </div>
+            `;
 
-            const script = document.createElement('script');
-            const separator = GOOGLE_STATUS_API_URL.includes('?') ? '&' : '?';
-            script.src = GOOGLE_STATUS_API_URL + separator + 'callback=' + encodeURIComponent(callbackName);
-            script.onerror = function() {
+            db.ref('statuses').on('value', snapshot => {
+                renderStatuses({ items: normalizeStatusItems(snapshot.val()) });
+            }, error => {
+                console.error('Statuses load error:', error);
                 statusGrid.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-triangle-exclamation"></i>
-                        <p>לא ניתן לטעון כרגע את הסטטוסים. בדוק שה-Apps Script פורסם כ-Web App.</p>
+                        <p>לא ניתן לטעון כרגע את הסטטוסים. בדוק הרשאות קריאה ב־Firebase.</p>
                     </div>
                 `;
-                delete window[callbackName];
-            };
-            document.body.appendChild(script);
+            });
         }
 
         function applyDynamicContent(data) {
