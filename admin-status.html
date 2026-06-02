@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול סטטוסים | שניאור אייזנבך</title>
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000002a2871f4ac092a852288840c%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3D49725dcbb4133dd3e3229a3567efc98cb4c839e610b898a488d9367434653a54%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000001fe071f49f3680128032fcf5%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3D51b0b3782845510fc2fdbef12622649e4e35f6298e2a7e8dd3d249d5c1e92e30%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-dark: #070709;
+            --panel: rgba(15, 10, 12, 0.90);
+            --panel2: rgba(255,255,255,.04);
             --gold-solid: #D4AF37;
             --text-light: #f4f4f4;
             --text-muted: #a0a0a5;
+            --danger: #ff7777;
+            --good: #b9f6ca;
             --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
         }
         * { box-sizing: border-box; }
@@ -24,121 +28,94 @@
                 radial-gradient(circle at 80% 5%, rgba(122, 21, 40, 0.26), transparent 28%),
                 radial-gradient(circle at 10% 80%, rgba(212, 175, 55, 0.10), transparent 26%),
                 var(--bg-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 22px;
         }
+        .admin-wrap {
+            width: min(100%, 1180px);
+            margin: 0 auto;
+        }
         .admin-card {
-            width: min(100%, 760px);
-            background: rgba(15, 10, 12, 0.88);
+            background: var(--panel);
             border: 1px solid rgba(212, 175, 55, 0.28);
             border-radius: 26px;
-            padding: clamp(24px, 5vw, 46px);
+            padding: clamp(20px, 4vw, 42px);
             box-shadow: 0 24px 70px rgba(0,0,0,.55);
             text-align: center;
+            margin-bottom: 22px;
         }
-        .logo-line {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 18px;
-        }
-        .logo-line img {
-            width: 72px;
-            height: 72px;
-            object-fit: contain;
-            border-radius: 50%;
-        }
-        h1 {
+        .logo-line { display: flex; justify-content: center; align-items: center; margin-bottom: 14px; }
+        .logo-line img { width: 72px; height: 72px; object-fit: contain; border-radius: 50%; }
+        h1, h2 {
             margin: 0 0 10px;
-            font-size: clamp(2rem, 5vw, 3.2rem);
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .subtitle {
-            color: var(--text-muted);
-            margin: 0 auto 30px;
-            font-size: 1.1rem;
-            max-width: 560px;
-            line-height: 1.7;
+        h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+        h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); }
+        .subtitle { color: var(--text-muted); margin: 0 auto 26px; font-size: 1.08rem; max-width: 760px; line-height: 1.7; }
+        .login-box, .upload-area, .manager-area {
+            margin: 20px 0;
+            padding: 18px;
+            border-radius: 18px;
+            background: var(--panel2);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            text-align: right;
         }
-        .form-grid {
+        .login-grid, .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             text-align: right;
         }
-        label {
-            display: block;
-            color: var(--gold-solid);
-            font-weight: 700;
-            margin-bottom: 7px;
-        }
-        input {
+        label { display: block; color: var(--gold-solid); font-weight: 700; margin-bottom: 7px; }
+        input, textarea {
             width: 100%;
             border: 1px solid rgba(212, 175, 55, 0.28);
             border-radius: 14px;
-            background: rgba(255,255,255,.04);
+            background: rgba(255,255,255,.045);
             color: #fff;
-            padding: 13px 14px;
+            padding: 12px 13px;
             font-size: 1rem;
             outline: none;
+            font-family: Arial, sans-serif;
         }
-        input:focus {
-            border-color: var(--gold-solid);
-            box-shadow: 0 0 0 3px rgba(212,175,55,.13);
-        }
-        .upload-btn, .site-btn {
-            border: 2px solid var(--gold-solid);
-            background: transparent;
+        textarea { min-height: 82px; resize: vertical; }
+        input:focus, textarea:focus { border-color: var(--gold-solid); box-shadow: 0 0 0 3px rgba(212,175,55,.13); }
+        .upload-btn, .site-btn, .small-btn, .danger-btn, .save-btn {
+            border: 1px solid rgba(212,175,55,.48);
+            background: rgba(255,255,255,.035);
             color: var(--gold-solid);
             border-radius: 999px;
-            padding: 14px 28px;
-            font-size: 1.12rem;
+            padding: 11px 18px;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin: 8px;
+            gap: 8px;
+            margin: 5px;
             transition: all .25s ease;
         }
-        .upload-btn:hover, .site-btn:hover {
-            background: var(--gold-gradient);
-            color: #080808;
-        }
+        .upload-btn { border: 2px solid var(--gold-solid); padding: 14px 28px; font-size: 1.12rem; }
+        .upload-btn:hover, .site-btn:hover, .small-btn:hover, .save-btn:hover { background: var(--gold-gradient); color: #080808; }
+        .danger-btn { color: var(--danger); border-color: rgba(255,119,119,.45); }
+        .danger-btn:hover { background: rgba(255,119,119,.14); }
         .status-box {
-            margin-top: 24px;
-            padding: 16px;
+            margin-top: 18px;
+            padding: 14px 16px;
             border-radius: 16px;
             background: rgba(255,255,255,.04);
             color: var(--text-muted);
-            min-height: 56px;
+            min-height: 52px;
             line-height: 1.6;
+            text-align: center;
         }
-        .status-box.good { color: #b9f6ca; border: 1px solid rgba(185,246,202,.22); }
+        .status-box.good { color: var(--good); border: 1px solid rgba(185,246,202,.22); }
         .status-box.bad { color: #ffb3b3; border: 1px solid rgba(255,179,179,.22); }
-
-        .login-box {
-            margin: 24px 0;
-            padding: 18px;
-            border-radius: 18px;
-            background: rgba(255,255,255,.035);
-            border: 1px solid rgba(212, 175, 55, 0.18);
-            text-align: right;
-        }
-        .login-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 12px;
-        }
         .admin-area { display: none; }
         body.is-logged-in .admin-area { display: block; }
         body.is-logged-in .login-box { display: none; }
@@ -149,74 +126,124 @@
             gap: 12px;
             flex-wrap: wrap;
             color: var(--text-muted);
-            margin: 10px 0 22px;
+            margin: 10px 0 20px;
         }
         body.is-logged-in .auth-line { display: flex; }
-        .small-btn {
-            border: 1px solid rgba(212,175,55,.45);
-            background: rgba(255,255,255,.035);
-            color: var(--gold-solid);
-            border-radius: 999px;
-            padding: 8px 14px;
-            cursor: pointer;
+        .statuses-list { display: grid; gap: 16px; margin-top: 18px; }
+        .status-row {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 18px;
+            align-items: start;
+            padding: 16px;
+            border-radius: 20px;
+            background: rgba(0,0,0,.24);
+            border: 1px solid rgba(212,175,55,.16);
         }
-
-        @media (max-width: 640px) {
-            .login-grid, .form-grid { grid-template-columns: 1fr; }
+        .thumb-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid rgba(212,175,55,.25);
+        }
+        .thumb-box img, .thumb-box video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            border-radius: 999px;
+            padding: 5px 9px;
+            font-size: .78rem;
+            font-weight: 700;
+            color: #070709;
+            background: var(--gold-gradient);
+        }
+        .badge.expired { background: #777; color: #fff; }
+        .row-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .row-fields .full { grid-column: 1 / -1; }
+        .meta {
+            color: var(--text-muted);
+            font-size: .92rem;
+            line-height: 1.7;
+            margin: 10px 0;
+            word-break: break-word;
+        }
+        .actions { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+        .empty { color: var(--text-muted); padding: 32px; text-align: center; }
+        .note {
+            color: var(--text-muted);
+            background: rgba(212,175,55,.07);
+            border: 1px dashed rgba(212,175,55,.25);
+            padding: 12px 14px;
+            border-radius: 16px;
+            line-height: 1.7;
+            margin-top: 12px;
+        }
+        @media (max-width: 780px) {
+            .login-grid, .form-grid, .row-fields, .status-row { grid-template-columns: 1fr; }
+            .thumb-box { max-width: 210px; margin: 0 auto; }
             .upload-btn, .site-btn { width: 100%; margin-inline: 0; }
         }
     </style>
 </head>
 <body>
-    <main class="admin-card">
-        <div class="logo-line">
-            <img src="logo.webp" alt="לוגו" onerror="this.style.display='none'">
-        </div>
-        <h1>ניהול סטטוסים</h1>
-        <p class="subtitle">מכאן מעלים סטטוס חדש. הסרטון יישמר ב־Cloudinary ויופיע באתר למשך 24 שעות.</p>
+    <main class="admin-wrap">
+        <section class="admin-card">
+            <div class="logo-line"><img src="logo.webp" alt="לוגו" onerror="this.style.display='none'"></div>
+            <h1>ניהול סטטוסים</h1>
+            <p class="subtitle">מכאן מעלים סטטוסים חדשים וגם עורכים או מוחקים סטטוסים קיימים מהאתר.</p>
 
-        <div class="login-box" id="loginBox">
-            <div class="login-grid">
-                <div>
-                    <label for="adminEmail">אימייל אדמין</label>
-                    <input id="adminEmail" type="email" value="sh9999425@gmail.com" autocomplete="username">
+            <div class="login-box" id="loginBox">
+                <div class="login-grid">
+                    <div>
+                        <label for="adminEmail">אימייל אדמין</label>
+                        <input id="adminEmail" type="email" value="sh9999425@gmail.com" autocomplete="username">
+                    </div>
+                    <div>
+                        <label for="adminPassword">סיסמה</label>
+                        <input id="adminPassword" type="password" autocomplete="current-password">
+                    </div>
                 </div>
-                <div>
-                    <label for="adminPassword">סיסמה</label>
-                    <input id="adminPassword" type="password" autocomplete="current-password">
-                </div>
-            </div>
-            <button class="upload-btn" id="loginBtn" type="button">
-                <i class="fas fa-lock"></i> כניסה לאדמין
-            </button>
-        </div>
-
-        <div class="auth-line" id="authLine">
-            <span id="loggedInText">מחובר</span>
-            <button class="small-btn" id="logoutBtn" type="button">יציאה</button>
-        </div>
-
-        <div class="admin-area" id="adminArea">
-            <div class="form-grid">
-                <div>
-                    <label for="statusTitle">כותרת</label>
-                    <input id="statusTitle" value="סטטוס מהאירוע" autocomplete="off">
-                </div>
-                <div>
-                    <label for="statusCategory">קטגוריה</label>
-                    <input id="statusCategory" value="אירוע בוטיק" autocomplete="off">
-                </div>
+                <button class="upload-btn" id="loginBtn" type="button"><i class="fas fa-lock"></i> כניסה לאדמין</button>
             </div>
 
-            <button class="upload-btn" id="uploadStatusBtn" type="button">
-                <i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס
-            </button>
-            <a class="site-btn" href="index.html#statuses">
-                <i class="fas fa-eye"></i> צפייה באתר
-            </a>
-        </div>
+            <div class="auth-line" id="authLine">
+                <span id="loggedInText">מחובר</span>
+                <button class="small-btn" id="logoutBtn" type="button">יציאה</button>
+                <a class="site-btn" href="index.html#statuses"><i class="fas fa-eye"></i> צפייה באתר</a>
+            </div>
 
-        <div class="status-box" id="adminStatusBox">נא להתחבר כדי להעלות סטטוס.</div>
+            <div class="admin-area" id="adminArea">
+                <div class="upload-area">
+                    <h2>העלאת סטטוס חדש</h2>
+                    <div class="form-grid">
+                        <div>
+                            <label for="statusTitle">כותרת</label>
+                            <input id="statusTitle" value="סטטוס מהאירוע" autocomplete="off">
+                        </div>
+                        <div>
+                            <label for="statusCategory">קטגוריה</label>
+                            <input id="statusCategory" value="אירוע בוטיק" autocomplete="off">
+                        </div>
+                    </div>
+                    <button class="upload-btn" id="uploadStatusBtn" type="button"><i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס</button>
+                    <div class="note">המחיקה כאן מוחקת את הסטטוס מהאתר/מ־Firebase. מחיקה אמיתית מ־Cloudinary דורשת צד שרת, ולכן בשלב זה ה־public ID נשמר כדי שיהיה קל למחוק בהמשך.</div>
+                </div>
+
+                <div class="manager-area">
+                    <h2>סטטוסים קיימים</h2>
+                    <button class="small-btn" id="refreshBtn" type="button"><i class="fas fa-rotate"></i> רענון רשימה</button>
+                    <div class="statuses-list" id="statusesList">
+                        <div class="empty">טוען סטטוסים...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-box" id="adminStatusBox">נא להתחבר כדי לנהל סטטוסים.</div>
+        </section>
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -253,51 +280,53 @@
         const emailInput = document.getElementById('adminEmail');
         const passwordInput = document.getElementById('adminPassword');
         const loggedInText = document.getElementById('loggedInText');
+        const statusesList = document.getElementById('statusesList');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        let statusesUnsubscribe = null;
 
         function setStatus(message, type = '') {
             box.className = 'status-box' + (type ? ' ' + type : '');
             box.textContent = message;
         }
 
+        function escapeHTML(value = '') {
+            return String(value).replace(/[&<>"']/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+            }[char]));
+        }
 
+        function isAdmin(user) {
+            return user && (user.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase();
+        }
 
         async function loginAdmin() {
             const email = (emailInput.value || '').trim();
             const password = passwordInput.value || '';
-
-            if (!email || !password) {
-                setStatus('נא למלא אימייל וסיסמה.', 'bad');
-                return;
-            }
-
-            if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
-                setStatus('האימייל הזה לא מורשה לניהול סטטוסים.', 'bad');
-                return;
-            }
-
+            if (!email || !password) return setStatus('נא למלא אימייל וסיסמה.', 'bad');
+            if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) return setStatus('האימייל הזה לא מורשה לניהול סטטוסים.', 'bad');
             try {
                 setStatus('מתחבר...', '');
                 await auth.signInWithEmailAndPassword(email, password);
             } catch (error) {
                 console.error('Login error:', error);
-                setStatus('הכניסה נכשלה. בדוק שהמשתמש נוצר ב־Firebase Authentication ושהסיסמה נכונה.', 'bad');
+                setStatus('הכניסה נכשלה. בדוק שהמשתמש קיים ב־Firebase Authentication ושהסיסמה נכונה.', 'bad');
             }
         }
 
-        async function logoutAdmin() {
-            await auth.signOut();
-        }
+        async function logoutAdmin() { await auth.signOut(); }
 
         auth.onAuthStateChanged(user => {
-            const isAllowed = user && (user.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase();
-            document.body.classList.toggle('is-logged-in', Boolean(isAllowed));
-
-            if (isAllowed) {
+            const allowed = isAdmin(user);
+            document.body.classList.toggle('is-logged-in', Boolean(allowed));
+            if (allowed) {
                 loggedInText.textContent = `מחובר כאדמין: ${user.email}`;
-                setStatus('מחובר. מוכן להעלאה.', 'good');
+                setStatus('מחובר. אפשר להעלות ולנהל סטטוסים.', 'good');
+                listenToStatuses();
             } else {
                 if (user) auth.signOut();
-                setStatus('נא להתחבר כדי להעלות סטטוס.', '');
+                stopListenToStatuses();
+                setStatus('נא להתחבר כדי לנהל סטטוסים.', '');
             }
         });
 
@@ -312,18 +341,34 @@
             return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_0,w_720,h_1280,c_fill,q_auto,f_jpg/${publicId}.jpg`;
         }
 
+        function formatDate(ms) {
+            if (!ms) return 'לא ידוע';
+            try {
+                return new Date(Number(ms)).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' });
+            } catch (e) { return String(ms); }
+        }
+
+        function isActiveStatus(item) {
+            return Number(item.expiresAt || 0) > Date.now();
+        }
+
         async function saveUploadedStatus(info) {
+            const user = auth.currentUser;
+            if (!isAdmin(user)) return setStatus('נא להתחבר כאדמין לפני שמירה.', 'bad');
+
             const now = Date.now();
             const title = (titleInput.value || 'סטטוס מהאירוע').trim();
             const category = (categoryInput.value || 'אירוע בוטיק').trim();
             const publicId = info.public_id || '';
+            const format = info.format || 'mp4';
 
             const status = {
                 title,
                 category,
                 description: '',
                 publicId,
-                videoUrl: buildCloudinaryVideoUrl(publicId, info.format, info.secure_url),
+                format,
+                videoUrl: buildCloudinaryVideoUrl(publicId, format, info.secure_url),
                 posterUrl: buildCloudinaryPosterUrl(publicId),
                 createdAt: now,
                 expiresAt: now + STATUS_DURATION_MS,
@@ -332,27 +377,18 @@
             };
 
             setStatus('שומר את הסטטוס באתר...', '');
-
             try {
                 await db.ref('statuses').push(status);
                 setStatus('הסטטוס עלה ונשמר בהצלחה. הוא יופיע באתר למשך 24 שעות.', 'good');
             } catch (error) {
                 console.error('Firebase save error:', error);
-                setStatus('הסרטון עלה ל־Cloudinary, אבל לא נשמר ב־Firebase. צריך לבדוק הרשאות כתיבה ב־Firebase.', 'bad');
+                setStatus('הסרטון עלה ל־Cloudinary, אבל לא נשמר ב־Firebase. בדוק Rules והרשאות כתיבה.', 'bad');
             }
         }
 
         function openUploadWidget() {
-            const user = auth.currentUser;
-            if (!user || (user.email || '').toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
-                setStatus('נא להתחבר כאדמין לפני העלאה.', 'bad');
-                return;
-            }
-
-            if (!window.cloudinary) {
-                setStatus('Cloudinary עדיין לא נטען. רענן את הדף ונסה שוב.', 'bad');
-                return;
-            }
+            if (!isAdmin(auth.currentUser)) return setStatus('נא להתחבר כאדמין לפני העלאה.', 'bad');
+            if (!window.cloudinary) return setStatus('Cloudinary עדיין לא נטען. רענן את הדף ונסה שוב.', 'bad');
 
             const widget = cloudinary.createUploadWidget({
                 cloudName: CLOUDINARY_CLOUD_NAME,
@@ -370,22 +406,168 @@
                     setStatus('ההעלאה נכשלה. נסה שוב.', 'bad');
                     return;
                 }
-
                 if (result && result.event === 'success') {
                     setStatus('הסרטון עלה ל־Cloudinary. שומר באתר...', '');
                     await saveUploadedStatus(result.info);
                 }
             });
-
             widget.open();
+        }
+
+        function stopListenToStatuses() {
+            if (statusesUnsubscribe) {
+                db.ref('statuses').off('value', statusesUnsubscribe);
+                statusesUnsubscribe = null;
+            }
+            statusesList.innerHTML = '<div class="empty">נא להתחבר כדי לראות סטטוסים.</div>';
+        }
+
+        function listenToStatuses() {
+            stopListenToStatuses();
+            statusesList.innerHTML = '<div class="empty">טוען סטטוסים...</div>';
+            statusesUnsubscribe = snapshot => renderStatusManager(snapshot.val());
+            db.ref('statuses').on('value', statusesUnsubscribe, error => {
+                console.error('Load statuses error:', error);
+                statusesList.innerHTML = '<div class="empty">לא ניתן לטעון סטטוסים. בדוק הרשאות קריאה.</div>';
+            });
+        }
+
+        function normalizeStatusRecords(raw) {
+            return Object.entries(raw || {}).map(([key, item]) => ({ key, ...(item || {}) }))
+                .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+        }
+
+        function renderStatusManager(raw) {
+            const items = normalizeStatusRecords(raw);
+            if (!items.length) {
+                statusesList.innerHTML = '<div class="empty">אין עדיין סטטוסים במערכת.</div>';
+                return;
+            }
+
+            statusesList.innerHTML = items.map(item => {
+                const active = isActiveStatus(item);
+                const poster = item.posterUrl || buildCloudinaryPosterUrl(item.publicId || '');
+                return `
+                    <article class="status-row" data-key="${escapeHTML(item.key)}">
+                        <div class="thumb-box">
+                            ${poster ? `<img src="${escapeHTML(poster)}" alt="תצוגה מקדימה" loading="lazy">` : `<video src="${escapeHTML(item.videoUrl || item.cloudinarySecureUrl || '')}" muted preload="metadata"></video>`}
+                            <span class="badge ${active ? '' : 'expired'}">${active ? 'פעיל' : 'מוסתר/פג'}</span>
+                        </div>
+                        <div>
+                            <div class="row-fields">
+                                <div>
+                                    <label>כותרת</label>
+                                    <input class="edit-title" value="${escapeHTML(item.title || 'סטטוס מהאירוע')}">
+                                </div>
+                                <div>
+                                    <label>קטגוריה</label>
+                                    <input class="edit-category" value="${escapeHTML(item.category || 'אירוע בוטיק')}">
+                                </div>
+                                <div class="full">
+                                    <label>תיאור קצר, לא חובה</label>
+                                    <textarea class="edit-description">${escapeHTML(item.description || '')}</textarea>
+                                </div>
+                            </div>
+                            <div class="meta">
+                                נוצר: ${escapeHTML(formatDate(item.createdAt))}<br>
+                                תוקף עד: ${escapeHTML(formatDate(item.expiresAt))}<br>
+                                Public ID: ${escapeHTML(item.publicId || 'לא נשמר')}
+                            </div>
+                            <div class="actions">
+                                <button class="save-btn save-status" type="button"><i class="fas fa-floppy-disk"></i> שמור טקסט</button>
+                                <button class="small-btn extend-status" type="button"><i class="fas fa-clock"></i> הארך 24 שעות מעכשיו</button>
+                                <button class="small-btn hide-status" type="button"><i class="fas fa-eye-slash"></i> הסתר מהאתר</button>
+                                <button class="small-btn copy-id" type="button"><i class="fas fa-copy"></i> העתק Public ID</button>
+                                <button class="danger-btn delete-status" type="button"><i class="fas fa-trash"></i> מחק מהאתר</button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            statusesList.querySelectorAll('.status-row').forEach(row => {
+                row.querySelector('.save-status').addEventListener('click', () => saveEditedStatus(row));
+                row.querySelector('.extend-status').addEventListener('click', () => extendStatus(row));
+                row.querySelector('.hide-status').addEventListener('click', () => hideStatus(row));
+                row.querySelector('.delete-status').addEventListener('click', () => deleteStatus(row));
+                row.querySelector('.copy-id').addEventListener('click', () => copyPublicId(row));
+            });
+        }
+
+        function getRowKey(row) { return row.dataset.key || ''; }
+
+        async function saveEditedStatus(row) {
+            const key = getRowKey(row);
+            if (!key) return;
+            const title = row.querySelector('.edit-title').value.trim() || 'סטטוס מהאירוע';
+            const category = row.querySelector('.edit-category').value.trim() || 'אירוע בוטיק';
+            const description = row.querySelector('.edit-description').value.trim();
+            try {
+                await db.ref('statuses/' + key).update({ title, category, description });
+                setStatus('הטקסט נשמר בהצלחה.', 'good');
+            } catch (error) {
+                console.error('Save edit error:', error);
+                setStatus('השמירה נכשלה. בדוק שאתה מחובר וש־Rules מאפשרים כתיבה.', 'bad');
+            }
+        }
+
+        async function extendStatus(row) {
+            const key = getRowKey(row);
+            if (!key) return;
+            try {
+                await db.ref('statuses/' + key).update({ expiresAt: Date.now() + STATUS_DURATION_MS });
+                setStatus('הסטטוס הוארך ל־24 שעות מעכשיו.', 'good');
+            } catch (error) {
+                console.error('Extend error:', error);
+                setStatus('הארכת הסטטוס נכשלה.', 'bad');
+            }
+        }
+
+        async function hideStatus(row) {
+            const key = getRowKey(row);
+            if (!key) return;
+            if (!confirm('להסתיר את הסטטוס מהאתר?')) return;
+            try {
+                await db.ref('statuses/' + key).update({ expiresAt: Date.now() - 1000 });
+                setStatus('הסטטוס הוסתר מהאתר.', 'good');
+            } catch (error) {
+                console.error('Hide error:', error);
+                setStatus('הסתרת הסטטוס נכשלה.', 'bad');
+            }
+        }
+
+        async function deleteStatus(row) {
+            const key = getRowKey(row);
+            if (!key) return;
+            if (!confirm('למחוק את הסטטוס מהאתר? הפעולה תמחק את הרשומה מ־Firebase, אבל לא תמחק את הקובץ מ־Cloudinary.')) return;
+            try {
+                await db.ref('statuses/' + key).remove();
+                setStatus('הסטטוס נמחק מהאתר.', 'good');
+            } catch (error) {
+                console.error('Delete error:', error);
+                setStatus('מחיקת הסטטוס נכשלה.', 'bad');
+            }
+        }
+
+        async function copyPublicId(row) {
+            const key = getRowKey(row);
+            if (!key) return;
+            const snap = await db.ref('statuses/' + key + '/publicId').get();
+            const publicId = snap.val() || '';
+            if (!publicId) return setStatus('אין Public ID להעתקה.', 'bad');
+            try {
+                await navigator.clipboard.writeText(publicId);
+                setStatus('ה־Public ID הועתק.', 'good');
+            } catch (e) {
+                setStatus('Public ID: ' + publicId, '');
+            }
         }
 
         loginBtn.addEventListener('click', loginAdmin);
         logoutBtn.addEventListener('click', logoutAdmin);
-        passwordInput.addEventListener('keydown', event => {
-            if (event.key === 'Enter') loginAdmin();
-        });
+        passwordInput.addEventListener('keydown', event => { if (event.key === 'Enter') loginAdmin(); });
         uploadBtn.addEventListener('click', openUploadWidget);
+        refreshBtn.addEventListener('click', listenToStatuses);
     </script>
 </body>
 </html>
