@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000fd00720a94c15723c2569abd%26ts%3D494554%26p%3Dfs%26cid%3D1%26sig%3D97fb475c0600ddf150d11c8ad90b6cc1fc3af16d12ba9da778cda8ee7df62fca%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000018871f4b3db23b0cd701dbe%26fn%3Dindex_status_player_drive_preview_fixed2.html%26cd%3Dattachment%26ts%3D494554%26p%3Dfs%26cid%3D1%26sig%3D2bd408f68497961ee1a3b196268e0f68b896bc3722ab4d14fe00a62db76dd0ff%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780394322200&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -901,10 +901,9 @@
 
         .status-video iframe.status-drive-preview-frame {
             position: absolute;
-            /* Google Drive מוסיף שוליים ופקדים פנימיים, לכן במצב fallback אנחנו מגדילים מעט את ה-frame כדי שהסרטון ימלא את המקום */
-            inset: -38px -18px -52px -18px;
-            width: calc(100% + 36px);
-            height: calc(100% + 90px);
+            inset: 0;
+            width: 100%;
+            height: 100%;
             border: 0;
             background: #050505;
             display: none;
@@ -947,10 +946,11 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 72px;
-            height: 72px;
-            background: rgba(5, 5, 5, 0.92);
-            border-bottom-left-radius: 16px;
+            left: 0;
+            width: 100%;
+            height: 36px;
+            background: rgba(5, 5, 5, 0.58);
+            border-radius: 0;
             z-index: 6;
             display: none;
             pointer-events: auto;
@@ -965,7 +965,10 @@
             background: transparent;
         }
 
-        .status-card.uses-drive-preview.drive-loaded .status-drive-block-open,
+        .status-card.uses-drive-preview .status-drive-block-open {
+            display: block;
+        }
+
         .status-card.uses-drive-preview.drive-loaded .status-drive-click-layer {
             display: block;
         }
@@ -1931,7 +1934,11 @@
                 otherCard.classList.remove('is-playing', 'is-loading', 'drive-loaded');
 
                 const frame = otherCard.querySelector('.status-drive-preview-frame');
-                if (frame) frame.removeAttribute('src');
+                if (frame) {
+                    const previewUrl = frame.dataset.previewUrl || '';
+                    if (previewUrl) frame.src = previewUrl;
+                    else frame.removeAttribute('src');
+                }
             });
         }
 
@@ -1958,7 +1965,7 @@
 
                     const stopDrivePreview = event => {
                         if (event) event.stopPropagation();
-                        driveFrame.removeAttribute('src');
+                        driveFrame.src = driveFrame.dataset.previewUrl || '';
                         card.classList.remove('drive-loaded', 'is-playing', 'is-loading');
                     };
 
@@ -1973,7 +1980,7 @@
 
                 card.querySelector('.status-drive-click-layer')?.addEventListener('click', event => {
                     event.stopPropagation();
-                    if (driveFrame) driveFrame.removeAttribute('src');
+                    if (driveFrame) driveFrame.src = driveFrame.dataset.previewUrl || '';
                     card.classList.remove('uses-drive-preview', 'drive-loaded', 'is-playing', 'is-loading');
                 });
 
@@ -2152,6 +2159,7 @@
                             <iframe
                                 class="status-drive-preview-frame"
                                 data-preview-url="${escapeHTML(drivePreviewUrl)}"
+                                src="${escapeHTML(drivePreviewUrl)}"
                                 allow="autoplay"
                                 loading="lazy"
                             ></iframe>
