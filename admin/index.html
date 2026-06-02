@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000dca47243b622cd79f04a54bc%26fn%3Dadmin_with_status_upload_only.html%26cd%3Dattachment%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3D9479ca7cfada2edfffd877bc8f8ef53e8265e578e2e725751d7525dfd7cebca9%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <meta charset="UTF-8"><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000003d8871f497a7c69e77297f47%26ts%3D494557%26p%3Dfs%26cid%3D1%26sig%3D47f342b05f332dacbbee4bce351b306e8fae3783401060f49dddaa7a30524994%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול תוכן | שניאור אייזנבך</title>
 
@@ -10,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -175,6 +175,93 @@
 
         .mini-note { color: var(--text-muted); font-size: .88rem; margin-top: 8px; }
         .danger-zone { border-color: rgba(255,93,93,0.35); }
+
+
+
+        /* === ניהול סטטוסים מתקדם בתוך האדמין === */
+        .status-admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+        .status-upload-card, .status-manager-card {
+            background: #202027;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px;
+        }
+        .status-manager-card { grid-column: 1 / -1; }
+        .status-actions-line { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+        .settings-panel {
+            margin: 14px 0 16px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(212,175,55,.06);
+            border: 1px solid rgba(212,175,55,.18);
+        }
+        .check-line { display: flex; align-items: center; gap: 10px; color: var(--text-main); cursor: pointer; margin: 0; }
+        .check-line input { width: auto; min-width: 20px; height: 20px; accent-color: var(--primary); transform: none; margin: 0; }
+        .statuses-list { display: grid; gap: 16px; margin-top: 18px; }
+        .status-row {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 18px;
+            align-items: start;
+            padding: 16px;
+            border-radius: 20px;
+            background: rgba(0,0,0,.24);
+            border: 1px solid rgba(212,175,55,.16);
+        }
+        .thumb-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid rgba(212,175,55,.25);
+        }
+        .thumb-box img, .thumb-box video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .status-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            border-radius: 999px;
+            padding: 5px 9px;
+            font-size: .78rem;
+            font-weight: 800;
+            color: #070709;
+            background: var(--primary);
+        }
+        .status-badge.expired { background: #777; color: #fff; }
+        .row-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .row-fields .full { grid-column: 1 / -1; }
+        .metrics-line { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 10px; }
+        .metric-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(212,175,55,.18);
+            background: rgba(255,255,255,.035);
+            border-radius: 999px;
+            padding: 6px 10px;
+            color: var(--text-muted);
+            font-size: .9rem;
+        }
+        .metric-pill i { color: var(--primary); }
+        .status-meta { color: var(--text-muted); font-size: .92rem; line-height: 1.7; margin: 10px 0; word-break: break-word; }
+        .status-box {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,.04);
+            color: var(--text-muted);
+            min-height: 52px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .status-box.good { color: #b9f6ca; border: 1px solid rgba(185,246,202,.22); }
+        .status-box.bad { color: #ffb3b3; border: 1px solid rgba(255,179,179,.22); }
+        @media (max-width: 900px) {
+            .status-admin-grid, .status-row, .row-fields { grid-template-columns: 1fr; }
+            .thumb-box { max-width: 210px; margin: 0 auto; }
+        }
 
         @media (max-width: 900px) {
             .grid-2, .grid-3, .grid-4, .portfolio-tools { grid-template-columns: 1fr; }
@@ -365,29 +452,57 @@
     </section>
 
 
+
     <section class="tab-panel" id="tab-statuses">
         <div class="section">
             <div class="section-header">
-                <h2><i class="fas fa-cloud-arrow-up"></i> העלאת סטטוסים 24 שעות</h2>
-                <a class="btn" href="https://forms.gle/ozD5hYZPAvmRWHG46" target="_blank" rel="noopener">
-                    <i class="fas fa-up-right-from-square"></i> פתח טופס העלאת סטטוס
-                </a>
-            </div>
-            <p class="hint">העלאת סטטוסים מתבצעת רק מכאן, אחרי התחברות לאדמין. באתר הציבורי אין כפתור העלאה — הוא מציג רק את הסרטונים שעלו בטופס ועדיין לא עברו 24 שעות.</p>
-            <div class="grid-3">
-                <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:14px;padding:18px;">
-                    <div class="badge"><i class="fas fa-1"></i> פתח את הטופס</div>
-                    <p class="mini-note">לחץ על הכפתור למעלה והעלה סרטון מהאירוע.</p>
-                </div>
-                <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:14px;padding:18px;">
-                    <div class="badge"><i class="fas fa-2"></i> הסרטון נכנס לדרייב</div>
-                    <p class="mini-note">הטופס שומר את הסרטון ב־Google Drive ומוסיף שורה ל־Google Sheet.</p>
-                </div>
-                <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:14px;padding:18px;">
-                    <div class="badge"><i class="fas fa-3"></i> האתר מציג 24 שעות</div>
-                    <p class="mini-note">אחרי 24 שעות הסטטוס נעלם לבד מהאתר.</p>
+                <h2><i class="fas fa-cloud-arrow-up"></i> ניהול סטטוסים מלא</h2>
+                <div class="item-actions">
+                    <a class="btn btn-soft" href="../index.html#statuses" target="_blank" rel="noopener"><i class="fas fa-eye"></i> צפייה באתר</a>
+                    <button class="btn btn-soft" id="refreshStatusesBtn" type="button"><i class="fas fa-rotate"></i> רענון סטטוסים</button>
                 </div>
             </div>
+            <p class="hint">מכאן מעלים סטטוס חדש ל־Cloudinary, שומרים אותו ב־Firebase ל־24 שעות, עורכים סטטוסים קיימים, מסתירים, מאריכים, מוחקים, ורואים לבבות וצפיות.</p>
+
+            <div class="status-admin-grid">
+                <div class="status-upload-card">
+                    <h3 style="margin-top:0;color:var(--primary);"><i class="fas fa-upload"></i> העלאת סטטוס חדש</h3>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="statusTitle">כותרת</label>
+                            <input id="statusTitle" value="סטטוס מהאירוע" autocomplete="off">
+                        </div>
+                        <div class="field">
+                            <label for="statusCategory">קטגוריה</label>
+                            <input id="statusCategory" value="אירוע בוטיק" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="status-actions-line">
+                        <button class="btn" id="uploadStatusBtn" type="button"><i class="fas fa-cloud-arrow-up"></i> העלאת סטטוס</button>
+                    </div>
+                    <p class="mini-note">הסטטוס יישמר באתר למשך 24 שעות. מחיקה מכאן מוחקת את הרשומה מ־Firebase; מחיקה אמיתית מהחשבון ב־Cloudinary דורשת צד שרת.</p>
+                </div>
+
+                <div class="status-upload-card">
+                    <h3 style="margin-top:0;color:var(--primary);"><i class="fas fa-sliders"></i> הגדרות תצוגה</h3>
+                    <div class="settings-panel">
+                        <label class="check-line">
+                            <input id="showViewsToggle" type="checkbox">
+                            <span>להציג באתר כמה צפיות יש לכל סטטוס</span>
+                        </label>
+                    </div>
+                    <p class="mini-note">לבבות נשמרים לכל סטטוס. את הצפיות אפשר להציג או להסתיר מהאתר לפי ההגדרה הזו.</p>
+                </div>
+
+                <div class="status-manager-card">
+                    <h3 style="margin-top:0;color:var(--primary);"><i class="fas fa-list-check"></i> סטטוסים קיימים</h3>
+                    <div class="statuses-list" id="statusesList">
+                        <div class="empty-state">טוען סטטוסים...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-box" id="adminStatusBox">טוען מערכת סטטוסים...</div>
         </div>
     </section>
 
@@ -430,6 +545,12 @@
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const auth = firebase.auth();
+
+    const CLOUDINARY_CLOUD_NAME = 'dli8bbmpa';
+    const CLOUDINARY_UPLOAD_PRESET = 'statuses_unsigned';
+    const STATUS_DURATION_MS = 24 * 60 * 60 * 1000;
+    let statusesUnsubscribe = null;
+    let settingsUnsubscribe = null;
 
     const defaultCategories = [
         { id: 'עריכה', label: 'עריכות' },
@@ -759,6 +880,286 @@
         [portfolioItems[index], portfolioItems[target]] = [portfolioItems[target], portfolioItems[index]];
         renderPortfolio();
     }
+
+
+    // === ניהול סטטוסים מלא ===
+    function setStatus(message, type = '') {
+        const box = $('adminStatusBox');
+        if (!box) return;
+        box.className = 'status-box' + (type ? ' ' + type : '');
+        box.textContent = message;
+    }
+
+    function buildCloudinaryVideoUrl(publicId, format, fallbackUrl) {
+        if (!publicId) return fallbackUrl || '';
+        const ext = format || 'mp4';
+        return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/${publicId}.${ext}`;
+    }
+
+    function buildCloudinaryPosterUrl(publicId) {
+        if (!publicId) return '';
+        return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_0,w_720,h_1280,c_fill,q_auto,f_jpg/${publicId}.jpg`;
+    }
+
+    function formatStatusDate(ms) {
+        if (!ms) return 'לא ידוע';
+        try { return new Date(Number(ms)).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' }); }
+        catch (e) { return String(ms); }
+    }
+
+    function isActiveStatus(item) { return Number(item.expiresAt || 0) > Date.now(); }
+    function countObjectKeys(value) { return value && typeof value === 'object' ? Object.keys(value).length : 0; }
+
+    async function saveUploadedStatus(info) {
+        if (!auth.currentUser) return setStatus('נא להתחבר לפני שמירה.', 'bad');
+        const now = Date.now();
+        const title = (($('statusTitle') || {}).value || 'סטטוס מהאירוע').trim();
+        const category = (($('statusCategory') || {}).value || 'אירוע בוטיק').trim();
+        const publicId = info.public_id || '';
+        const format = info.format || 'mp4';
+        const status = {
+            title,
+            category,
+            description: '',
+            publicId,
+            format,
+            videoUrl: buildCloudinaryVideoUrl(publicId, format, info.secure_url),
+            posterUrl: buildCloudinaryPosterUrl(publicId),
+            createdAt: now,
+            expiresAt: now + STATUS_DURATION_MS,
+            cloudinaryAssetId: info.asset_id || '',
+            cloudinarySecureUrl: info.secure_url || ''
+        };
+        setStatus('שומר את הסטטוס באתר...', '');
+        try {
+            await db.ref('statuses').push(status);
+            setStatus('הסטטוס עלה ונשמר בהצלחה. הוא יופיע באתר למשך 24 שעות.', 'good');
+        } catch (error) {
+            console.error('Firebase save error:', error);
+            setStatus('הסרטון עלה ל־Cloudinary, אבל לא נשמר ב־Firebase. בדוק Rules והרשאות כתיבה.', 'bad');
+        }
+    }
+
+    function openUploadWidget() {
+        if (!auth.currentUser) return setStatus('נא להתחבר לפני העלאה.', 'bad');
+        if (!window.cloudinary) return setStatus('Cloudinary עדיין לא נטען. רענן את הדף ונסה שוב.', 'bad');
+        const widget = cloudinary.createUploadWidget({
+            cloudName: CLOUDINARY_CLOUD_NAME,
+            uploadPreset: CLOUDINARY_UPLOAD_PRESET,
+            resourceType: 'video',
+            sources: ['local', 'camera'],
+            multiple: false,
+            maxFiles: 1,
+            folder: 'statuses',
+            clientAllowedFormats: ['mp4', 'mov', 'webm'],
+            maxFileSize: 120000000
+        }, async (error, result) => {
+            if (error) {
+                console.error('Cloudinary upload error:', error);
+                setStatus('ההעלאה נכשלה. נסה שוב.', 'bad');
+                return;
+            }
+            if (result && result.event === 'success') {
+                setStatus('הסרטון עלה ל־Cloudinary. שומר באתר...', '');
+                await saveUploadedStatus(result.info);
+            }
+        });
+        widget.open();
+    }
+
+    function stopListenToSettings() {
+        if (settingsUnsubscribe) {
+            db.ref('settings/statuses/showViews').off('value', settingsUnsubscribe);
+            settingsUnsubscribe = null;
+        }
+        if ($('showViewsToggle')) $('showViewsToggle').checked = false;
+    }
+
+    function listenToSettings() {
+        stopListenToSettings();
+        if (!$('showViewsToggle')) return;
+        settingsUnsubscribe = snapshot => { $('showViewsToggle').checked = snapshot.val() === true; };
+        db.ref('settings/statuses/showViews').on('value', settingsUnsubscribe, error => {
+            console.error('Load settings error:', error);
+            setStatus('לא ניתן לטעון הגדרות תצוגה. בדוק Rules.', 'bad');
+        });
+    }
+
+    async function saveShowViewsSetting() {
+        if (!auth.currentUser) return setStatus('נא להתחבר לאדמין.', 'bad');
+        try {
+            await db.ref('settings/statuses/showViews').set(Boolean($('showViewsToggle').checked));
+            setStatus($('showViewsToggle').checked ? 'הצגת צפיות הופעלה באתר.' : 'הצגת צפיות כובתה באתר.', 'good');
+        } catch (error) {
+            console.error('Save settings error:', error);
+            setStatus('שמירת ההגדרה נכשלה. בדוק Rules ל־settings/statuses/showViews.', 'bad');
+        }
+    }
+
+    function stopListenToStatuses() {
+        if (statusesUnsubscribe) {
+            db.ref('statuses').off('value', statusesUnsubscribe);
+            statusesUnsubscribe = null;
+        }
+        if ($('statusesList')) $('statusesList').innerHTML = '<div class="empty-state">נא להתחבר כדי לראות סטטוסים.</div>';
+    }
+
+    function listenToStatuses() {
+        stopListenToStatuses();
+        if (!$('statusesList')) return;
+        $('statusesList').innerHTML = '<div class="empty-state">טוען סטטוסים...</div>';
+        statusesUnsubscribe = snapshot => renderStatusManager(snapshot.val());
+        db.ref('statuses').on('value', statusesUnsubscribe, error => {
+            console.error('Load statuses error:', error);
+            $('statusesList').innerHTML = '<div class="empty-state">לא ניתן לטעון סטטוסים. בדוק הרשאות קריאה.</div>';
+        });
+    }
+
+    function normalizeStatusRecords(raw) {
+        return Object.entries(raw || {}).map(([key, item]) => ({ key, ...(item || {}) }))
+            .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+    }
+
+    function renderStatusManager(raw) {
+        const list = $('statusesList');
+        if (!list) return;
+        const items = normalizeStatusRecords(raw);
+        if (!items.length) {
+            list.innerHTML = '<div class="empty-state">אין עדיין סטטוסים במערכת.</div>';
+            return;
+        }
+        list.innerHTML = items.map(item => {
+            const active = isActiveStatus(item);
+            const poster = item.posterUrl || buildCloudinaryPosterUrl(item.publicId || '');
+            const likeCount = countObjectKeys(item.likes);
+            const viewCount = countObjectKeys(item.views);
+            return `
+                <article class="status-row" data-key="${escapeHTML(item.key)}">
+                    <div class="thumb-box">
+                        ${poster ? `<img src="${escapeHTML(poster)}" alt="תצוגה מקדימה" loading="lazy">` : `<video src="${escapeHTML(item.videoUrl || item.cloudinarySecureUrl || '')}" muted preload="metadata"></video>`}
+                        <span class="status-badge ${active ? '' : 'expired'}">${active ? 'פעיל' : 'מוסתר/פג'}</span>
+                    </div>
+                    <div>
+                        <div class="row-fields">
+                            <div><label>כותרת</label><input class="edit-title" value="${escapeHTML(item.title || 'סטטוס מהאירוע')}"></div>
+                            <div><label>קטגוריה</label><input class="edit-category" value="${escapeHTML(item.category || 'אירוע בוטיק')}"></div>
+                            <div class="full"><label>תיאור קצר, לא חובה</label><textarea class="edit-description">${escapeHTML(item.description || '')}</textarea></div>
+                        </div>
+                        <div class="metrics-line">
+                            <span class="metric-pill"><i class="fas fa-heart"></i> ${likeCount} לבבות</span>
+                            <span class="metric-pill"><i class="fas fa-eye"></i> ${viewCount} צפיות</span>
+                        </div>
+                        <div class="status-meta">
+                            נוצר: ${escapeHTML(formatStatusDate(item.createdAt))}<br>
+                            תוקף עד: ${escapeHTML(formatStatusDate(item.expiresAt))}<br>
+                            Public ID: ${escapeHTML(item.publicId || 'לא נשמר')}
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-small save-status" type="button"><i class="fas fa-floppy-disk"></i> שמור טקסט</button>
+                            <button class="btn btn-small btn-soft extend-status" type="button"><i class="fas fa-clock"></i> הארך 24 שעות</button>
+                            <button class="btn btn-small btn-soft hide-status" type="button"><i class="fas fa-eye-slash"></i> הסתר</button>
+                            <button class="btn btn-small btn-soft copy-id" type="button"><i class="fas fa-copy"></i> העתק Public ID</button>
+                            <button class="btn btn-small btn-danger delete-status" type="button"><i class="fas fa-trash"></i> מחק</button>
+                        </div>
+                    </div>
+                </article>`;
+        }).join('');
+        list.querySelectorAll('.status-row').forEach(row => {
+            row.querySelector('.save-status').addEventListener('click', () => saveEditedStatus(row));
+            row.querySelector('.extend-status').addEventListener('click', () => extendStatus(row));
+            row.querySelector('.hide-status').addEventListener('click', () => hideStatus(row));
+            row.querySelector('.delete-status').addEventListener('click', () => deleteStatus(row));
+            row.querySelector('.copy-id').addEventListener('click', () => copyPublicId(row));
+        });
+    }
+
+    function getRowKey(row) { return row.dataset.key || ''; }
+
+    async function saveEditedStatus(row) {
+        const key = getRowKey(row);
+        if (!key) return;
+        const title = row.querySelector('.edit-title').value.trim() || 'סטטוס מהאירוע';
+        const category = row.querySelector('.edit-category').value.trim() || 'אירוע בוטיק';
+        const description = row.querySelector('.edit-description').value.trim();
+        try {
+            await db.ref('statuses/' + key).update({ title, category, description });
+            setStatus('הטקסט נשמר בהצלחה.', 'good');
+        } catch (error) {
+            console.error('Save edit error:', error);
+            setStatus('השמירה נכשלה. בדוק שאתה מחובר וש־Rules מאפשרים כתיבה.', 'bad');
+        }
+    }
+
+    async function extendStatus(row) {
+        const key = getRowKey(row);
+        if (!key) return;
+        try {
+            await db.ref('statuses/' + key).update({ expiresAt: Date.now() + STATUS_DURATION_MS });
+            setStatus('הסטטוס הוארך ל־24 שעות מעכשיו.', 'good');
+        } catch (error) {
+            console.error('Extend error:', error);
+            setStatus('הארכת הסטטוס נכשלה.', 'bad');
+        }
+    }
+
+    async function hideStatus(row) {
+        const key = getRowKey(row);
+        if (!key) return;
+        if (!confirm('להסתיר את הסטטוס מהאתר?')) return;
+        try {
+            await db.ref('statuses/' + key).update({ expiresAt: Date.now() - 1000 });
+            setStatus('הסטטוס הוסתר מהאתר.', 'good');
+        } catch (error) {
+            console.error('Hide error:', error);
+            setStatus('הסתרת הסטטוס נכשלה.', 'bad');
+        }
+    }
+
+    async function deleteStatus(row) {
+        const key = getRowKey(row);
+        if (!key) return;
+        if (!confirm('למחוק את הסטטוס מהאתר? הפעולה תמחק את הרשומה מ־Firebase, אבל לא תמחק את הקובץ מ־Cloudinary.')) return;
+        try {
+            await db.ref('statuses/' + key).remove();
+            setStatus('הסטטוס נמחק מהאתר.', 'good');
+        } catch (error) {
+            console.error('Delete error:', error);
+            setStatus('מחיקת הסטטוס נכשלה.', 'bad');
+        }
+    }
+
+    async function copyPublicId(row) {
+        const key = getRowKey(row);
+        if (!key) return;
+        const snap = await db.ref('statuses/' + key + '/publicId').get();
+        const publicId = snap.val() || '';
+        if (!publicId) return setStatus('אין Public ID להעתקה.', 'bad');
+        try {
+            await navigator.clipboard.writeText(publicId);
+            setStatus('ה־Public ID הועתק.', 'good');
+        } catch (e) {
+            setStatus('Public ID: ' + publicId, '');
+        }
+    }
+
+    function initStatusesAdmin() {
+        if ($('uploadStatusBtn')) $('uploadStatusBtn').addEventListener('click', openUploadWidget);
+        if ($('showViewsToggle')) $('showViewsToggle').addEventListener('change', saveShowViewsSetting);
+        if ($('refreshStatusesBtn')) $('refreshStatusesBtn').addEventListener('click', () => { listenToStatuses(); listenToSettings(); });
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                listenToStatuses();
+                listenToSettings();
+                setStatus('מחובר. אפשר להעלות ולנהל סטטוסים.', 'good');
+            } else {
+                stopListenToStatuses();
+                stopListenToSettings();
+                setStatus('נא להתחבר כדי לנהל סטטוסים.', '');
+            }
+        });
+    }
+
+    initStatusesAdmin();
 
     function collectContent() {
         const cleanPortfolio = portfolioItems.map((item, index) => ({ ...item, order: index }));
