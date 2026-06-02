@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000b9e8720a921b38faeba8ef41%26fn%3Dindex_status_player_drive_fallback.html%26cd%3Dattachment%26ts%3D494553%26p%3Dfs%26cid%3D1%26sig%3D4101ac8e439414ce9b479af7c7091f68b1a195dc4210dd58b0fd042427915868%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
+    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000004d7871f485a6e353654622dc%26fn%3Dindex_status_player_no_drive_open_single.html%26cd%3Dattachment%26ts%3D494553%26p%3Dfs%26cid%3D1%26sig%3D33c6b36093e4abfd1a27d655a026d02f218f504ee5de6e80367e2354d3126176%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780393256123&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>שניאור אייזנבך | האתר הרשמי</title>
@@ -911,13 +911,50 @@
         }
 
         .status-card.uses-drive-preview .status-video-el,
-        .status-card.uses-drive-preview .status-center-play,
         .status-card.uses-drive-preview .status-player-controls,
         .status-card.uses-drive-preview .status-video-message {
             display: none !important;
         }
 
         .status-card.uses-drive-preview iframe.status-drive-preview-frame {
+            display: block;
+        }
+
+        .status-drive-poster {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-color: #050505;
+            display: none;
+            z-index: 1;
+        }
+
+        .status-card.uses-drive-preview .status-drive-poster {
+            display: block;
+        }
+
+        .status-card.uses-drive-preview.drive-loaded .status-drive-poster {
+            display: none;
+        }
+
+        .status-card.uses-drive-preview.drive-loaded .status-center-play {
+            display: none !important;
+        }
+
+        .status-drive-block-open {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 58px;
+            height: 58px;
+            background: transparent;
+            z-index: 5;
+            display: none;
+            pointer-events: auto;
+        }
+
+        .status-card.uses-drive-preview.drive-loaded .status-drive-block-open {
             display: block;
         }
 
@@ -1864,6 +1901,28 @@
             return `${Math.floor(seconds || 0)} שניות`;
         }
 
+        function addAutoplayToDrivePreview(url = '') {
+            if (!url) return '';
+            return url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
+        }
+
+        function stopAllStatusMedia(exceptCard = null, exceptVideo = null) {
+            document.querySelectorAll('.status-video-el').forEach(otherVideo => {
+                if (otherVideo !== exceptVideo) {
+                    try { otherVideo.pause(); } catch (error) {}
+                }
+            });
+
+            document.querySelectorAll('.status-card').forEach(otherCard => {
+                if (otherCard === exceptCard) return;
+
+                otherCard.classList.remove('is-playing', 'is-loading', 'drive-loaded');
+
+                const frame = otherCard.querySelector('.status-drive-preview-frame');
+                if (frame) frame.removeAttribute('src');
+            });
+        }
+
         function setupCustomStatusPlayers() {
             document.querySelectorAll('.status-card').forEach(card => {
                 const video = card.querySelector('.status-video-el');
@@ -1877,7 +1936,17 @@
 
                 if (!sources.length && hasDrivePreview) {
                     card.classList.add('uses-drive-preview');
-                    driveFrame.src = driveFrame.dataset.previewUrl;
+
+                    const startDrivePreview = event => {
+                        if (event) event.stopPropagation();
+                        stopAllStatusMedia(card, null);
+                        driveFrame.src = addAutoplayToDrivePreview(driveFrame.dataset.previewUrl);
+                        card.classList.add('drive-loaded', 'is-playing');
+                    };
+
+                    if (playOverlay) playOverlay.addEventListener('click', startDrivePreview);
+                    card.querySelector('.status-drive-poster')?.addEventListener('click', startDrivePreview);
+                    card.querySelector('.status-drive-block-open')?.addEventListener('click', event => event.preventDefault());
                     return;
                 }
 
@@ -1939,8 +2008,9 @@
                             console.warn('Video play failed for all sources:', error);
                             card.classList.remove('is-playing');
                             if (hasDrivePreview) {
-                                card.classList.add('uses-drive-preview');
-                                driveFrame.src = driveFrame.dataset.previewUrl;
+                                stopAllStatusMedia(card, video);
+                                card.classList.add('uses-drive-preview', 'drive-loaded', 'is-playing');
+                                driveFrame.src = addAutoplayToDrivePreview(driveFrame.dataset.previewUrl);
                             } else {
                                 showMessage('הסרטון לא נטען. צריך קישור ישיר לקובץ וידאו, או קובץ Drive פתוח לצפייה לכל מי שיש לו קישור.');
                             }
@@ -1951,9 +2021,7 @@
                 const togglePlay = async event => {
                     if (event) event.stopPropagation();
 
-                    document.querySelectorAll('.status-video-el').forEach(otherVideo => {
-                        if (otherVideo !== video) otherVideo.pause();
-                    });
+                    stopAllStatusMedia(card, video);
 
                     if (video.paused) {
                         if (!video.getAttribute('src')) setVideoSource(0);
@@ -1975,6 +2043,7 @@
                 });
 
                 video.addEventListener('play', () => {
+                    stopAllStatusMedia(card, video);
                     hideMessage();
                     card.classList.add('is-playing');
                     card.classList.remove('is-loading');
@@ -2053,13 +2122,16 @@
                                 disablePictureInPicture
                             ></video>
 
+                            <div class="status-drive-poster" style="background-image: url('${escapeHTML(posterUrl)}');"></div>
+
                             <iframe
                                 class="status-drive-preview-frame"
                                 data-preview-url="${escapeHTML(drivePreviewUrl)}"
-                                allow="autoplay; fullscreen"
-                                allowfullscreen
+                                allow="autoplay"
                                 loading="lazy"
                             ></iframe>
+
+                            <div class="status-drive-block-open" title=""></div>
 
                             <div class="status-video-message"></div>
 
