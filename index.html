@@ -889,12 +889,52 @@
             overflow: hidden;
         }
 
-        .status-video iframe {
+        .status-video video {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
+            object-fit: cover;
+            background: #050505;
+        }
+
+        .status-player-controls {
+            position: absolute;
+            right: 10px;
+            left: 10px;
+            bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            z-index: 3;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 999px;
+            padding: 8px 10px;
+            backdrop-filter: blur(8px);
+        }
+
+        .status-player-btn {
             border: 0;
+            background: transparent;
+            color: var(--gold-solid);
+            font-family: 'Tel Aviv', Arial, sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 6px;
+            white-space: nowrap;
+        }
+
+        .status-current-time {
+            color: #fff;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            min-width: 66px;
+            text-align: center;
         }
 
         .status-content {
@@ -1645,6 +1685,96 @@
             }
         }
 
+        function normalizeStatusVideoUrl(url = '') {
+            const value = String(url || '').trim();
+            if (!value) return '';
+
+            const drivePatterns = [
+                /drive\.google\.com\/file\/d\/([^/]+)/,
+                /drive\.google\.com\/open\?id=([^&]+)/,
+                /drive\.google\.com\/uc\?id=([^&]+)/,
+                /[?&]id=([^&]+)/
+            ];
+
+            for (const pattern of drivePatterns) {
+                const match = value.match(pattern);
+                if (match && match[1]) {
+                    return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(match[1])}`;
+                }
+            }
+
+            return value;
+        }
+
+        function formatStatusSeconds(seconds) {
+            return `${Math.floor(seconds || 0)} שניות`;
+        }
+
+        function setupCustomStatusPlayers() {
+            document.querySelectorAll('.status-card').forEach(card => {
+                const video = card.querySelector('.status-video-el');
+                const playBtn = card.querySelector('.status-play-btn');
+                const muteBtn = card.querySelector('.status-mute-btn');
+                const timeEl = card.querySelector('.status-current-time');
+
+                if (!video || !playBtn || !muteBtn || !timeEl) return;
+
+                let lastAllowedTime = 0;
+                let internalSeek = false;
+
+                video.controls = false;
+                video.muted = false;
+                video.disablePictureInPicture = true;
+                video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
+                video.addEventListener('contextmenu', event => event.preventDefault());
+
+                playBtn.addEventListener('click', async () => {
+                    document.querySelectorAll('.status-video-el').forEach(otherVideo => {
+                        if (otherVideo !== video) otherVideo.pause();
+                    });
+
+                    if (video.paused) {
+                        try {
+                            await video.play();
+                        } catch (error) {
+                            console.warn('Video play blocked:', error);
+                        }
+                    } else {
+                        video.pause();
+                    }
+                });
+
+                muteBtn.addEventListener('click', () => {
+                    video.muted = !video.muted;
+                    muteBtn.innerHTML = video.muted
+                        ? '<i class="fas fa-volume-xmark"></i> שמע כבוי'
+                        : '<i class="fas fa-volume-high"></i> שמע דלוק';
+                });
+
+                video.addEventListener('play', () => {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i> עצור';
+                });
+
+                video.addEventListener('pause', () => {
+                    playBtn.innerHTML = '<i class="fas fa-play"></i> נגן';
+                });
+
+                video.addEventListener('timeupdate', () => {
+                    lastAllowedTime = video.currentTime;
+                    timeEl.textContent = formatStatusSeconds(video.currentTime);
+                });
+
+                video.addEventListener('seeking', () => {
+                    if (internalSeek) return;
+                    if (Math.abs(video.currentTime - lastAllowedTime) > 1.5) {
+                        internalSeek = true;
+                        video.currentTime = lastAllowedTime;
+                        setTimeout(() => { internalSeek = false; }, 0);
+                    }
+                });
+            });
+        }
+
         function renderStatuses(payload) {
             if (!statusGrid) return;
             const items = Array.isArray(payload?.items) ? payload.items : [];
@@ -1659,19 +1789,45 @@
                 return;
             }
 
-            statusGrid.innerHTML = items.map(item => `
-                <article class="status-card">
-                    <div class="status-video">
-                        <iframe src="${escapeHTML(item.previewUrl || '')}" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                    <div class="status-content">
-                        <div class="status-category"><i class="fas fa-bolt"></i>${escapeHTML(item.category || 'אירוע')}</div>
-                        <h3 class="status-title">${escapeHTML(item.title || 'סטטוס חדש')}</h3>
-                        ${item.description ? `<p class="status-desc">${escapeHTML(item.description)}</p>` : ''}
-                        <div class="status-time">נשאר עד: ${escapeHTML(item.expiresText || '24 שעות')}</div>
-                    </div>
-                </article>
-            `).join('');
+            statusGrid.innerHTML = items.map(item => {
+                const videoUrl = normalizeStatusVideoUrl(item.videoUrl || item.fileUrl || item.previewUrl || '');
+
+                return `
+                    <article class="status-card">
+                        <div class="status-video">
+                            <video
+                                class="status-video-el"
+                                src="${escapeHTML(videoUrl)}"
+                                playsinline
+                                preload="metadata"
+                                controlsList="nodownload noplaybackrate noremoteplayback"
+                                disablePictureInPicture
+                            ></video>
+
+                            <div class="status-player-controls">
+                                <button class="status-player-btn status-play-btn" type="button">
+                                    <i class="fas fa-play"></i> נגן
+                                </button>
+
+                                <span class="status-current-time">0 שניות</span>
+
+                                <button class="status-player-btn status-mute-btn" type="button">
+                                    <i class="fas fa-volume-high"></i> שמע דלוק
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="status-content">
+                            <div class="status-category"><i class="fas fa-bolt"></i>${escapeHTML(item.category || 'אירוע')}</div>
+                            <h3 class="status-title">${escapeHTML(item.title || 'סטטוס חדש')}</h3>
+                            ${item.description ? `<p class="status-desc">${escapeHTML(item.description)}</p>` : ''}
+                            <div class="status-time">נשאר עד: ${escapeHTML(item.expiresText || '24 שעות')}</div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            setupCustomStatusPlayers();
         }
 
         function loadGoogleStatuses() {
