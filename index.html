@@ -1264,7 +1264,7 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="#home" class="active">ראשי</a></li>
                 <li><a href="#services">שירותים</a></li>
-                <li><a href="#statuses">סטטוסים</a></li>
+                <li id="statuses-nav-item" hidden><a href="#statuses">סטטוסים</a></li>
                 <li><a href="#portfolio">תיק עבודות</a></li>
                 <li><a href="#contact">צור קשר</a></li>
             </ul>
@@ -1350,7 +1350,7 @@
         </div>
 
         
-        <section id="statuses" class="section section-alt">
+        <section id="statuses" class="section section-alt" hidden>
             <div class="section-inner">
                 <h2 class="section-title">סטטוסים <span>מהאירועים</span></h2>
                 <p class="section-kicker">סרטונים קצרים - מוצגים כאן רק ל־24 שעות.</p>
@@ -1364,7 +1364,7 @@
             </div>
         </section>
 
-        <div class="section-divider" aria-hidden="true">
+        <div class="section-divider" id="statuses-divider" aria-hidden="true" hidden>
             <div class="sound-wave-small">
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -1770,6 +1770,9 @@
 
 
         const statusGrid = document.getElementById('status-grid');
+        const statusesSection = document.getElementById('statuses');
+        const statusesDivider = document.getElementById('statuses-divider');
+        const statusesNavItem = document.getElementById('statuses-nav-item');
         const statusUploadBtn = document.getElementById('statusUploadBtn');
 
         function isStatusAdminMode() {
@@ -2058,17 +2061,22 @@
                 .sort((a, b) => b.createdAt - a.createdAt);
         }
 
+        function setStatusesVisibility(shouldShow) {
+            [statusesSection, statusesDivider, statusesNavItem].forEach(element => {
+                if (!element) return;
+                element.hidden = !shouldShow;
+            });
+        }
+
         function renderStatuses(payload) {
             if (!statusGrid) return;
             const items = Array.isArray(payload?.items) ? payload.items : [];
+            const hasActiveStatuses = items.length > 0;
 
-            if (!items.length) {
-                statusGrid.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-video-slash"></i>
-                        <p>אין כרגע סטטוסים פעילים מה־24 שעות האחרונות.</p>
-                    </div>
-                `;
+            setStatusesVisibility(hasActiveStatuses);
+
+            if (!hasActiveStatuses) {
+                statusGrid.innerHTML = '';
                 return;
             }
 
@@ -2147,12 +2155,8 @@
 
             if (!statusGrid) return;
 
-            statusGrid.innerHTML = `
-                <div class="inline-loader-container">
-                    <i class="fas fa-circle-notch fa-spin"></i>
-                    <p>טוען סטטוסים...</p>
-                </div>
-            `;
+            setStatusesVisibility(false);
+            statusGrid.innerHTML = '';
 
             db.ref('settings/statuses/showViews').on('value', snapshot => {
                 statusRuntimeState.showViews = snapshot.val() === true;
@@ -2168,12 +2172,8 @@
                 rerenderStatusesFromState();
             }, error => {
                 console.error('Statuses load error:', error);
-                statusGrid.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-triangle-exclamation"></i>
-                        <p>לא ניתן לטעון כרגע את הסטטוסים. בדוק הרשאות קריאה ב־Firebase.</p>
-                    </div>
-                `;
+                setStatusesVisibility(false);
+                statusGrid.innerHTML = '';
             });
         }
 
