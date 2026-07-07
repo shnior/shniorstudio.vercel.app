@@ -81,6 +81,10 @@
             box-sizing: border-box;
         }
 
+        [hidden] {
+            display: none !important;
+        }
+
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 120px;
@@ -1094,9 +1098,34 @@
             min-height: 58vh;
         }
 
+        .footer-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .footer-profile-container {
+            width: 300px;
+            height: auto;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-profile-container:hover {
+            transform: translateY(-8px);
+        }
+
+        .footer-profile-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
         .footer-logo {
             font-size: clamp(2.6rem, 6vw, 4rem);
-            margin-bottom: 30px;
+            margin-bottom: 0;
             filter: drop-shadow(0 0 10px rgba(212,175,55,0.3));
         }
 
@@ -1189,6 +1218,16 @@
         @media (max-width: 560px) {
             :root {
                 --header-height: 82px;
+            }
+
+            .footer-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .footer-profile-container {
+                width: min(100%, 250px);
+                height: auto;
             }
 
             #headerLogo {
@@ -1403,7 +1442,12 @@
     </main>
 
     <footer id="contact">
-        <div class="footer-logo">שניאור אייזנבך</div>
+        <div class="footer-header">
+            <div class="footer-profile-container">
+                <img src="profile.png" alt="שניאור אייזנבך" class="footer-profile-img">
+            </div>
+            <div class="footer-logo">שניאור אייזנבך</div>
+        </div>
         <div class="contact-info">
             <strong id="contactTitle">זמין לאירועי בוטיק, חתונות והפקות סטודיו.</strong>
             <span id="activityArea">אזור פעילות: כל הארץ</span>
