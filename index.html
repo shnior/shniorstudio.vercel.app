@@ -268,19 +268,44 @@ dialog.player[open] { animation: popIn .4s cubic-bezier(.2,.7,.2,1) both; }
   .status-row { justify-content: start; }
 }
 
-/* mobile menu: opens as a wave of squares at 50% opacity */
-.nav .tiles { display: none; }
+
+/* mobile menu: floating 3D cards under the menu button, the page stays visible */
 @media (max-width: 860px) {
-  .nav { background: transparent !important; opacity: 1 !important; transform: none !important; visibility: hidden; overflow: hidden; transition: visibility 0s linear .75s !important; }
+  .nav {
+    position: fixed !important; inset: auto !important;
+    top: calc(78px + env(safe-area-inset-top, 0px)) !important; left: max(16px, env(safe-area-inset-left, 0px)) !important;
+    width: min(250px, calc(100vw - 32px)); height: auto !important; margin: 0 !important; padding: 0 !important;
+    display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 14px !important;
+    background: none !important; opacity: 1 !important; transform: none !important; overflow: visible !important;
+    perspective: 700px; visibility: hidden; transition: visibility 0s linear .6s !important; z-index: 60;
+  }
   body.menu-open .nav { visibility: visible; transition: visibility 0s !important; }
-  .nav .tiles { position: absolute; inset: 0; z-index: -1; display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); grid-auto-rows: var(--tile, 64px); pointer-events: none; }
-  .nav .tiles i { background: rgba(11, 7, 8, .5); box-shadow: inset 0 0 0 .5px rgba(212, 175, 55, .14); border-radius: 8px; transform: scale(0); transition: transform .42s cubic-bezier(.2, .7, .2, 1), border-radius .42s; transition-delay: var(--d, 0ms); }
-  body.menu-open .nav .tiles i { transform: scale(1.02); border-radius: 0; }
-  .nav a { position: relative; z-index: 1; border-bottom: 0 !important; opacity: 0; transform: translateY(14px); transition: opacity .25s, transform .4s cubic-bezier(.2, .7, .2, 1) !important; text-shadow: 0 2px 14px rgba(0, 0, 0, .95), 0 0 3px rgba(0, 0, 0, .9); }
-  body.menu-open .nav a { opacity: 1; transform: none; transition-delay: calc(.28s + var(--i, 0) * 70ms) !important; }
+  .nav a {
+    display: block; text-align: center; padding: 14px 18px !important; border: 0 !important; border-radius: 14px;
+    font-size: 1.15rem !important; font-weight: 700; color: #f4eee6 !important;
+    background: rgba(30, 10, 15, .7);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 0 1px rgba(212, 175, 55, .4), inset 0 1px 0 rgba(255, 240, 200, .18), 0 7px 0 rgba(84, 15, 28, .85), 0 22px 30px rgba(0, 0, 0, .5);
+    transform-origin: 50% 0;
+    transform: rotateX(-90deg) rotateY(-14deg);
+    opacity: 0;
+    transition: transform .55s cubic-bezier(.2, 1.1, .3, 1.15), opacity .25s !important;
+    transition-delay: calc(var(--i, 0) * 55ms) !important;
+  }
+  .nav a::after { display: none !important; }
+  .nav a.is-on { color: #f3dc95 !important; box-shadow: inset 0 0 0 1px rgba(212, 175, 55, .85), inset 0 1px 0 rgba(255, 240, 200, .25), 0 7px 0 rgba(120, 22, 40, .9), 0 22px 30px rgba(0, 0, 0, .5); }
+  body.menu-open .nav a {
+    opacity: 1;
+    transform: rotateX(12deg) rotateY(-14deg);
+    transition-delay: calc(var(--i, 0) * 70ms) !important;
+  }
 }
+@media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
+  body.menu-open .nav a { animation: menuFloat 3.4s ease-in-out infinite; animation-delay: calc(.7s + var(--i, 0) * -.6s); }
+}
+@keyframes menuFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 @media (max-width: 860px) and (prefers-reduced-motion: reduce) {
-  .nav .tiles i, .nav a { transition: none !important; }
+  .nav a { transition: none !important; }
 }
 </style>
 </head>
@@ -293,6 +318,7 @@ dialog.player[open] { animation: popIn .4s cubic-bezier(.2,.7,.2,1) both; }
       <span class="brand-name gold" data-bind="logoText">שניאור אייזנבך</span>
     </a>
     <nav class="nav" id="nav" aria-label="ניווט ראשי">
+      <a href="#top">בית</a>
       <a href="#services">שירותים</a>
       <a href="#work">תיק עבודות</a>
       <a href="/shorts">Shorts</a>
@@ -715,39 +741,16 @@ dialog.player[open] { animation: popIn .4s cubic-bezier(.2,.7,.2,1) both; }
 })();
 </script>
 <script>
-/* mobile menu squares: built ahead of time so they can animate in, staggered from the menu button */
+/* mobile menu cards: stagger order, close when tapping anywhere else */
 (() => {
-  const nav = document.querySelector('.nav');
-  if (!nav) return;
-  const tiles = document.createElement('div');
-  tiles.className = 'tiles';
-  tiles.setAttribute('aria-hidden', 'true');
-  nav.prepend(tiles);
+  const nav = document.querySelector('.nav'), btn = document.getElementById('menu-btn');
+  if (!nav || !btn) return;
   nav.querySelectorAll('a').forEach((a, i) => a.style.setProperty('--i', i));
-  let key = '';
-  function build() {
-    if (innerWidth > 860) return;
-    const w = nav.clientWidth || innerWidth, h = nav.clientHeight || innerHeight;
-    const cols = w < 480 ? 6 : 8, size = w / cols, rows = Math.ceil(h / size) + 1;
-    if (key === cols + 'x' + rows) return;
-    key = cols + 'x' + rows;
-    tiles.style.setProperty('--cols', cols);
-    tiles.style.setProperty('--tile', size + 'px');
-    let html = '';
-    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) html += `<i data-s="${x + y}"></i>`;
-    tiles.innerHTML = html;
-    stagger(document.body.classList.contains('menu-open'));
-  }
-  function stagger(open) {
-    const all = [...tiles.children];
-    const max = all.reduce((m, t) => Math.max(m, +t.dataset.s), 0);
-    all.forEach(t => { const s = +t.dataset.s; t.style.setProperty('--d', (open ? s : max - s) * 26 + 'ms'); });
-  }
-  build();
-  let rt;
-  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 150); });
-  new MutationObserver(() => stagger(document.body.classList.contains('menu-open')))
-    .observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  document.addEventListener('click', e => {
+    if (!document.body.classList.contains('menu-open')) return;
+    if (nav.contains(e.target) || btn.contains(e.target)) return;
+    btn.click();
+  });
 })();
 </script>
 </body>
