@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Shorts | שניאור אייזנבך</title>
+<meta name="description" content="סרטונים קצרים מהבמה ומהאירועים של שניאור אייזנבך: נגינה חיה, קאברים וניגונים.">
+<meta name="theme-color" content="#100b0c">
+<meta property="og:site_name" content="שניאור אייזנבך">
+<meta property="og:title" content="Shorts | שניאור אייזנבך">
+<meta property="og:description" content="סרטונים קצרים מהבמה ומהאירועים.">
+<meta property="og:url" content="https://shniorstudio.vercel.app/shorts">
+<meta property="og:image" content="https://shniorstudio.vercel.app/logo.webp">
+<link rel="icon" href="logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: 'Tel Aviv'; src: url('TelAviv-ModernistRegular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Tel Aviv'; src: url('TelAviv-ModernistBold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+:root {
+  --ink: #100b0c; --ink-2: #191112; --ink-3: #231819; --bone: #ece4d8; --mute: #9d9087;
+  --wine: #8e2234; --wine-hi: #b02f45; --brass: #c4a25f;
+  --line: rgba(236, 228, 216, .11); --line-2: rgba(236, 228, 216, .22);
+  --f-ui: 'Tel Aviv', 'Rubik', 'Arial Hebrew', Arial, sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --head-h: 72px; color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ink); color: var(--bone); font-family: var(--f-ui); font-size: 17px; line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+body.menu-open, body.player-open { overflow: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+::selection { background: var(--wine); color: var(--bone); }
+.wrap { max-width: 1280px; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.mono { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .04em; direction: ltr; unicode-bidi: isolate; }
+.label { font-size: .82rem; letter-spacing: .06em; color: var(--mute); }
+
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--ink); }
+.site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: rgba(16, 11, 12, .9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.head-row { display: flex; align-items: center; gap: 28px; height: var(--head-h); }
+.brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.brand img { width: 44px; height: 44px; object-fit: contain; }
+.brand-name { font-weight: 700; font-size: 1.15rem; white-space: nowrap; }
+.nav { display: flex; gap: 26px; margin-inline-start: 18px; }
+.nav a { font-size: .98rem; color: var(--mute); padding-block: 6px; position: relative; transition: color .2s; }
+.nav a:hover, .nav a.is-on { color: var(--bone); }
+.nav a.is-on::after { content: ""; position: absolute; inset: auto 0 -2px; height: 2px; background: var(--wine-hi); }
+.head-end { margin-inline-start: auto; display: flex; align-items: center; gap: 18px; }
+.tc { color: var(--mute); min-width: 11ch; text-align: left; }
+.tc b { color: var(--brass); font-weight: 500; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; padding: 0 22px; border-radius: 2px; font-weight: 700; font-size: 1rem; border: 1px solid transparent; cursor: pointer; transition: background .2s, border-color .2s; }
+.btn-wine { background: var(--wine); color: #fff; }
+.btn-wine:hover { background: var(--wine-hi); }
+.btn-line { border-color: var(--line-2); background: none; }
+.btn-line:hover { border-color: var(--bone); }
+.btn-sm { min-height: 40px; padding: 0 16px; font-size: .92rem; }
+.menu-btn { display: none; width: 44px; height: 44px; border: 1px solid var(--line-2); background: none; border-radius: 2px; cursor: pointer; }
+.menu-btn span { display: block; width: 18px; height: 1.5px; background: var(--bone); margin: 4px auto; transition: transform .25s, opacity .2s; }
+body.menu-open .menu-btn span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+body.menu-open .menu-btn span:nth-child(2) { opacity: 0; }
+body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+.ruler { position: relative; height: 10px; border-top: 1px solid var(--line); background: repeating-linear-gradient(to left, var(--line-2) 0 1px, transparent 1px 50px) top / 100% 7px no-repeat, repeating-linear-gradient(to left, var(--line) 0 1px, transparent 1px 10px) top / 100% 4px no-repeat; }
+.playhead { position: absolute; top: 0; bottom: 0; right: 0; width: 0; }
+.playhead::before { content: ""; position: absolute; top: 0; left: -1px; width: 2px; height: 10px; background: var(--wine-hi); }
+.playhead::after { content: ""; position: absolute; top: 0; left: -5px; border: 5px solid transparent; border-top-color: var(--wine-hi); }
+.played { position: absolute; top: 0; right: 0; height: 2px; background: var(--wine); width: 0; }
+
+/* page head */
+.intro { padding-block: clamp(44px, 7vw, 96px) clamp(32px, 4vw, 52px); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px 48px; }
+.intro h1 { margin: 0; font-size: clamp(3.4rem, 10vw, 8.4rem); line-height: .9; letter-spacing: -.04em; font-weight: 700; direction: ltr; }
+.intro h1 .rec { display: inline-block; width: .16em; height: .16em; border-radius: 50%; background: var(--wine-hi); vertical-align: .55em; margin-left: .12em; }
+.intro-side { display: grid; gap: 16px; max-width: 40ch; }
+.intro-side p { margin: 0; color: #cfc5b8; font-size: 1.1rem; }
+.intro-stats { display: flex; gap: 28px; border-top: 1px solid var(--line); padding-top: 14px; }
+.intro-stats strong { display: block; font-size: 1.5rem; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.intro-stats span { color: var(--mute); font-size: .88rem; }
+
+/* grid of vertical cards */
+.reel { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 32px 18px; padding-bottom: 96px; }
+.short { display: grid; gap: 10px; background: none; border: 0; padding: 0; text-align: right; cursor: pointer; min-width: 0; }
+.short-frame { position: relative; aspect-ratio: 9 / 16; background: var(--ink-3); overflow: hidden; max-width: 100%; }
+.short-frame img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .4s; filter: saturate(.92); }
+.short-frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(16,11,12,.85), transparent 45%); pointer-events: none; }
+.short-views { position: absolute; z-index: 1; bottom: 10px; right: 10px; color: #fff; font-size: .85rem; display: flex; align-items: center; gap: 6px; }
+.short-views svg { width: 14px; height: 14px; fill: currentColor; opacity: .85; }
+.short-n { position: absolute; z-index: 1; top: 10px; left: 10px; background: rgba(16,11,12,.75); padding: 2px 7px; color: var(--bone); }
+.short-play { position: absolute; z-index: 1; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity .25s; }
+.short-play i { width: 60px; height: 60px; border-radius: 50%; background: var(--wine); display: grid; place-items: center; transform: scale(.8); transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+.short-play svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
+.short:hover .short-frame img, .short:focus-visible .short-frame img { transform: scale(1.06); filter: saturate(1.05); }
+.short:hover .short-play, .short:focus-visible .short-play { opacity: 1; }
+.short:hover .short-play i, .short:focus-visible .short-play i { transform: none; }
+.short h2 { margin: 0; font-size: 1rem; line-height: 1.35; font-weight: 700; overflow-wrap: anywhere; }
+.short .when { color: var(--mute); font-size: .82rem; margin-top: 2px; display: block; }
+.skel .short-frame { animation: pulse 1.4s ease-in-out infinite; }
+.skel .bar { height: 12px; width: 70%; background: var(--ink-3); }
+@keyframes pulse { 50% { opacity: .55; } }
+.note { grid-column: 1 / -1; padding: 60px 0; text-align: center; color: var(--mute); }
+.note a { color: var(--brass); text-decoration: underline; }
+
+/* vertical player */
+.player { position: fixed; inset: 0; z-index: 80; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; padding: max(20px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px)); background: rgba(8,5,6,.94); }
+.player-stage { position: relative; height: min(86vh, 860px); aspect-ratio: 9 / 16; max-width: calc(100vw - 40px); background: #000; animation: stageIn .45s cubic-bezier(.2,.7,.2,1) both; }
+.player-stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.player-side { display: grid; gap: 14px; align-content: center; min-width: 0; }
+.player-side.info { justify-items: start; max-width: 320px; }
+.player-side.info h3 { margin: 0; font-size: 1.35rem; line-height: 1.25; }
+.player-side.ctrl { justify-items: end; }
+.round { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--line-2); background: rgba(16,11,12,.6); display: grid; place-items: center; cursor: pointer; transition: border-color .2s, background .2s; }
+.round:hover { border-color: var(--bone); background: var(--ink-3); }
+.round svg { width: 20px; height: 20px; fill: none; stroke: var(--bone); stroke-width: 2; }
+.round:disabled { opacity: .3; cursor: default; }
+.player .close { position: absolute; top: max(16px, env(safe-area-inset-top, 0px)); left: max(16px, env(safe-area-inset-left, 0px)); }
+@keyframes stageIn { from { opacity: .001; transform: translateY(24px) scale(.96); } }
+
+.site-foot { padding-block: 26px; border-top: 1px solid var(--line); }
+.foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; color: var(--mute); font-size: .9rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro h1, .intro-side { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; }
+  .intro-side { animation-delay: .12s; }
+  .intro h1 .rec { animation: rec 1.6s steps(1) infinite; }
+  .anim .short.rv { transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+  .anim .short.rv:not(.in) { opacity: 0; transform: translateY(30px); }
+}
+@keyframes rise { from { transform: translateY(18px); opacity: .001; } }
+@keyframes rec { 50% { opacity: .15; } }
+
+@media (max-width: 1080px) { .tc { display: none; } }
+@media (max-width: 860px) {
+  :root { --head-h: 64px; }
+  .nav { position: fixed; inset: calc(var(--head-h) + 11px + env(safe-area-inset-top, 0px)) 0 0 0; margin: 0; flex-direction: column; gap: 0; background: var(--ink); padding: 12px max(20px, env(safe-area-inset-right, 0px)) 24px max(20px, env(safe-area-inset-left, 0px)); opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .2s, transform .2s, visibility .2s; }
+  body.menu-open .nav { opacity: 1; visibility: visible; transform: none; }
+  .nav a { font-size: 1.8rem; color: var(--bone); padding-block: 14px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .nav a.is-on::after { display: none; }
+  .menu-btn { display: block; }
+  .head-end .btn { display: none; }
+  .player { grid-template-columns: 1fr; grid-template-rows: 1fr auto; justify-items: center; padding-top: 70px; }
+  .player-stage { height: auto; width: min(100%, calc((100vh - 200px) * 9 / 16)); }
+  .player-side.info { display: none; }
+  .player-side.ctrl { grid-auto-flow: column; justify-items: center; }
+}
+@media (max-width: 560px) {
+  .reel { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
+  .short h2 { font-size: .92rem; }
+  .short-play { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-row">
+    <a href="/" class="brand" aria-label="שניאור אייזנבך, לדף הבית">
+      <img src="logo.webp" alt="" width="44" height="44">
+      <span class="brand-name">שניאור אייזנבך</span>
+    </a>
+    <nav class="nav" aria-label="ניווט ראשי">
+      <a href="/#services">מה אני עושה</a>
+      <a href="/#work">עבודות</a>
+      <a href="/shorts" class="is-on" aria-current="page">Shorts</a>
+      <a href="/#contact">יצירת קשר</a>
+    </nav>
+    <div class="head-end">
+      <span class="tc mono" aria-hidden="true">TC <b id="tc">00:00:00:00</b></span>
+      <a class="btn btn-wine btn-sm" href="https://wa.me/972548528425" target="_blank" rel="noopener">וואטסאפ</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-label="תפריט" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="ruler" aria-hidden="true"><div class="played" id="played"></div><div class="playhead" id="playhead"></div></div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Shorts<span class="rec" aria-hidden="true"></span></h1>
+    <div class="intro-side">
+      <p>רגעים קצרים מהבמה, מהחופות ומהאירועים. נגינה חיה כמו שהיא, בלי עריכה.</p>
+      <div class="intro-stats">
+        <div><strong id="stat-count">—</strong><span>סרטונים</span></div>
+        <div><strong id="stat-views">—</strong><span>צפיות</span></div>
+      </div>
+      <a class="btn btn-line btn-sm" id="channel-link" href="https://www.youtube.com/@shnioreizenbach/shorts" target="_blank" rel="noopener" style="justify-self:start">לערוץ ביוטיוב</a>
+    </div>
+  </section>
+
+  <section class="reel" id="reel" aria-live="polite">
+    <div class="short skel"><div class="short-frame"></div><div class="bar"></div></div>
+    <div class="short skel"><div class="short-frame"></div><div class="bar"></div></div>
+    <div class="short skel"><div class="short-frame"></div><div class="bar"></div></div>
+    <div class="short skel"><div class="short-frame"></div><div class="bar"></div></div>
+    <div class="short skel"><div class="short-frame"></div><div class="bar"></div></div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© <span id="year"></span> שניאור אייזנבך</span>
+    <span>הסרטונים מתעדכנים אוטומטית מהערוץ ביוטיוב</span>
+  </div>
+</footer>
+
+<div class="player" id="player" role="dialog" aria-modal="true" aria-label="נגן Shorts" hidden>
+  <button class="round close" id="p-close" type="button" aria-label="סגירה"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="player-side info">
+    <span class="mono" id="p-n"></span>
+    <h3 id="p-title"></h3>
+    <span class="label" id="p-views"></span>
+    <a class="btn btn-line btn-sm" id="p-yt" href="#" target="_blank" rel="noopener">פתיחה ביוטיוב</a>
+  </div>
+  <div class="player-stage" id="p-stage"></div>
+  <div class="player-side ctrl">
+    <button class="round" id="p-prev" type="button" aria-label="הקודם"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+    <button class="round" id="p-next" type="button" aria-label="הבא"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = (v = '') => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
+  const pad = (n, l = 2) => String(n).padStart(l, '0');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
+  const EYE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5C6.5 5 2.7 9.4 1.5 12c1.2 2.6 5 7 10.5 7s9.3-4.4 10.5-7C21.3 9.4 17.5 5 12 5Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"/></svg>';
+  if (!reduce) document.documentElement.classList.add('anim');
+  $('year').textContent = new Date().getFullYear();
+
+  /* header playhead + timecode, same as the home page */
+  const playhead = $('playhead'), played = $('played'), tc = $('tc');
+  let ticking = false;
+  function onScroll() {
+    const p = Math.min(1, Math.max(0, scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight)));
+    playhead.style.right = played.style.width = (p * 100) + '%';
+    const f = Math.round(p * 60 * 25);
+    tc.textContent = `00:${pad(Math.floor(f / 1500))}:${pad(Math.floor(f / 25) % 60)}:${pad(f % 25)}`;
+    ticking = false;
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+
+  const menuBtn = $('menu-btn');
+  menuBtn.addEventListener('click', () => {
+    const open = !document.body.classList.contains('menu-open');
+    document.body.classList.toggle('menu-open', open); menuBtn.setAttribute('aria-expanded', String(open));
+  });
+
+  /* titles on YouTube carry hashtags and emoji; show them clean */
+  const cleanTitle = t => String(t || '')
+    .replace(/#[^\s#]+/g, '')
+    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}]/gu, '')
+    .replace(/\s+/g, ' ').replace(/[\s\-–|]+$/g, '').trim() || 'Short';
+  const parseViews = v => {
+    const m = String(v).replace(/,/g, '').match(/([\d.]+)\s*([KMאלףמיליון]*)/i);
+    if (!m) return 0;
+    const n = parseFloat(m[1]), u = (m[2] || '').toUpperCase();
+    return Math.round(n * (u.startsWith('K') || u.startsWith('א') ? 1e3 : u.startsWith('M') || u.startsWith('מ') ? 1e6 : 1));
+  };
+  const fmtViews = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n);
+  const rel = iso => {
+    if (!iso) return '';
+    const d = (Date.now() - new Date(iso)) / 864e5;
+    if (d < 1) return 'היום';
+    if (d < 2) return 'אתמול';
+    if (d < 30) return `לפני ${Math.floor(d)} ימים`;
+    if (d < 365) { const m = Math.floor(d / 30); return m === 1 ? 'לפני חודש' : `לפני ${m} חודשים`; }
+    const y = Math.floor(d / 365); return y === 1 ? 'לפני שנה' : `לפני ${y} שנים`;
+  };
+
+  let items = [];
+  const io = (!reduce && 'IntersectionObserver' in window) ? new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { rootMargin: '0px 0px -6% 0px', threshold: .08 }) : null;
+
+  function countUp(el, n, fmt = String) {
+    if (reduce || !n) { el.textContent = fmt(n); return; }
+    const t0 = performance.now();
+    const step = now => { const p = Math.min(1, (now - t0) / 1300); el.textContent = fmt(Math.round(n * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+
+  function render() {
+    const reel = $('reel');
+    if (!items.length) {
+      reel.innerHTML = `<p class="note">הסרטונים לא נטענו כרגע. אפשר לצפות בהם <a href="https://www.youtube.com/@shnioreizenbach/shorts" target="_blank" rel="noopener">ישירות בערוץ ביוטיוב</a>.</p>`;
+      return;
+    }
+    reel.innerHTML = items.map((s, i) => `
+      <button class="short rv" type="button" data-i="${i}" style="--d:${(i % 5) * 70}ms" aria-label="ניגון: ${esc(s.clean)}">
+        <div class="short-frame">
+          <img src="${esc(s.thumb || `https://i.ytimg.com/vi/${s.id}/oar2.jpg`)}" alt="" loading="${i < 10 ? 'eager' : 'lazy'}" decoding="async" data-id="${esc(s.id)}">
+          <span class="short-n mono">${pad(items.length - i, 2)}</span>
+          ${s.views ? `<span class="short-views">${EYE}${esc(s.viewsShort)}</span>` : ''}
+          <span class="short-play"><i>${PLAY}</i></span>
+        </div>
+        <div><h2>${esc(s.clean)}</h2>${s.published ? `<span class="when">${rel(s.published)}</span>` : ''}</div>
+      </button>`).join('');
+    reel.querySelectorAll('.short').forEach(b => {
+      b.addEventListener('click', () => openPlayer(+b.dataset.i));
+      if (io) io.observe(b); else b.classList.add('in');
+    });
+    reel.querySelectorAll('img[data-id]').forEach(img => img.addEventListener('error', () => {
+      if (img.dataset.fb) return; img.dataset.fb = '1'; img.src = `https://i.ytimg.com/vi/${img.dataset.id}/hqdefault.jpg`;
+    }, { once: true }));
+    countUp($('stat-count'), items.length);
+    countUp($('stat-views'), items.reduce((a, s) => a + s.viewsNum, 0), fmtViews);
+  }
+
+  /* player: one Short at a time, arrows / keys / swipe to move */
+  let cur = -1, lastFocus = null, touchY = null;
+  function show(i) {
+    cur = Math.max(0, Math.min(items.length - 1, i));
+    const s = items[cur];
+    $('p-stage').innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${s.id}?autoplay=1&playsinline=1&rel=0&loop=1&playlist=${s.id}" title="${esc(s.clean)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    $('p-stage').style.animation = 'none'; void $('p-stage').offsetWidth; $('p-stage').style.animation = '';
+    $('p-title').textContent = s.clean;
+    $('p-n').textContent = `${pad(items.length - cur)} / ${pad(items.length)}`;
+    $('p-views').textContent = s.views;
+    $('p-yt').href = `https://www.youtube.com/shorts/${s.id}`;
+    $('p-prev').disabled = cur === 0;
+    $('p-next').disabled = cur === items.length - 1;
+  }
+  function openPlayer(i) {
+    lastFocus = document.activeElement;
+    $('player').hidden = false; document.body.classList.add('player-open');
+    show(i); $('p-close').focus();
+  }
+  function closePlayer() {
+    $('player').hidden = true; document.body.classList.remove('player-open');
+    $('p-stage').innerHTML = ''; cur = -1;
+    if (lastFocus) lastFocus.focus();
+  }
+  $('p-close').addEventListener('click', closePlayer);
+  $('p-prev').addEventListener('click', () => show(cur - 1));
+  $('p-next').addEventListener('click', () => show(cur + 1));
+  $('player').addEventListener('click', e => { if (e.target === $('player')) closePlayer(); });
+  addEventListener('keydown', e => {
+    if ($('player').hidden) { if (e.key === 'Escape') document.body.classList.remove('menu-open'); return; }
+    if (e.key === 'Escape') closePlayer();
+    if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') { e.preventDefault(); if (cur < items.length - 1) show(cur + 1); }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowRight') { e.preventDefault(); if (cur > 0) show(cur - 1); }
+  });
+  $('player').addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
+  $('player').addEventListener('touchend', e => {
+    if (touchY === null) return;
+    const dy = e.changedTouches[0].clientY - touchY; touchY = null;
+    if (Math.abs(dy) > 60) show(cur + (dy < 0 ? 1 : -1));
+  });
+
+  fetch('/api/shorts')
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(d => {
+      items = (d.items || []).map(s => {
+        const viewsNum = parseViews(s.views);
+        return { ...s, clean: cleanTitle(s.title), viewsNum, viewsShort: viewsNum ? fmtViews(viewsNum) : '' };
+      });
+      render();
+    })
+    .catch(() => { items = []; render(); });
+})();
+</script>
+</body>
+</html>

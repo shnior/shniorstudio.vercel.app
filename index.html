@@ -397,6 +397,15 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
 @keyframes trail { 0% { stroke-dashoffset: 260; } 70%, 100% { stroke-dashoffset: 0; } }
 @keyframes along { 0% { offset-distance: 0%; } 70%, 100% { offset-distance: 100%; } }
 
+.shorts-teaser { background: var(--ink-2); border-block: 1px solid var(--line); }
+.teaser-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.teaser { position: relative; display: block; aspect-ratio: 9 / 16; overflow: hidden; background: var(--ink-3); max-width: 100%; }
+.teaser img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.teaser::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(16,11,12,.88), transparent 50%); }
+.teaser span { position: absolute; z-index: 1; inset: auto 10px 10px 10px; font-size: .88rem; font-weight: 700; line-height: 1.3; }
+.teaser:hover img { transform: scale(1.06); }
+@media (max-width: 860px) { .teaser-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } .teaser:nth-child(n+4) { display: none; } }
+
 @media (max-width: 1080px) {
   .tc { display: none; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -448,6 +457,7 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
       <a href="#services">מה אני עושה</a>
       <a href="#statuses" id="statuses-nav" hidden>סטטוסים</a>
       <a href="#work">עבודות</a>
+      <a href="/shorts">Shorts</a>
       <a href="#contact">יצירת קשר</a>
     </nav>
     <div class="head-end">
@@ -546,6 +556,20 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
         <span class="label" id="shown-count"></span>
         <button class="btn btn-line" id="more-btn" type="button" hidden>עוד עבודות</button>
       </div>
+    </div>
+  </section>
+
+  <section class="sec shorts-teaser" id="shorts-teaser" hidden>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="kicker label">מתעדכן אוטומטית מיוטיוב</span>
+          <h2>Shorts מהבמה</h2>
+          <p>רגעים קצרים מחופות ואירועים, נגינה חיה בלי עריכה.</p>
+        </div>
+        <a class="btn btn-line" href="/shorts">לכל הסרטונים <span class="mono" id="shorts-total"></span></a>
+      </div>
+      <div class="teaser-row" id="teaser-row"></div>
     </div>
   </section>
 
@@ -1022,6 +1046,18 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     renderMarquee(state.all.filter(i => i.vid));
     applyFilter(state.filter);
   }
+
+  /* Shorts strip: newest six from the YouTube channel */
+  fetch('/api/shorts').then(r => r.ok ? r.json() : Promise.reject()).then(d => {
+    const list = (d.items || []).slice(0, 6);
+    if (!list.length) return;
+    const clean = t => String(t || '').replace(/#[^\s#]+/g, '').replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}]/gu, '').replace(/\s+/g, ' ').replace(/[\s\-–|]+$/g, '').trim();
+    $('teaser-row').innerHTML = list.map(s => `<a class="teaser" href="/shorts"><img src="${esc(s.thumb || `https://i.ytimg.com/vi/${s.id}/hqdefault.jpg`)}" alt="" loading="lazy"><span>${esc(clean(s.title))}</span></a>`).join('');
+    $('shorts-total').textContent = d.items.length;
+    $('shorts-teaser').hidden = false;
+    splitHeads();
+    [...$('teaser-row').children].forEach((c, i) => watch(c, i * 70));
+  }).catch(() => {});
 
   function visitorId() {
     try {
