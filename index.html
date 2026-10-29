@@ -1,2529 +1,816 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000066787246bfb61fe37c8f01d8%26ts%3D494556%26p%3Dfs%26cid%3D1%26sig%3D123b3a3a67189ea8ce40c05f2362861e862febf8b47411d5b5b20eb7e098e0fb%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000f46c72438f7ba26fefa81e8f%26ts%3D494555%26p%3Dfs%26cid%3D1%26sig%3Ddef5525239795319cadebeadf455e8ec539a0b089c1ef20ff72a427188cecacf%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="5a628bbf3c874696bfceda6deb7" src="//local.adguard.org?ts=1780396181596&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000036871f4becb8b081d4f3ac7%26ts%3D494535%26p%3Dfs%26cid%3D1%26sig%3Dcf2133a75f45612bf71a13723662600a39061293dfcb01faafe69dd4365089f1%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="c4ae3084a30643daa695052a662" src="//local.adguard.org?ts=1780319227220&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="icon" href="logo.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>שניאור אייזנבך | האתר הרשמי</title>
-    <meta name="description" content="שניאור אייזנבך - קלידן, מפיק מוזיקלי, עורך וידאו ומומחה הנפשות למגזר החסידי. מוזיקה, עריכות מקצועיות, קליפים, הנפשות ו-AI במקום אחד.">
-    <meta name="keywords" content="שניאור אייזנבך, קלידן, עורך וידאו, הנפשות חסידי, עריכות מקצועיות, הנפשות מתקדמות, הפקה מוזיקלית, סטודיו להנפשות">
-    <meta property="og:site_name" content="שניאור אייזנבך">
-    <meta property="og:title" content="שניאור אייזנבך | האתר הרשמי">
-    <meta property="og:description" content="מוזיקה, עריכות, הנפשות ותיק עבודות במקום אחד.">
-    <meta property="og:url" content="https://shniorstudio.vercel.app/">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://shniorstudio.vercel.app/logo.webp">
-
-    <meta name="google-site-verification" content="Ob3m4fj6Ffggl8yuc7kE7eSs05lSY1TUp8CmoJgW2uc" />
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "שניאור אייזנבך",
-        "image": "https://shniorstudio.vercel.app/logo.webp",
-        "url": "https://shniorstudio.vercel.app/",
-        "telephone": "054-8528425",
-        "description": "סטודיו המספק שירותי מוזיקה, עריכות מקצועיות ויצירת הנפשות חסידיות.",
-        "priceRange": "$$",
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "בית שמש",
-            "addressCountry": "IL"
-        }
-    }
-    </script>
-
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://cdn.plyr.io">
-    <link rel="preconnect" href="https://www.gstatic.com">
-    <link rel="preconnect" href="https://img.youtube.com">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <script defer src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-
-    <style>
-        @font-face {
-            font-family: 'Tel Aviv';
-            src: url('TelAviv-ModernistRegular.ttf') format('truetype');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Tel Aviv';
-            src: url('TelAviv-ModernistBold.ttf') format('truetype');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        :root {
-            --bg-dark: #070709;
-            --bg-soft: #0d090b;
-            --burgundy-deep: #1a0508;
-            --burgundy-accent: #7a1528;
-            --burgundy-glow: rgba(122, 21, 40, 0.5);
-            --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            --gold-solid: #D4AF37;
-            --gold-soft: rgba(212, 175, 55, 0.16);
-            --text-light: #f4f4f4;
-            --text-muted: #a0a0a5;
-            --card-bg: rgba(15, 10, 12, 0.84);
-            --border-glow: rgba(212, 175, 55, 0.28);
-            --header-height: 92px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        [hidden] {
-            display: none !important;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 120px;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Tel Aviv', Arial, sans-serif;
-            background:
-                radial-gradient(circle at 80% 5%, rgba(122, 21, 40, 0.24), transparent 26%),
-                radial-gradient(circle at 12% 48%, rgba(212, 175, 55, 0.08), transparent 24%),
-                var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        body.menu-open {
-            overflow: hidden;
-        }
-
-        /* Loader */
-        #site-loader {
-            position: fixed;
-            inset: 0;
-            background-color: var(--bg-dark);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-        #site-loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .sound-wave,
-        .sound-wave-small {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .sound-wave {
-            gap: 8px;
-            height: 80px;
-            margin-bottom: 20px;
-        }
-
-        .sound-wave .bar {
-            width: 10px;
-            height: 20px;
-            background: var(--gold-solid);
-            border-radius: 5px;
-            animation: soundJump 1.2s ease-in-out infinite;
-        }
-
-        .sound-wave-small {
-            gap: 6px;
-            height: 50px;
-        }
-
-        .sound-wave-small .bar {
-            width: 6px;
-            height: 15px;
-            background: var(--gold-solid);
-            border-radius: 4px;
-            animation: soundJumpSmall 1.2s ease-in-out infinite;
-        }
-
-        .bar:nth-child(1) { animation-delay: 0s; }
-        .bar:nth-child(2) { animation-delay: .2s; }
-        .bar:nth-child(3) { animation-delay: .4s; }
-        .bar:nth-child(4) { animation-delay: .2s; }
-        .bar:nth-child(5) { animation-delay: 0s; }
-
-        @keyframes soundJump {
-            0%, 100% { height: 15px; background: var(--gold-solid); box-shadow: none; }
-            50% { height: 70px; background: #fff; box-shadow: 0 0 15px var(--gold-solid); }
-        }
-
-        @keyframes soundJumpSmall {
-            0%, 100% { height: 10px; background: var(--gold-solid); box-shadow: none; }
-            50% { height: 40px; background: #fff; box-shadow: 0 0 12px var(--gold-solid); }
-        }
-
-        .loader-text {
-            font-size: 1.5rem;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
-            letter-spacing: 1px;
-        }
-
-        /* Header */
-        header {
-            position: fixed;
-            inset: 0 0 auto 0;
-            width: 100%;
-            background: rgba(7, 7, 9, 0.86);
-            backdrop-filter: blur(16px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.14);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 48px;
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: var(--header-height);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-            min-width: 0;
-        }
-
-        #headerLogo {
-            height: 76px;
-            max-width: 125px;
-            object-fit: contain;
-            display: none;
-        }
-
-        #headerLogoText,
-        .footer-logo {
-            font-weight: 900;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        #headerLogoText {
-            font-size: clamp(1.35rem, 3vw, 2rem);
-            white-space: nowrap;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            width: 46px;
-            height: 46px;
-            border: 1px solid rgba(212,175,55,.35);
-            border-radius: 999px;
-            background: rgba(255,255,255,.03);
-            color: var(--gold-solid);
-            font-size: 1.35rem;
-            cursor: pointer;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 32px;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 1.08rem;
-            transition: color 0.3s ease;
-            font-weight: 500;
-            position: relative;
-            padding: 15px 0;
-            display: inline-block;
-        }
-
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: var(--gold-solid);
-            transition: width 0.3s ease;
-            box-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
-        }
-
-        .nav-links a:hover::before,
-        .nav-links a.active::before {
-            width: 100%;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--gold-solid);
-            text-shadow: 0 0 10px var(--burgundy-glow);
-        }
-
-        /* Timeline */
-        .scroll-timeline-container {
-            position: fixed;
-            left: 30px;
-            top: 20vh;
-            height: 70vh;
-            width: 2px;
-            z-index: 2;
-            pointer-events: none;
-            display: flex;
-            justify-content: center;
-        }
-
-        .timeline-track {
-            position: absolute;
-            width: 5px;
-            height: 100%;
-            background: rgba(212, 175, 55, 0.15);
-        }
-
-        .timeline-progress {
-            position: absolute;
-            top: 0;
-            width: 1px;
-            background: var(--gold-solid);
-            box-shadow: 0 0 15px var(--gold-solid), 0 0 5px #fff;
-            height: 0%;
-        }
-
-        .timeline-arrow {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            top: 0%;
-            transition: top 0.1s ease-out;
-        }
-
-        .timeline-arrow i {
-            color: var(--gold-solid);
-            font-size: 2.5rem;
-            text-shadow: 0 0 10px var(--gold-solid);
-            display: block;
-        }
-
-        #magic-cursor-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Layout */
-        .hero,
-        .section,
-        .section-alt,
-        footer,
-        .portfolio-cta-section,
-        .site-credit {
-            position: relative;
-            z-index: 3;
-        }
-
-        .hero {
-            min-height: 100svh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background:
-                linear-gradient(to bottom, rgba(70, 10, 20, 0.58), var(--bg-dark)),
-                url('תמונה מאתר') center/cover;
-            padding: 130px 20px 60px;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 7.5vw, 5.4rem);
-            line-height: 1.08;
-            margin: 0 0 12px 0;
-            font-weight: 900;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
-        }
-
-        .hero h2 {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            color: var(--text-light);
-            font-weight: 400;
-            margin: 0 0 36px 0;
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.9);
-            max-width: 920px;
-        }
-
-        .cta-btn,
-        .page-btn,
-        .filter-btn {
-            font-family: 'Tel Aviv', Arial, sans-serif;
-        }
-
-        .cta-btn {
-            background: transparent;
-            color: var(--gold-solid);
-            border: 2px solid var(--gold-solid);
-            padding: 15px 45px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 999px;
-            text-decoration: none;
-            transition: all 0.35s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-align: center;
-        }
-
-        .cta-btn:hover {
-            background: linear-gradient(135deg, var(--burgundy-accent), #4a0410);
-            color: var(--text-light);
-            box-shadow: 0 0 25px var(--burgundy-glow);
-            transform: translateY(-3px);
-        }
-
-        .section {
-            padding: 98px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-alt {
-            max-width: none;
-            background: radial-gradient(circle at center, var(--burgundy-deep) 0%, var(--bg-dark) 80%);
-            border-top: 1px solid rgba(122, 21, 40, 0.1);
-            border-bottom: 1px solid rgba(122, 21, 40, 0.1);
-        }
-
-        .section-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: clamp(2.2rem, 4.5vw, 3rem);
-            margin: 0 0 54px;
-            font-weight: 700;
-            color: var(--text-light);
-        }
-
-        .section-title span {
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .section-kicker {
-            max-width: 850px;
-            margin: -34px auto 44px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-        }
-
-        .section-divider {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 26px 0;
-            position: relative;
-            z-index: 3;
-            background: transparent;
-        }
-
-        /* Services */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(220px, 260px));
-            justify-content: center;
-            gap: 40px;
-        }
-
-        .service-card {
-            background: transparent;
-            width: 260px;
-            height: 260px;
-            perspective: 1000px;
-            cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.4, 0.2, 0.2, 1);
-            position: relative;
-            margin: 0 auto;
-        }
-
-        .service-card:hover {
-            transform: scale(1.08);
-        }
-
-        .service-card::before,
-        .service-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 20px solid rgba(212, 175, 55, 0.2);
-            filter: blur(15px);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .service-card:hover::before {
-            opacity: 1;
-            animation: goldSmokeEmit 4s infinite ease-out;
-        }
-
-        .service-card:hover::after {
-            opacity: 1;
-            animation: goldSmokeEmit 4s infinite ease-out 2s;
-        }
-
-        @keyframes goldSmokeEmit {
-            0% { transform: scale(0.85); opacity: 0; }
-            40% { opacity: 1; }
-            100% { transform: scale(1.4); opacity: 0; }
-        }
-
-        .service-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.75s cubic-bezier(0.4, 0.2, 0.2, 1);
-            transform-style: preserve-3d;
-            border-radius: 50%;
-        }
-
-        .service-card:hover .service-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .service-card-front,
-        .service-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.05);
-            overflow: hidden;
-        }
-
-        .service-card-front {
-            background: transparent;
-        }
-
-        .service-card-front::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent 80%, var(--gold-solid) 100%);
-            animation: rotateBorder 3s linear infinite;
-            z-index: 0;
-        }
-
-        .service-card-front::after {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            background: #070709;
-            border-radius: 50%;
-            z-index: 1;
-        }
-
-        .service-card-front .service-icon,
-        .service-card-front h3 {
-            position: relative;
-            z-index: 2;
-        }
-
-        .service-icon {
-            font-size: 3.5rem;
-            color: var(--gold-solid);
-            margin-bottom: 15px;
-        }
-
-        .service-card-front h3 {
-            font-weight: 400;
-            font-size: 1.6rem;
-            color: var(--gold-solid);
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        .service-card-back {
-            transform: rotateY(180deg);
-            background-color: #070709;
-            background-image: radial-gradient(circle at center, #1f1906, #070709);
-            border: 2px solid #FBF5B7;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
-        }
-
-        .service-card-back .service-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .service-card-back h3 {
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: var(--gold-solid);
-            margin: 0 0 10px 0;
-        }
-
-        .service-card-back p {
-            font-weight: 400;
-            font-size: 1rem;
-            color: var(--text-light);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        @keyframes rotateBorder {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Portfolio */
-        #portfolio {
-            max-width: none;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.07), transparent 23%),
-                linear-gradient(180deg, rgba(15,10,12,.72), rgba(7,7,9,.4));
-        }
-
-        #portfolio .section-inner {
-            min-height: 60vh;
-        }
-
-        .portfolio-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 14px;
-            margin: -22px auto 34px;
-        }
-
-        .filter-btn {
-            border: 1px solid rgba(212, 175, 55, .35);
-            background: rgba(255, 255, 255, .03);
-            color: var(--text-light);
-            border-radius: 999px;
-            padding: 9px 18px;
-            cursor: pointer;
-            transition: all .25s ease;
-            font-size: 1rem;
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: var(--gold-gradient);
-            color: #090909;
-            border-color: transparent;
-            box-shadow: 0 0 18px rgba(212, 175, 55, .25);
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
-            gap: 30px;
-        }
-
-        .portfolio-card {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 18px;
-            overflow: hidden;
-            transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .portfolio-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--gold-solid);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px var(--burgundy-glow);
-        }
-
-        .thumbnail-container {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            background-color: #000;
-            overflow: hidden;
-        }
-
-        .thumbnail-bg {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.74;
-            transition: transform 0.6s ease, opacity 0.3s ease;
-        }
-
-        .portfolio-card:hover .thumbnail-bg {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-            transition: all .25s ease;
-        }
-
-        .portfolio-card:hover .play-button {
-            border-color: var(--gold-solid);
-            box-shadow: 0 0 18px rgba(212,175,55,.35);
-        }
-
-        .play-button::after {
-            content: '';
-            display: block;
-            border-style: solid;
-            border-width: 12px 0 12px 20px;
-            border-color: transparent transparent transparent white;
-            margin-right: -5px;
-        }
-
-        .card-content {
-            padding: 24px 20px;
-            text-align: right;
-        }
-
-        .card-title {
-            font-size: 1.22rem;
-            font-weight: 700;
-            color: var(--text-light);
-            margin: 0 0 10px 0;
-        }
-
-        .card-role {
-            font-size: 1rem;
-            color: var(--gold-solid);
-            margin: 0;
-            font-weight: 400;
-        }
-
-        .thumbnail-container .plyr,
-        .thumbnail-container iframe {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .plyr__video-wrapper {
-            height: 100% !important;
-            width: 100% !important;
-        }
-
-        .inline-loader-container,
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 70px 20px;
-            color: var(--text-muted);
-        }
-
-        .inline-loader-container i,
-        .empty-state i {
-            font-size: 3.4rem;
-            color: var(--gold-solid);
-            margin-bottom: 18px;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.35));
-        }
-
-        .inline-loader-container p,
-        .empty-state p {
-            font-size: 1.16rem;
-            margin: 0;
-        }
-
-        .pagination-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 18px;
-            margin-top: 48px;
-            flex-wrap: wrap;
-        }
-
-        .page-btn {
-            background: transparent;
-            color: var(--gold-solid);
-            border: 1px solid var(--gold-solid);
-            padding: 10px 20px;
-            font-size: 1.08rem;
-            border-radius: 999px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .page-btn:hover:not(:disabled) {
-            background: var(--gold-gradient);
-            color: #000;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-        }
-
-        .page-btn:disabled {
-            border-color: #444;
-            color: #555;
-            cursor: not-allowed;
-        }
-
-        .page-info {
-            font-size: 1.08rem;
-            color: var(--text-muted);
-            min-width: 120px;
-            text-align: center;
-        }
-
-
-
-        /* Event Statuses from Google Form / Google Sheets */
-        #statuses {
-            max-width: none;
-            background:
-                radial-gradient(circle at 80% 15%, rgba(212, 175, 55, 0.10), transparent 25%),
-                radial-gradient(circle at 15% 85%, rgba(122, 21, 40, 0.24), transparent 32%),
-                linear-gradient(180deg, rgba(7,7,9,.4), rgba(15,10,12,.78));
-        }
-
-        .statuses-actions {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: -20px auto 34px;
-        }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
-            justify-content: center;
-            gap: 26px;
-        }
-
-        .status-card {
-            background: rgba(15, 10, 12, 0.82);
-            border: 1px solid rgba(212, 175, 55, 0.20);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 18px 38px rgba(0,0,0,.45);
-            transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
-        }
-
-        .status-card:hover {
-            transform: translateY(-7px);
-            border-color: var(--gold-solid);
-            box-shadow: 0 24px 46px rgba(0,0,0,.68), 0 0 24px rgba(212,175,55,.13);
-        }
-
-        .status-video {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 9 / 16;
-            background: #050505;
-            overflow: hidden;
-        }
-
-        .status-video video,
-        .status-video .status-preview-fallback {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: #050505;
-            display: block;
-        }
-
-        .status-video-el {
-            cursor: pointer;
-        }
-
-        .status-center-play {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 74px;
-            height: 74px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.92);
-            background: rgba(0, 0, 0, 0.42);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            cursor: pointer;
-            z-index: 4;
-            backdrop-filter: blur(6px);
-            transition: opacity .2s ease, transform .2s ease;
-        }
-
-        .status-center-play:hover {
-            transform: translate(-50%, -50%) scale(1.06);
-        }
-
-        .status-card.is-playing .status-center-play {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .status-player-bottom {
-            position: absolute;
-            right: 10px;
-            left: 10px;
-            bottom: 10px;
-            z-index: 5;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 8px 10px;
-            border-radius: 999px;
-            background: rgba(0, 0, 0, 0.50);
-            border: 1px solid rgba(212, 175, 55, 0.24);
-            backdrop-filter: blur(8px);
-        }
-
-        .status-current-time {
-            color: #fff;
-            font-size: .88rem;
-            white-space: nowrap;
-            min-width: 64px;
-        }
-
-        .status-mute-btn {
-            border: 0;
-            background: transparent;
-            color: var(--gold-solid);
-            font-family: 'Tel Aviv', Arial, sans-serif;
-            font-size: .9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            padding: 3px 5px;
-        }
-
-        .status-error {
-            position: absolute;
-            inset: auto 12px 18px 12px;
-            z-index: 6;
-            background: rgba(0, 0, 0, .72);
-            border: 1px solid rgba(212, 175, 55, .25);
-            border-radius: 14px;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            font-size: .92rem;
-            display: none;
-        }
-
-        .status-card.has-video-error .status-error {
-            display: block;
-        }
-
-        .status-content {
-            padding: 16px 16px 18px;
-        }
-
-        .status-category {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #070709;
-            background: var(--gold-gradient);
-            border-radius: 999px;
-            padding: 4px 10px;
-            font-size: .82rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .status-title {
-            margin: 0 0 6px;
-            color: var(--text-light);
-            font-size: 1.12rem;
-            line-height: 1.35;
-        }
-
-        .status-desc {
-            color: var(--text-muted);
-            font-size: .94rem;
-            margin: 0 0 10px;
-            line-height: 1.5;
-        }
-
-        .status-time {
-            color: var(--gold-solid);
-            font-size: .86rem;
-        }
-
-        .status-social-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .status-like-btn,
-        .status-views-pill {
-            border: 1px solid rgba(212, 175, 55, 0.28);
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--text-light);
-            border-radius: 999px;
-            padding: 6px 11px;
-            font-family: 'Tel Aviv', Arial, sans-serif;
-            font-size: .86rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .status-like-btn {
-            cursor: pointer;
-            transition: all .22s ease;
-        }
-
-        .status-like-btn:hover,
-        .status-like-btn.liked {
-            background: var(--gold-gradient);
-            color: #090909;
-            border-color: transparent;
-            box-shadow: 0 0 16px rgba(212, 175, 55, .18);
-        }
-
-        .status-like-btn i {
-            font-size: .95rem;
-        }
-
-        .status-views-pill {
-            color: var(--gold-solid);
-        }
-
-        .status-setup-note {
-            grid-column: 1 / -1;
-            max-width: 760px;
-            margin: 0 auto;
-            text-align: center;
-            color: var(--text-muted);
-            background: rgba(255,255,255,.03);
-            border: 1px dashed rgba(212,175,55,.35);
-            border-radius: 18px;
-            padding: 24px;
-        }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(to top, #0a0204, var(--bg-dark));
-            padding: 130px 20px;
-            text-align: center;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 58vh;
-        }
-
-        .footer-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: 30px;
-            flex-direction: row;
-            direction: ltr;
-        }
-
-        .footer-text-block {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            text-align: right;
-            direction: rtl;
-            max-width: 560px;
-            gap: 18px;
-        }
-
-        .footer-profile-container {
-            width: 300px;
-            height: auto;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .footer-profile-container:hover {
-            transform: translateY(-8px);
-        }
-
-        .footer-profile-img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .footer-logo {
-            font-size: clamp(2.6rem, 6vw, 4rem);
-            margin-bottom: 0;
-            filter: drop-shadow(0 0 10px rgba(212,175,55,0.3));
-        }
-
-        .contact-info {
-            font-size: clamp(1.15rem, 2.6vw, 1.5rem);
-            color: var(--text-light);
-            margin-bottom: 45px;
-            line-height: 2;
-            font-weight: 400;
-        }
-
-        .footer-text-block .contact-info {
-            margin-bottom: 0;
-        }
-
-        .contact-info strong {
-            font-weight: 700;
-            color: var(--gold-solid);
-            font-size: clamp(1.25rem, 2.8vw, 1.8rem);
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .footer-cta {
-            font-size: 1.28rem;
-            padding: 18px 50px;
-        }
-
-        .site-credit {
-            background-color: #030102;
-            color: var(--text-muted);
-            text-align: center;
-            padding: 15px 20px;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-            border-top: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .site-credit span {
-            color: var(--gold-solid);
-            font-weight: 500;
-        }
-
-        @media (max-width: 920px) {
-            nav {
-                padding: 8px 20px;
-            }
-
-            .mobile-menu-btn {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: var(--header-height);
-                right: 14px;
-                left: 14px;
-                display: none;
-                flex-direction: column;
-                gap: 0;
-                padding: 14px;
-                background: rgba(7, 7, 9, 0.96);
-                border: 1px solid rgba(212,175,55,.18);
-                border-radius: 18px;
-                box-shadow: 0 16px 40px rgba(0,0,0,.45);
-            }
-
-            .nav-links.open {
-                display: flex;
-            }
-
-            .nav-links li,
-            .nav-links a {
-                width: 100%;
-                text-align: center;
-            }
-
-            .nav-links a {
-                padding: 13px 0;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 28px;
-            }
-
-            .scroll-timeline-container {
-                display: none;
-            }
-        }
-
-        @media (max-width: 560px) {
-            :root {
-                --header-height: 82px;
-            }
-
-            .footer-header {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .footer-profile-container {
-                width: min(100%, 250px);
-                height: auto;
-            }
-
-            #headerLogo {
-                height: 58px;
-                max-width: 86px;
-            }
-
-            .hero {
-                padding-top: 112px;
-            }
-
-            .cta-btn {
-                width: min(100%, 360px);
-                padding: 13px 22px;
-                font-size: 1.05rem;
-            }
-
-            .section {
-                padding: 76px 16px;
-            }
-
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-                gap: 22px;
-            }
-
-            .pagination-controls {
-                gap: 12px;
-            }
-
-            .page-btn {
-                padding: 9px 16px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>שניאור אייזנבך | קלידים, עריכה והנפשות</title>
+<meta name="description" content="שניאור אייזנבך - קלידן, מפיק מוזיקלי, עורך וידאו ומנפיש. נגינה חיה לאירועים, עריכות, קליפי מילים והנפשות למגזר החסידי.">
+<meta name="keywords" content="שניאור אייזנבך, קלידן, עורך וידאו, הנפשות חסידי, קליפ מילים, הפקה מוזיקלית, סטודיו להנפשות">
+<meta name="theme-color" content="#100b0c">
+<meta property="og:site_name" content="שניאור אייזנבך">
+<meta property="og:title" content="שניאור אייזנבך | קלידים, עריכה והנפשות">
+<meta property="og:description" content="נגינה חיה לאירועים, עריכות, קליפי מילים והנפשות.">
+<meta property="og:url" content="https://shniorstudio.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://shniorstudio.vercel.app/logo.webp">
+<meta name="google-site-verification" content="Ob3m4fj6Ffggl8yuc7kE7eSs05lSY1TUp8CmoJgW2uc" />
+<link rel="icon" href="logo.webp">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "שניאור אייזנבך",
+  "image": "https://shniorstudio.vercel.app/logo.webp",
+  "url": "https://shniorstudio.vercel.app/",
+  "telephone": "054-8528425",
+  "description": "נגינה חיה לאירועים, עריכות וידאו, קליפי מילים והנפשות.",
+  "priceRange": "$$",
+  "address": { "@type": "PostalAddress", "addressLocality": "בית שמש", "addressCountry": "IL" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+@font-face { font-family: 'Tel Aviv'; src: url('TelAviv-ModernistRegular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Tel Aviv'; src: url('TelAviv-ModernistBold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+
+:root {
+  --ink: #100b0c;
+  --ink-2: #191112;
+  --ink-3: #231819;
+  --bone: #ece4d8;
+  --mute: #9d9087;
+  --wine: #8e2234;
+  --wine-hi: #b02f45;
+  --brass: #c4a25f;
+  --line: rgba(236, 228, 216, .11);
+  --line-2: rgba(236, 228, 216, .22);
+
+  --f-ui: 'Tel Aviv', 'Rubik', 'Arial Hebrew', Arial, sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  --wrap: 1280px;
+  --gut: max(20px, env(safe-area-inset-left, 0px));
+  --head-h: 72px;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--head-h) + 24px); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--f-ui);
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body.menu-open { overflow: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+::selection { background: var(--wine); color: var(--bone); }
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.mono { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .04em; direction: ltr; unicode-bidi: isolate; }
+.label { font-size: .82rem; letter-spacing: .06em; color: var(--mute); }
+
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--ink); }
+.site-head {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  background: rgba(16, 11, 12, .9);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.head-row { display: flex; align-items: center; gap: 28px; height: var(--head-h); }
+.brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.brand img { width: 44px; height: 44px; object-fit: contain; }
+.brand-name { font-weight: 700; font-size: 1.15rem; letter-spacing: -.01em; white-space: nowrap; }
+.nav { display: flex; gap: 26px; margin-inline-start: 18px; }
+.nav a { font-size: .98rem; color: var(--mute); padding-block: 6px; position: relative; transition: color .2s; }
+.nav a:hover, .nav a.is-on { color: var(--bone); }
+.nav a.is-on::after { content: ""; position: absolute; inset: auto 0 -2px; height: 2px; background: var(--wine-hi); }
+.head-end { margin-inline-start: auto; display: flex; align-items: center; gap: 18px; }
+.tc { color: var(--mute); min-width: 11ch; text-align: left; }
+.tc b { color: var(--brass); font-weight: 500; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 46px; padding: 0 22px; border-radius: 2px;
+  font-weight: 700; font-size: 1rem; border: 1px solid transparent; cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s, transform .2s;
+}
+.btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+.btn-wine { background: var(--wine); color: #fff; }
+.btn-wine:hover { background: var(--wine-hi); }
+.btn-line { border-color: var(--line-2); }
+.btn-line:hover { border-color: var(--bone); }
+.btn-sm { min-height: 40px; padding: 0 16px; font-size: .92rem; }
+.menu-btn { display: none; width: 44px; height: 44px; border: 1px solid var(--line-2); background: none; border-radius: 2px; cursor: pointer; }
+.menu-btn span { display: block; width: 18px; height: 1.5px; background: var(--bone); margin: 4px auto; transition: transform .25s, opacity .2s; }
+body.menu-open .menu-btn span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+body.menu-open .menu-btn span:nth-child(2) { opacity: 0; }
+body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.ruler {
+  position: relative; height: 10px; border-top: 1px solid var(--line);
+  background:
+    repeating-linear-gradient(to left, var(--line-2) 0 1px, transparent 1px 50px) top / 100% 7px no-repeat,
+    repeating-linear-gradient(to left, var(--line) 0 1px, transparent 1px 10px) top / 100% 4px no-repeat;
+}
+.playhead { position: absolute; top: 0; bottom: 0; right: 0; width: 0; border-left: 1px solid transparent; }
+.playhead::before { content: ""; position: absolute; top: 0; left: -1px; width: 2px; height: 10px; background: var(--wine-hi); }
+.playhead::after { content: ""; position: absolute; top: 0; left: -5px; border: 5px solid transparent; border-top-color: var(--wine-hi); }
+.played { position: absolute; top: 0; right: 0; height: 2px; background: var(--wine); width: 0; }
+
+.hero { position: relative; overflow: hidden; }
+.hero-grid {
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
+  gap: 40px; align-items: end; padding-top: clamp(40px, 7vw, 96px);
+}
+.hero-copy { padding-bottom: clamp(40px, 6vw, 88px); min-width: 0; }
+.hero-roles { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 26px; padding: 0; list-style: none; }
+.hero-roles li { font-size: .95rem; color: var(--mute); display: flex; align-items: center; gap: 10px; }
+.hero-roles li + li::before { content: ""; width: 5px; height: 5px; background: var(--wine-hi); transform: rotate(45deg); }
+.hero h1 {
+  margin: 0; font-weight: 700; letter-spacing: -.035em; line-height: .98;
+  font-size: clamp(3rem, 8.4vw, 7.4rem);
+  text-wrap: balance;
+}
+.hero h1 .ln { display: block; }
+.hero h1 .ln:nth-child(2) { color: var(--brass); }
+.hero h1 .ln:nth-child(3) { padding-inline-start: .55em; }
+.hero-sub { max-width: 34ch; margin: 28px 0 34px; font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: #cfc5b8; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.hero-photo { position: relative; align-self: stretch; display: flex; align-items: flex-end; justify-content: center; min-height: 420px; }
+.hero-photo::before {
+  content: ""; position: absolute; inset: 18% 6% 0 6%;
+  background: var(--wine);
+}
+.hero-photo::after {
+  content: ""; position: absolute; inset: 18% 6% 0 6%;
+  background: repeating-linear-gradient(to bottom, rgba(0,0,0,.18) 0 1px, transparent 1px 4px);
+  mix-blend-mode: multiply;
+}
+.hero-photo img { position: relative; z-index: 1; width: 100%; max-width: 440px; height: auto; filter: contrast(1.04); }
+.hero-photo .slate {
+  position: absolute; z-index: 2; bottom: 22px; left: -10px;
+  background: var(--ink); border: 1px solid var(--line-2);
+  padding: 10px 14px; display: grid; gap: 2px;
+}
+.slate .mono { color: var(--mute); }
+.slate strong { font-size: .95rem; }
+
+.facts { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.facts > div { padding: 22px 0; display: flex; align-items: baseline; gap: 12px; }
+.facts > div + div { border-inline-start: 1px solid var(--line); padding-inline-start: 24px; }
+.facts strong { font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.facts span { color: var(--mute); font-size: .95rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1 .ln, .hero-roles, .hero-sub, .hero-cta { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; }
+  .hero h1 .ln:nth-child(2) { animation-delay: .08s; }
+  .hero h1 .ln:nth-child(3) { animation-delay: .16s; }
+  .hero-sub { animation-delay: .26s; }
+  .hero-cta { animation-delay: .34s; }
+  .hero-photo img { animation: fade 1.1s .1s ease both; }
+}
+@keyframes rise { from { transform: translateY(18px); opacity: .001; } }
+@keyframes fade { from { opacity: .001; transform: translateY(10px); } }
+
+.marquee { border-block: 1px solid var(--line); overflow: hidden; background: var(--ink-2); }
+.marquee-track { display: flex; width: max-content; gap: 0; padding-block: 16px; }
+.marquee-track span { white-space: nowrap; font-size: 1.05rem; color: var(--mute); display: inline-flex; align-items: center; }
+.marquee-track span::after { content: "/"; color: var(--wine-hi); margin-inline: 22px; }
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track { animation: crawl 90s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+}
+@keyframes crawl { to { transform: translateX(50%); } }
+
+.sec { padding-block: clamp(64px, 9vw, 120px); }
+.sec-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 40px; margin-bottom: 44px; }
+.sec-head h2 { margin: 0; font-size: clamp(2.1rem, 4.6vw, 3.6rem); line-height: 1.02; letter-spacing: -.03em; font-weight: 700; text-wrap: balance; }
+.sec-head p { margin: 12px 0 0; color: var(--mute); max-width: 52ch; }
+.kicker { display: block; margin-bottom: 14px; }
+
+.services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line-2); }
+.service { padding: 30px 0 34px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.service + .service { border-inline-start: 1px solid var(--line); padding-inline-start: 28px; }
+.service:not(:last-child) { padding-inline-end: 28px; }
+.service .mono { color: var(--brass); }
+.service h3 { margin: 0; font-size: 1.7rem; letter-spacing: -.02em; line-height: 1.1; }
+.service p { margin: 0; color: #c9bfb3; max-width: 36ch; }
+
+.statuses { background: var(--ink-2); border-block: 1px solid var(--line); }
+.status-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(200px, 240px); gap: 16px; overflow-x: auto; padding-bottom: 12px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.status-card { scroll-snap-align: start; display: grid; gap: 10px; }
+.status-video { position: relative; aspect-ratio: 9 / 16; background: #000; overflow: hidden; max-width: 100%; }
+.status-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+.status-play { position: absolute; inset: 0; margin: auto; width: 64px; height: 64px; border-radius: 50%; border: 1px solid rgba(255,255,255,.7); background: rgba(16,11,12,.45); display: grid; place-items: center; cursor: pointer; transition: opacity .2s; }
+.status-play svg { width: 22px; height: 22px; margin-left: 4px; fill: #fff; }
+.status-card.is-playing .status-play { opacity: 0; pointer-events: none; }
+.status-bar { position: absolute; inset: auto 8px 8px 8px; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 10px; background: rgba(16,11,12,.6); }
+.status-bar .mono { color: #fff; }
+.status-mute { background: none; border: 0; color: var(--brass); cursor: pointer; font-size: .82rem; padding: 2px 0; }
+.status-meta { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.status-meta h3 { margin: 0; font-size: 1rem; line-height: 1.3; }
+.status-meta .label { display: block; margin-top: 2px; }
+.like { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--line-2); padding: 4px 10px; cursor: pointer; font-size: .85rem; flex-shrink: 0; }
+.like svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
+.like.is-liked { color: var(--wine-hi); border-color: var(--wine-hi); }
+.like.is-liked svg { fill: currentColor; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: none; border: 1px solid var(--line-2); padding: 8px 16px; font-size: .95rem; cursor: pointer; border-radius: 2px; display: inline-flex; gap: 8px; align-items: baseline; transition: border-color .2s, background .2s; }
+.chip .mono { color: var(--mute); }
+.chip:hover { border-color: var(--bone); }
+.chip[aria-pressed="true"] { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.chip[aria-pressed="true"] .mono { color: var(--wine); }
+
+.featured { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 32px; align-items: end; margin-bottom: 56px; }
+.featured .clip-thumb { aspect-ratio: 16 / 9; }
+.featured-info { padding-bottom: 6px; min-width: 0; }
+.featured-info h3 { margin: 10px 0 10px; font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.15; letter-spacing: -.02em; text-wrap: balance; }
+.featured-info p { margin: 0 0 22px; color: var(--mute); }
+
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 24px; }
+.clip { display: grid; gap: 12px; cursor: pointer; min-width: 0; background: none; border: 0; padding: 0; text-align: right; }
+.clip-thumb { position: relative; aspect-ratio: 16 / 9; background: var(--ink-3); overflow: hidden; max-width: 100%; }
+.clip-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1), filter .4s; filter: saturate(.9); }
+.clip-thumb::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px var(--line); pointer-events: none; }
+.clip-dur { position: absolute; bottom: 8px; left: 8px; background: rgba(16,11,12,.82); padding: 3px 7px; color: var(--bone); }
+.clip-play { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity .25s; background: rgba(16,11,12,.25); }
+.clip-play i { width: 58px; height: 58px; border-radius: 50%; background: var(--wine); display: grid; place-items: center; }
+.clip-play svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
+.clip:hover .clip-thumb img, .clip:focus-visible .clip-thumb img { transform: scale(1.04); filter: saturate(1.05); }
+.clip:hover .clip-play, .clip:focus-visible .clip-play { opacity: 1; }
+.clip-meta { display: flex; gap: 14px; align-items: baseline; min-width: 0; }
+.clip-meta .mono { color: var(--mute); flex-shrink: 0; }
+.clip-meta h3 { margin: 0; font-size: 1.05rem; line-height: 1.35; font-weight: 700; overflow-wrap: anywhere; }
+.clip-meta p { margin: 3px 0 0; font-size: .9rem; color: var(--brass); }
+
+.clip-open { cursor: default; }
+.clip-open .clip-thumb { display: grid; place-items: center; background: repeating-linear-gradient(-45deg, var(--ink-2) 0 12px, var(--ink-3) 12px 24px); }
+.clip-open .clip-thumb a { position: relative; z-index: 1; }
+
+.more-row { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 52px; flex-wrap: wrap; }
+.empty { grid-column: 1 / -1; padding: 60px 0; color: var(--mute); text-align: center; }
+.skeleton .clip-thumb { animation: pulse 1.4s ease-in-out infinite; }
+.skeleton .bar { height: 12px; background: var(--ink-3); width: 70%; }
+@keyframes pulse { 50% { opacity: .55; } }
+
+.contact { background: var(--wine); color: #fff; }
+.contact-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+.contact h2 { margin: 0; font-size: clamp(2.2rem, 5.4vw, 4.4rem); line-height: 1; letter-spacing: -.035em; text-wrap: balance; }
+.contact .lead { margin: 22px 0 0; font-size: 1.15rem; color: rgba(255,255,255,.82); max-width: 38ch; }
+.contact-box { border: 1px solid rgba(255,255,255,.3); padding: 26px; display: grid; gap: 18px; min-width: 0; }
+.contact-box .label { color: rgba(255,255,255,.7); }
+.phone { font-size: clamp(2rem, 4.4vw, 3rem); font-weight: 700; letter-spacing: -.02em; direction: ltr; text-align: right; unicode-bidi: isolate; display: block; line-height: 1; font-variant-numeric: tabular-nums; }
+.contact .btn-light { background: #fff; color: var(--wine); }
+.contact .btn-light:hover { background: var(--bone); }
+.contact .btn-ghost { border-color: rgba(255,255,255,.4); color: #fff; }
+.contact .btn-ghost:hover { border-color: #fff; }
+.contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.site-foot { padding-block: 26px; border-top: 1px solid var(--line); }
+.foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; color: var(--mute); font-size: .9rem; }
+
+dialog.player {
+  width: min(1100px, calc(100vw - 32px)); max-width: none; padding: 0; border: 0; background: transparent; color: var(--bone);
+}
+dialog.player::backdrop { background: rgba(8, 5, 6, .92); }
+.player-frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
+.player-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.player-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 14px; }
+.player-bar h3 { margin: 0; font-size: 1.1rem; min-width: 0; }
+.player-bar p { margin: 2px 0 0; color: var(--brass); font-size: .9rem; }
+.close { background: none; border: 1px solid var(--line-2); width: 44px; height: 44px; cursor: pointer; flex-shrink: 0; font-size: 1.4rem; line-height: 1; }
+.close:hover { border-color: var(--bone); }
+
+@media (max-width: 1080px) {
+  .tc { display: none; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  :root { --head-h: 64px; }
+  .nav {
+    position: fixed; inset: calc(var(--head-h) + 11px + env(safe-area-inset-top, 0px)) 0 0 0; margin: 0;
+    flex-direction: column; gap: 0; background: var(--ink);
+    padding: 12px max(20px, env(safe-area-inset-right, 0px)) 24px max(20px, env(safe-area-inset-left, 0px));
+    transform: translateY(-8px); opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s, visibility .2s;
+  }
+  body.menu-open .nav { opacity: 1; visibility: visible; transform: none; }
+  .nav a { font-size: 1.8rem; color: var(--bone); padding-block: 14px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .nav a.is-on::after { display: none; }
+  .menu-btn { display: block; }
+  .head-end .btn { display: none; }
+  .hero-grid { grid-template-columns: 1fr; gap: 0; }
+  .hero-copy { padding-bottom: 36px; }
+  .hero-photo { min-height: 0; max-width: 420px; width: 100%; margin-inline: auto; }
+  .hero-photo .slate { left: 0; }
+  .facts > div { flex-direction: column; gap: 0; padding-block: 16px; }
+  .facts > div + div { padding-inline-start: 14px; }
+  .facts strong { font-size: 1.3rem; }
+  .services { grid-template-columns: 1fr; }
+  .service, .service + .service, .service:not(:last-child) { padding: 26px 0; border-inline-start: 0; }
+  .service + .service { border-top: 1px solid var(--line); }
+  .featured { grid-template-columns: 1fr; gap: 18px; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .brand-name { font-size: 1rem; }
+  .grid { grid-template-columns: 1fr; gap: 32px; }
+  .facts span { font-size: .82rem; }
+  .hero h1 .ln:nth-child(3) { padding-inline-start: 0; }
+}
+</style>
 </head>
 <body>
 
-    <div id="site-loader">
-        <div class="sound-wave">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
-        <div class="loader-text">טוען נתונים...</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a href="#top" class="brand" aria-label="שניאור אייזנבך, לראש העמוד">
+      <img src="logo.webp" alt="" width="44" height="44">
+      <span class="brand-name" data-bind="logoText">שניאור אייזנבך</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="ניווט ראשי">
+      <a href="#services">מה אני עושה</a>
+      <a href="#statuses" id="statuses-nav" hidden>סטטוסים</a>
+      <a href="#work">עבודות</a>
+      <a href="#contact">יצירת קשר</a>
+    </nav>
+    <div class="head-end">
+      <span class="tc mono" aria-hidden="true">TC <b id="tc">00:00:00:00</b></span>
+      <a class="btn btn-wine btn-sm wa-link" href="https://wa.me/972548528425" target="_blank" rel="noopener">וואטסאפ</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-label="תפריט" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     </div>
+  </div>
+  <div class="ruler" aria-hidden="true"><div class="played" id="played"></div><div class="playhead" id="playhead"></div></div>
+</header>
 
-    <div class="scroll-timeline-container">
-        <div class="timeline-track"></div>
-        <div class="timeline-progress" id="timeline-progress"></div>
-        <div class="timeline-arrow" id="timeline-arrow">
-            <i class="fas fa-caret-down"></i>
-            <i class="fas fa-caret-down"></i>
-            <i class="fas fa-caret-down"></i>
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <ul class="hero-roles">
+          <li>קלידן</li><li>מפיק מוזיקלי</li><li>עורך וידאו</li><li>מנפיש</li>
+        </ul>
+        <h1 id="hero-title"><span class="ln">הסאונד.</span><span class="ln">הוויזואל.</span><span class="ln">התוצאה.</span></h1>
+        <p class="hero-sub" id="hero-sub">מנגן באירועים ובונה את הקליפ שאחרי. קליפי מילים, הנפשות ועריכות לזמרים, למקהלות ולהפקות.</p>
+        <div class="hero-cta">
+          <a class="btn btn-wine wa-link" href="https://wa.me/972548528425" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.3Z"/></svg>
+            <span id="hero-btn">להזמנת אירועים והפקות</span>
+          </a>
+          <a class="btn btn-line" href="#work">לעבודות</a>
         </div>
+      </div>
+      <div class="hero-photo">
+        <img src="profile.webp" alt="שניאור אייזנבך" width="900" height="1200" fetchpriority="high">
+        <div class="slate">
+          <span class="mono">LIVE · EDIT · MOTION</span>
+          <strong>שניאור אייזנבך</strong>
+        </div>
+      </div>
     </div>
-
-    <canvas id="magic-cursor-canvas" aria-hidden="true"></canvas>
-
-    <header>
-        <nav>
-            <a href="#home" class="logo" aria-label="מעבר לראש האתר">
-                <img id="headerLogo" src="" alt="לוגו">
-                <span id="headerLogoText">שניאור אייזנבך</span>
-            </a>
-
-            <button class="mobile-menu-btn" id="mobile-menu-btn" type="button" aria-label="פתיחת תפריט" aria-expanded="false">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#home" class="active">ראשי</a></li>
-                <li><a href="#services">שירותים</a></li>
-                <li id="statuses-nav-item" hidden><a href="#statuses">Shorts</a></li>
-                <li><a href="#portfolio">תיק עבודות</a></li>
-                <li><a href="#contact">צור קשר</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="home" class="hero">
-            <h1 id="mainHeroTitle">הסאונד. הוויזואל. התוצאה.</h1>
-            <h2 id="mainHeroSubtitle">קלידן, מפיק מוזיקלי, עריכות מקצועיות והנפשות מתקדמות</h2>
-            <a href="#contact" class="cta-btn" id="heroCtaBtn">להזמנת אירועים והפקות 054-8528425</a>
-        </section>
-
-        <div class="section-divider" aria-hidden="true">
-            <div class="sound-wave-small">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-        </div>
-
-        <section id="services" class="section section-alt">
-            <div class="section-inner">
-                <h2 class="section-title" id="servicesTitle">מעטפת של <span>מדיה ומוזיקה</span></h2>
-                <p class="section-kicker" id="servicesSubtitle">פתרון מלא לאירועים, הפקות, קליפים ועריכות — מהרעיון ועד התוצאה הסופית.</p>
-
-                <div class="services-grid" id="servicesGrid">
-                    <article class="service-card">
-                        <div class="service-card-inner">
-                            <div class="service-card-front">
-                                <i class="fas fa-music service-icon"></i>
-                                <h3>לייב על הבמה</h3>
-                            </div>
-                            <div class="service-card-back">
-                                <i class="fas fa-music service-icon"></i>
-                                <h3>לייב על הבמה</h3>
-                                <p>נגינה חיה אנרגטית ומדויקת על מערכות הקלידים המובילות בעולם.</p>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="service-card">
-                        <div class="service-card-inner">
-                            <div class="service-card-front">
-                                <i class="fas fa-video service-icon"></i>
-                                <h3>עריכה והפקות</h3>
-                            </div>
-                            <div class="service-card-back">
-                                <i class="fas fa-video service-icon"></i>
-                                <h3>עריכה והפקות</h3>
-                                <p>פוסט-פרודקשן מוקפד, קליפים, פרומואים וסרטונים ברמה גבוהה.</p>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="service-card">
-                        <div class="service-card-inner">
-                            <div class="service-card-front">
-                                <i class="fas fa-wand-magic-sparkles service-icon"></i>
-                                <h3>הנפשה ו-AI</h3>
-                            </div>
-                            <div class="service-card-back">
-                                <i class="fas fa-wand-magic-sparkles service-icon"></i>
-                                <h3>הנפשה ו-AI</h3>
-                                <p>קליפי מילים, גרפיקה והנפשות מתקדמות בשילוב כלים חדשניים.</p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider" aria-hidden="true">
-            <div class="sound-wave-small">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-        </div>
-
-        
-        <section id="statuses" class="section section-alt" hidden>
-            <div class="section-inner">
-                <h2 class="section-title">הצצה <span>30 שניות מאירועים</span></h2>
-                <p class="section-kicker">סרטונים קצרים - מוצגים כאן רק ל־24 שעות.</p>
-
-                <div class="status-grid" id="status-grid">
-                    <div class="inline-loader-container">
-                        <i class="fas fa-circle-notch fa-spin"></i>
-                        <p>טוען סטטוסים...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider" id="statuses-divider" aria-hidden="true" hidden>
-            <div class="sound-wave-small">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-        </div>
-
-<section id="portfolio" class="section">
-            <div class="section-inner">
-                <h2 class="section-title" id="portfolioTitle">תיק <span>עבודות</span></h2>
-                <p class="section-kicker" id="portfolioSubtitle">.</p>
-
-                <div class="portfolio-toolbar" id="portfolio-toolbar" aria-label="סינון תיק עבודות">
-                    <button class="filter-btn active" type="button" data-filter="all">הכול</button>
-                    <button class="filter-btn" type="button" data-filter="עריכה">עריכות</button>
-                    <button class="filter-btn" type="button" data-filter="הנפשה">הנפשות</button>
-                    <button class="filter-btn" type="button" data-filter="מוזיקה">מוזיקה</button>
-                </div>
-
-                <div class="portfolio-grid" id="portfolio-grid">
-                    <div class="inline-loader-container">
-                        <i class="fas fa-circle-notch fa-spin"></i>
-                        <p>טוען פרויקטים...</p>
-                    </div>
-                </div>
-
-                <div class="pagination-controls" id="pagination-controls">
-                    <button id="prev-page" class="page-btn" type="button" disabled><i class="fas fa-arrow-right"></i> הקודם</button>
-                    <span id="page-info" class="page-info">עמוד 1</span>
-                    <button id="next-page" class="page-btn" type="button" disabled>הבא <i class="fas fa-arrow-left"></i></button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer id="contact">
-        <div class="footer-header">
-            <div class="footer-text-block">
-                <div class="footer-logo">שניאור אייזנבך</div>
-                <div class="contact-info">
-                    <strong id="contactTitle">זמין לאירועי בוטיק, חתונות והפקות סטודיו.</strong>
-                    <span id="activityArea">אזור פעילות: כל הארץ</span>
-                </div>
-                <a href="https://wa.me/972548528425" target="_blank" rel="noopener" class="cta-btn footer-cta" id="whatsappBtn">
-                    <i class="fab fa-whatsapp"></i> <span id="whatsappButtonText">שלח הודעת וואטסאפ</span>
-                </a>
-            </div>
-            <div class="footer-profile-container">
-                <img src="profile.png" alt="שניאור אייזנבך" class="footer-profile-img">
-            </div>
-        </div>
-    </footer>
-
-    <div class="site-credit">
-        <span id="creditText">עיצוב ופיתוח: שניאור אייזנבך</span>
+    <div class="wrap">
+      <div class="facts">
+        <div><strong id="fact-count">—</strong><span>עבודות בתיק</span></div>
+        <div><strong>3</strong><span>תחומים תחת קורת גג אחת</span></div>
+        <div><strong id="fact-area">כל הארץ</strong><span>אזור פעילות</span></div>
+      </div>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-    <script id="free_accessibility_plugin_script" src="https://accessibility.f-static.com/site/free-accessibility-plugin/accessibility.min.js?lan=he&place=bottom-right&distance=20" crossorigin="anonymous"></script>
-
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyA_AHhjzcAYeVoBNEwF5mlzsvUqbnw2maY",
-            authDomain: "shnior-studio.firebaseapp.com",
-            databaseURL: "https://shnior-studio-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "shnior-studio",
-            storageBucket: "shnior-studio.firebasestorage.app",
-            messagingSenderId: "163064507259",
-            appId: "1:163064507259:web:3fb46c6795eba5b84f6bde"
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-
-        const db = firebase.database();
-
-        /*
-            סטטוסים דרך Google Form + Google Sheets + Apps Script.
-            אחרי פריסת ה-Apps Script, הדבק כאן את כתובת ה-Web App.
-            אופציונלי: הדבק גם קישור לטופס כדי שיופיע כפתור העלאה באתר.
-        */
-        const GOOGLE_STATUS_API_URL = 'https://script.google.com/macros/s/AKfycbw7646y6Iy1Aw1L6DZ32SPW8zfW1gTNb0A1fqRcDB_SDJEI0FGC7UoWoN3KLv5v_yMA/exec';
-        const GOOGLE_STATUS_FORM_URL = 'PASTE_GOOGLE_FORM_URL_HERE';
-
-        // סטטוסים דרך Cloudinary + Firebase Realtime Database
-        const CLOUDINARY_CLOUD_NAME = 'dli8bbmpa';
-        const CLOUDINARY_UPLOAD_PRESET = 'statuses_unsigned';
-        const STATUS_DURATION_MS = 24 * 60 * 60 * 1000;
-
-
-        const state = {
-            players: [],
-            allPortfolio: [],
-            filteredPortfolio: [],
-            currentPage: 0,
-            itemsPerPage: 12,
-            activeFilter: 'all'
-        };
-
-        const els = {
-            loader: document.getElementById('site-loader'),
-            logoImg: document.getElementById('headerLogo'),
-            logoText: document.getElementById('headerLogoText'),
-            heroTitle: document.getElementById('mainHeroTitle'),
-            heroSubtitle: document.getElementById('mainHeroSubtitle'),
-            portfolioGrid: document.getElementById('portfolio-grid'),
-            prevPage: document.getElementById('prev-page'),
-            nextPage: document.getElementById('next-page'),
-            pageInfo: document.getElementById('page-info'),
-            navLinks: document.getElementById('nav-links'),
-            mobileBtn: document.getElementById('mobile-menu-btn')
-        };
-
-        function hideLoader() {
-            if (els.loader) {
-                els.loader.classList.add('hidden');
-            }
-        }
-
-        window.addEventListener('load', () => {
-            setTimeout(hideLoader, 450);
-        });
-
-        setTimeout(hideLoader, 6000);
-
-        function setText(selectorOrElements, value) {
-            if (!value) return;
-            const elements = typeof selectorOrElements === 'string'
-                ? document.querySelectorAll(selectorOrElements)
-                : selectorOrElements;
-            elements.forEach(el => el.textContent = value);
-        }
-
-        function setHTML(selector, value) {
-            if (!value) return;
-            const el = document.querySelector(selector);
-            if (el) el.innerHTML = value;
-        }
-
-        function setTextById(id, value) {
-            if (!value) return;
-            const el = document.getElementById(id);
-            if (el) el.textContent = value;
-        }
-
-        function formatSectionTitle(value) {
-            const text = escapeHTML(value || '');
-            if (!text) return '';
-            const parts = text.trim().split(/\s+/);
-            if (parts.length < 2) return text;
-            const last = parts.pop();
-            return parts.join(' ') + ' <span>' + last + '</span>';
-        }
-
-        function normalizeCategories(categories) {
-            const list = Array.isArray(categories) ? categories : Object.values(categories || {});
-            const normalized = list.filter(Boolean).map(cat => ({
-                id: String(cat.id || cat.label || '').trim(),
-                label: String(cat.label || cat.id || '').trim()
-            })).filter(cat => cat.id && cat.label);
-
-            return normalized.length ? normalized : [
-                { id: 'עריכה', label: 'עריכות' },
-                { id: 'הנפשה', label: 'הנפשות' },
-                { id: 'מוזיקה', label: 'מוזיקה' }
-            ];
-        }
-
-        function normalizeServices(services) {
-            const list = Array.isArray(services) ? services : Object.values(services || {});
-            const normalized = list.filter(Boolean).map(service => ({
-                icon: service.icon || 'fas fa-star',
-                title: service.title || '',
-                description: service.description || ''
-            })).filter(service => service.title || service.description);
-
-            return normalized.length ? normalized : [
-                { icon: 'fas fa-music', title: 'לייב על הבמה', description: 'נגינה חיה אנרגטית ומדויקת על מערכות הקלידים המובילות בעולם.' },
-                { icon: 'fas fa-video', title: 'עריכה והפקות', description: 'פוסט-פרודקשן מוקפד, קליפים, פרומואים וסרטונים ברמה גבוהה.' },
-                { icon: 'fas fa-wand-magic-sparkles', title: 'הנפשה ו-AI', description: 'קליפי מילים, גרפיקה והנפשות מתקדמות בשילוב כלים חדשניים.' }
-            ];
-        }
-
-        function renderCategories(categories) {
-            const toolbar = document.getElementById('portfolio-toolbar');
-            if (!toolbar) return;
-            toolbar.innerHTML = '<button class="filter-btn active" type="button" data-filter="all">הכול</button>' +
-                categories.map(cat => `<button class="filter-btn" type="button" data-filter="${escapeHTML(cat.id)}">${escapeHTML(cat.label)}</button>`).join('');
-
-            toolbar.querySelectorAll('.filter-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    toolbar.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    state.activeFilter = button.dataset.filter || 'all';
-                    filterPortfolio();
-                });
-            });
-        }
-
-        function renderServices(services) {
-            const grid = document.getElementById('servicesGrid');
-            if (!grid) return;
-            grid.innerHTML = services.map(service => `
-                <article class="service-card">
-                    <div class="service-card-inner">
-                        <div class="service-card-front">
-                            <i class="${escapeHTML(service.icon)} service-icon"></i>
-                            <h3>${escapeHTML(service.title)}</h3>
-                        </div>
-                        <div class="service-card-back">
-                            <i class="${escapeHTML(service.icon)} service-icon"></i>
-                            <h3>${escapeHTML(service.title)}</h3>
-                            <p>${escapeHTML(service.description)}</p>
-                        </div>
-                    </div>
-                </article>
-            `).join('');
-        }
-
-        function escapeHTML(value = '') {
-            return String(value).replace(/[&<>"']/g, char => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            }[char]));
-        }
-
-        function getYouTubeId(source = '') {
-            const value = String(source).trim();
-            if (!value) return '';
-
-            const patterns = [
-                /youtube\.com\/watch\?v=([^&]+)/,
-                /youtu\.be\/([^?&/]+)/,
-                /youtube\.com\/embed\/([^?&/]+)/,
-                /youtube\.com\/shorts\/([^?&/]+)/
-            ];
-
-            for (const pattern of patterns) {
-                const match = value.match(pattern);
-                if (match && match[1]) return match[1];
-            }
-
-            if (/^[a-zA-Z0-9_-]{8,20}$/.test(value)) return value;
-            return '';
-        }
-
-        function normalizePortfolio(portfolio) {
-            const list = Array.isArray(portfolio) ? portfolio : Object.values(portfolio || {});
-            return list
-                .filter(Boolean)
-                .filter(item => item.isActive !== false)
-                .map((item, index) => ({
-                    title: item.title || `פרויקט ${index + 1}`,
-                    role: item.role || '',
-                    youtubeEmbed: item.youtubeEmbed || item.videoUrl || item.youtube || '',
-                    category: item.category || item.role || item.title || '',
-                    description: item.description || '',
-                    date: item.date || '',
-                    featured: Boolean(item.featured),
-                    order: Number.isFinite(Number(item.order)) ? Number(item.order) : index
-                }))
-                .sort((a, b) => a.order - b.order);
-        }
-
-        function filterPortfolio() {
-            if (state.activeFilter === 'all') {
-                state.filteredPortfolio = [...state.allPortfolio];
-            } else {
-                state.filteredPortfolio = state.allPortfolio.filter(item => {
-                    const haystack = `${item.category} ${item.role} ${item.title}`.toLowerCase();
-                    return haystack.includes(state.activeFilter.toLowerCase());
-                });
-            }
-
-            state.currentPage = 0;
-            renderPortfolioPage();
-        }
-
-        function renderEmptyPortfolio(message) {
-            els.portfolioGrid.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-folder-open"></i>
-                    <p>${escapeHTML(message)}</p>
-                </div>
-            `;
-
-            els.pageInfo.textContent = 'עמוד 1';
-            els.prevPage.disabled = true;
-            els.nextPage.disabled = true;
-        }
-
-        function destroyPlayers() {
-            state.players.forEach(player => {
-                try { player.destroy(); } catch (error) {}
-            });
-            state.players = [];
-        }
-
-        function renderPortfolioPage() {
-            destroyPlayers();
-
-            if (!state.filteredPortfolio.length) {
-                renderEmptyPortfolio('אין כרגע פרויקטים להצגה בקטגוריה הזו.');
-                return;
-            }
-
-            const startIdx = state.currentPage * state.itemsPerPage;
-            const endIdx = startIdx + state.itemsPerPage;
-            const currentItems = state.filteredPortfolio.slice(startIdx, endIdx);
-
-            els.portfolioGrid.innerHTML = '';
-
-            currentItems.forEach((item, index) => {
-                const videoId = getYouTubeId(item.youtubeEmbed);
-                const thumbUrl = videoId
-                    ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
-                    : 'https://via.placeholder.com/600x400/111111/D4AF37?text=Project';
-
-                const card = document.createElement('article');
-                card.className = 'portfolio-card';
-                card.setAttribute('tabindex', '0');
-                card.setAttribute('role', 'button');
-                card.setAttribute('aria-label', `נגן את ${item.title}`);
-
-                card.innerHTML = `
-                    <div class="thumbnail-container">
-                        <div class="thumbnail-bg" style="background-image: url('${thumbUrl}');"></div>
-                        <div class="play-button" aria-hidden="true"></div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">${escapeHTML(item.title)}</h3>
-                        <p class="card-role">${escapeHTML(item.role)}</p>
-                    </div>
-                `;
-
-                const playVideo = () => {
-                    if (!videoId || card.dataset.loaded === 'true') return;
-
-                    const container = card.querySelector('.thumbnail-container');
-                    const playerId = `player-${Date.now()}-${index}`;
-
-                    container.innerHTML = `
-                        <div class="plyr__video-embed" id="${playerId}">
-                            <iframe
-                                src="https://www.youtube.com/embed/${videoId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&enablejsapi=1"
-                                allowfullscreen
-                                allow="autoplay">
-                            </iframe>
-                        </div>
-                    `;
-
-                    const player = new Plyr(`#${playerId}`, {
-                        controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                        ratio: '16:9'
-                    });
-
-                    state.players.push(player);
-
-                    player.on('play', () => {
-                        state.players.forEach(otherPlayer => {
-                            if (otherPlayer !== player) otherPlayer.pause();
-                        });
-                    });
-
-                    player.play();
-                    card.dataset.loaded = 'true';
-                };
-
-                card.addEventListener('click', playVideo);
-                card.addEventListener('keydown', event => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        playVideo();
-                    }
-                });
-
-                els.portfolioGrid.appendChild(card);
-            });
-
-            const totalPages = Math.max(1, Math.ceil(state.filteredPortfolio.length / state.itemsPerPage));
-            els.pageInfo.textContent = `עמוד ${state.currentPage + 1} מתוך ${totalPages}`;
-            els.prevPage.disabled = state.currentPage === 0;
-            els.nextPage.disabled = state.currentPage >= totalPages - 1;
-        }
-
-        els.prevPage.addEventListener('click', () => {
-            if (state.currentPage > 0) {
-                state.currentPage--;
-                renderPortfolioPage();
-                document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-
-        els.nextPage.addEventListener('click', () => {
-            const totalPages = Math.ceil(state.filteredPortfolio.length / state.itemsPerPage);
-            if (state.currentPage < totalPages - 1) {
-                state.currentPage++;
-                renderPortfolioPage();
-                document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-
-
-
-        const statusGrid = document.getElementById('status-grid');
-        const statusesSection = document.getElementById('statuses');
-        const statusesDivider = document.getElementById('statuses-divider');
-        const statusesNavItem = document.getElementById('statuses-nav-item');
-        const statusUploadBtn = document.getElementById('statusUploadBtn');
-
-        function isStatusAdminMode() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('admin') === '1' || params.get('statusAdmin') === '1') {
-                localStorage.setItem('statusAdmin', '1');
-            }
-            return localStorage.getItem('statusAdmin') === '1';
-        }
-
-        function setupStatusUploadButton() {
-            // כפתור ההעלאה לא מוצג באתר הראשי. ההעלאה מתבצעת רק בקובץ admin-status.html
-            if (statusUploadBtn) statusUploadBtn.style.display = 'none';
-        }
-
-        function openCloudinaryStatusUpload() {
-            if (!window.cloudinary) {
-                alert('Cloudinary עדיין לא נטען. רענן את הדף ונסה שוב.');
-                return;
-            }
-
-            const widget = cloudinary.createUploadWidget({
-                cloudName: CLOUDINARY_CLOUD_NAME,
-                uploadPreset: CLOUDINARY_UPLOAD_PRESET,
-                resourceType: 'video',
-                sources: ['local', 'camera'],
-                multiple: false,
-                maxFiles: 1,
-                folder: 'statuses',
-                clientAllowedFormats: ['mp4', 'mov', 'webm'],
-                maxFileSize: 120000000,
-                styles: {
-                    palette: {
-                        window: '#070709',
-                        sourceBg: '#0d090b',
-                        windowBorder: '#D4AF37',
-                        tabIcon: '#D4AF37',
-                        menuIcons: '#D4AF37',
-                        textDark: '#f4f4f4',
-                        textLight: '#ffffff',
-                        link: '#D4AF37',
-                        action: '#D4AF37',
-                        inactiveTabIcon: '#a0a0a5',
-                        error: '#ff4d4d',
-                        inProgress: '#D4AF37',
-                        complete: '#20c997',
-                        sourceBg: '#070709'
-                    }
-                }
-            }, async (error, result) => {
-                if (error) {
-                    console.error('Cloudinary upload error:', error);
-                    alert('ההעלאה נכשלה. נסה שוב.');
-                    return;
-                }
-
-                if (result && result.event === 'success') {
-                    await saveUploadedStatus(result.info);
-                }
-            });
-
-            widget.open();
-        }
-
-        async function saveUploadedStatus(info) {
-            const now = Date.now();
-            const title = (prompt('כותרת לסטטוס:', 'סטטוס מהאירוע') || 'סטטוס מהאירוע').trim();
-            const category = (prompt('קטגוריה:', 'אירוע בוטיק') || 'אירוע בוטיק').trim();
-
-            const publicId = info.public_id || '';
-            const videoUrl = buildCloudinaryVideoUrl(publicId, info.format, info.secure_url);
-            const posterUrl = buildCloudinaryPosterUrl(publicId);
-
-            const status = {
-                title,
-                category,
-                description: '',
-                publicId,
-                videoUrl,
-                posterUrl,
-                createdAt: now,
-                expiresAt: now + STATUS_DURATION_MS,
-                cloudinaryAssetId: info.asset_id || '',
-                cloudinarySecureUrl: info.secure_url || ''
-            };
-
-            try {
-                await db.ref('statuses').push(status);
-                alert('הסטטוס עלה בהצלחה ויופיע באתר.');
-            } catch (error) {
-                console.error('Firebase status save error:', error);
-                alert('הסרטון עלה ל־Cloudinary, אבל לא נשמר באתר. בדוק הרשאות כתיבה ב־Firebase.');
-            }
-        }
-
-        function buildCloudinaryVideoUrl(publicId, format, fallbackUrl) {
-            if (!publicId) return fallbackUrl || '';
-            const ext = format || 'mp4';
-            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/${publicId}.${ext}`;
-        }
-
-        function buildCloudinaryPosterUrl(publicId) {
-            if (!publicId) return '';
-            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_0,w_720,h_1280,c_fill,q_auto,f_jpg/${publicId}.jpg`;
-        }
-
-        function formatStatusSeconds(seconds) {
-            return `${Math.floor(seconds || 0)} שניות`;
-        }
-
-        function formatStatusRemaining(expiresAt) {
-            const remaining = Math.max(0, Number(expiresAt || 0) - Date.now());
-            const hours = Math.floor(remaining / (60 * 60 * 1000));
-            const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-            if (hours > 0) return `${hours} שעות ו־${minutes} דקות`;
-            return `${minutes} דקות`;
-        }
-
-        function getStatusVisitorId() {
-            const storageKey = 'statusVisitorId';
-            let visitorId = localStorage.getItem(storageKey);
-
-            if (!visitorId) {
-                visitorId = 'v_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-                localStorage.setItem(storageKey, visitorId);
-            }
-
-            return visitorId.replace(/[^a-zA-Z0-9_-]/g, '');
-        }
-
-        function countRecordValues(value) {
-            if (!value || typeof value !== 'object') return 0;
-            return Object.values(value).filter(Boolean).length;
-        }
-
-        async function toggleStatusLike(statusId, isLiked) {
-            if (!statusId) return;
-
-            const visitorId = getStatusVisitorId();
-            const likeRef = db.ref(`statuses/${statusId}/likes/${visitorId}`);
-
-            try {
-                if (isLiked) {
-                    await likeRef.remove();
-                } else {
-                    await likeRef.set(true);
-                }
-            } catch (error) {
-                console.error('Status like error:', error);
-            }
-        }
-
-        async function recordStatusView(statusId) {
-            if (!statusId) return;
-
-            const visitorId = getStatusVisitorId();
-            const viewRef = db.ref(`statuses/${statusId}/views/${visitorId}`);
-
-            try {
-                await viewRef.set(true);
-            } catch (error) {
-                console.error('Status view error:', error);
-            }
-        }
-
-        function stopOtherStatuses(currentVideo) {
-            document.querySelectorAll('.status-video-el').forEach(video => {
-                if (video !== currentVideo) {
-                    video.pause();
-                    const otherCard = video.closest('.status-card');
-                    if (otherCard) otherCard.classList.remove('is-playing');
-                }
-            });
-        }
-
-        async function toggleStatusVideo(video) {
-            const card = video.closest('.status-card');
-            if (!card) return;
-
-            if (video.paused) {
-                stopOtherStatuses(video);
-                video.muted = false;
-                try {
-                    await video.play();
-                    card.classList.add('is-playing');
-
-                    if (!video.dataset.viewRecorded) {
-                        video.dataset.viewRecorded = '1';
-                        await recordStatusView(video.dataset.statusId || '');
-                    }
-                } catch (error) {
-                    console.warn('Status video play blocked:', error);
-                    card.classList.add('has-video-error');
-                }
-            } else {
-                video.pause();
-                card.classList.remove('is-playing');
-            }
-        }
-
-        function setupCustomStatusPlayers() {
-            document.querySelectorAll('.status-card').forEach(card => {
-                const video = card.querySelector('.status-video-el');
-                const playButton = card.querySelector('.status-center-play');
-                const muteButton = card.querySelector('.status-mute-btn');
-                const timeEl = card.querySelector('.status-current-time');
-
-                if (!video || !playButton || !muteButton || !timeEl) return;
-
-                video.controls = false;
-                video.muted = false;
-                video.disablePictureInPicture = true;
-                video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
-                video.addEventListener('contextmenu', event => event.preventDefault());
-
-                playButton.addEventListener('click', event => {
-                    event.stopPropagation();
-                    toggleStatusVideo(video);
-                });
-
-                video.addEventListener('click', () => toggleStatusVideo(video));
-
-                muteButton.addEventListener('click', event => {
-                    event.stopPropagation();
-                    video.muted = !video.muted;
-                    muteButton.innerHTML = video.muted
-                        ? '<i class="fas fa-volume-xmark"></i> שמע כבוי'
-                        : '<i class="fas fa-volume-high"></i> שמע דלוק';
-                });
-
-                video.addEventListener('play', () => card.classList.add('is-playing'));
-                video.addEventListener('pause', () => card.classList.remove('is-playing'));
-                video.addEventListener('ended', () => {
-                    card.classList.remove('is-playing');
-                    video.currentTime = 0;
-                });
-                video.addEventListener('timeupdate', () => {
-                    timeEl.textContent = formatStatusSeconds(video.currentTime);
-                });
-                video.addEventListener('error', () => {
-                    card.classList.add('has-video-error');
-                });
-
-                const likeButton = card.querySelector('.status-like-btn');
-                if (likeButton) {
-                    likeButton.addEventListener('click', event => {
-                        event.stopPropagation();
-                        toggleStatusLike(likeButton.dataset.statusId || '', likeButton.dataset.liked === '1');
-                    });
-                }
-            });
-        }
-
-        function normalizeStatusItems(rawStatuses, showViews = false) {
-            const visitorId = getStatusVisitorId();
-            const entries = Array.isArray(rawStatuses)
-                ? rawStatuses.map((item, index) => [String(index), item])
-                : Object.entries(rawStatuses || {});
-            const now = Date.now();
-
-            return entries
-                .filter(([, item]) => Boolean(item))
-                .filter(([, item]) => item.isActive !== false)
-                .filter(([, item]) => Number(item.expiresAt || 0) > now)
-                .map(([id, item]) => {
-                    const likesCount = countRecordValues(item.likes);
-                    const viewsCount = countRecordValues(item.views);
-                    const likedByVisitor = Boolean(item.likes && item.likes[visitorId]);
-
-                    return {
-                        id,
-                        title: item.title || 'סטטוס חדש',
-                        category: item.category || 'אירוע',
-                        description: item.description || '',
-                        videoUrl: item.videoUrl || item.cloudinarySecureUrl || '',
-                        posterUrl: item.posterUrl || buildCloudinaryPosterUrl(item.publicId || ''),
-                        expiresAt: Number(item.expiresAt || 0),
-                        createdAt: Number(item.createdAt || 0),
-                        expiresText: formatStatusRemaining(item.expiresAt),
-                        likesCount,
-                        viewsCount,
-                        likedByVisitor,
-                        showViews: Boolean(showViews)
-                    };
-                })
-                .sort((a, b) => b.createdAt - a.createdAt);
-        }
-
-        function setStatusesVisibility(shouldShow) {
-            [statusesSection, statusesDivider, statusesNavItem].forEach(element => {
-                if (!element) return;
-                element.hidden = !shouldShow;
-            });
-        }
-
-        function renderStatuses(payload) {
-            if (!statusGrid) return;
-            const items = Array.isArray(payload?.items) ? payload.items : [];
-            const hasActiveStatuses = items.length > 0;
-
-            setStatusesVisibility(hasActiveStatuses);
-
-            if (!hasActiveStatuses) {
-                statusGrid.innerHTML = '';
-                return;
-            }
-
-            statusGrid.innerHTML = items.map(item => `
-                <article class="status-card">
-                    <div class="status-video">
-                        <video
-                            class="status-video-el"
-                            data-status-id="${escapeHTML(item.id || '')}"
-                            src="${escapeHTML(item.videoUrl || '')}"
-                            poster="${escapeHTML(item.posterUrl || '')}"
-                            playsinline
-                            preload="metadata"
-                            controlsList="nodownload noplaybackrate noremoteplayback"
-                            disablePictureInPicture
-                        ></video>
-
-                        <button class="status-center-play" type="button" aria-label="הפעלת סטטוס">
-                            <i class="fas fa-play"></i>
-                        </button>
-
-                        <div class="status-player-bottom">
-                            <span class="status-current-time">0 שניות</span>
-                            <button class="status-mute-btn" type="button">
-                                <i class="fas fa-volume-high"></i> שמע דלוק
-                            </button>
-                        </div>
-
-                        <div class="status-error">לא ניתן להפעיל את הסרטון כרגע.</div>
-                    </div>
-                    <div class="status-content">
-                        <div class="status-category"><i class="fas fa-bolt"></i>${escapeHTML(item.category || 'אירוע')}</div>
-                        <h3 class="status-title">${escapeHTML(item.title || 'סטטוס חדש')}</h3>
-                        ${item.description ? `<p class="status-desc">${escapeHTML(item.description)}</p>` : ''}
-                        <div class="status-time">נשאר עוד: ${escapeHTML(item.expiresText || '24 שעות')}</div>
-
-                        <div class="status-social-row">
-                            <button
-                                class="status-like-btn ${item.likedByVisitor ? 'liked' : ''}"
-                                type="button"
-                                data-status-id="${escapeHTML(item.id || '')}"
-                                data-liked="${item.likedByVisitor ? '1' : '0'}"
-                                aria-label="סימון לב לסטטוס"
-                            >
-                                <i class="${item.likedByVisitor ? 'fas' : 'far'} fa-heart"></i>
-                                <span>${Number(item.likesCount || 0)}</span>
-                            </button>
-
-                            ${item.showViews ? `
-                                <span class="status-views-pill">
-                                    <i class="fas fa-eye"></i>
-                                    ${Number(item.viewsCount || 0)} צפיות
-                                </span>
-                            ` : ''}
-                        </div>
-                    </div>
-                </article>
-            `).join('');
-
-            setupCustomStatusPlayers();
-        }
-
-        const statusRuntimeState = {
-            rawStatuses: null,
-            showViews: false
-        };
-
-        function rerenderStatusesFromState() {
-            renderStatuses({
-                items: normalizeStatusItems(statusRuntimeState.rawStatuses, statusRuntimeState.showViews)
-            });
-        }
-
-        function loadGoogleStatuses() {
-            setupStatusUploadButton();
-
-            if (!statusGrid) return;
-
-            setStatusesVisibility(false);
-            statusGrid.innerHTML = '';
-
-            db.ref('settings/statuses/showViews').on('value', snapshot => {
-                statusRuntimeState.showViews = snapshot.val() === true;
-                if (statusRuntimeState.rawStatuses !== null) {
-                    rerenderStatusesFromState();
-                }
-            }, error => {
-                console.warn('Status settings load error:', error);
-            });
-
-            db.ref('statuses').on('value', snapshot => {
-                statusRuntimeState.rawStatuses = snapshot.val() || {};
-                rerenderStatusesFromState();
-            }, error => {
-                console.error('Statuses load error:', error);
-                setStatusesVisibility(false);
-                statusGrid.innerHTML = '';
-            });
-        }
-
-        function applyDynamicContent(data) {
-            if (!data) {
-                renderEmptyPortfolio('עדיין לא הוגדרו פרויקטים במערכת.');
-                return;
-            }
-
-            if (data.logoText) {
-                setText(document.querySelectorAll('#headerLogoText, .footer-logo'), data.logoText);
-            }
-
-            // הלוגו נטען תמיד מהקובץ המקומי בגיטהאב, ולא מפיירבייס
-            els.logoImg.src = 'logo.webp';
-            els.logoImg.onload = () => { els.logoImg.style.display = 'block'; };
-            els.logoImg.onerror = () => { els.logoImg.style.display = 'none'; };
-
-            if (data.heroTitle) els.heroTitle.textContent = data.heroTitle;
-            if (data.heroSubtitle) els.heroSubtitle.textContent = data.heroSubtitle;
-
-            const heroCtaBtn = document.getElementById('heroCtaBtn');
-            if (heroCtaBtn) {
-                const btnText = data.heroButtonText || 'להזמנת אירועים והפקות';
-                const btnPhone = data.heroButtonPhone || '054-8528425';
-                heroCtaBtn.textContent = `${btnText} ${btnPhone}`.trim();
-            }
-
-            if (data.servicesTitle) setHTML('#servicesTitle', formatSectionTitle(data.servicesTitle));
-            if (data.servicesSubtitle) setTextById('servicesSubtitle', data.servicesSubtitle);
-            renderServices(normalizeServices(data.services));
-
-            if (data.portfolioTitle) setHTML('#portfolioTitle', formatSectionTitle(data.portfolioTitle));
-            if (data.portfolioSubtitle) setTextById('portfolioSubtitle', data.portfolioSubtitle);
-
-            setTextById('contactTitle', data.contactTitle || 'זמין לאירועי בוטיק, חתונות והפקות סטודיו.');
-            setTextById('activityArea', data.activityArea || 'אזור פעילות: כל הארץ');
-            setTextById('whatsappButtonText', data.whatsappButtonText || 'שלח הודעת וואטסאפ');
-            setTextById('creditText', data.creditText || 'עיצוב ופיתוח: שניאור אייזנבך');
-
-            const whatsappBtn = document.getElementById('whatsappBtn');
-            if (whatsappBtn) whatsappBtn.href = `https://wa.me/${data.whatsappNumber || '972548528425'}`;
-
-            renderCategories(normalizeCategories(data.categories));
-            state.allPortfolio = normalizePortfolio(data.portfolio);
-            state.activeFilter = 'all';
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.filter === 'all');
-            });
-
-            if (!state.allPortfolio.length) {
-                renderEmptyPortfolio('עדיין לא הוגדרו פרויקטים במערכת.');
-            } else {
-                filterPortfolio();
-            }
-        }
-
-        function loadDynamicContent() {
-            db.ref('siteContent').on('value', snapshot => {
-                applyDynamicContent(snapshot.val());
-                hideLoader();
-            }, error => {
-                console.error('Firebase load error:', error);
-                renderEmptyPortfolio('לא ניתן לטעון כרגע את תיק העבודות. בדוק חיבור ל־Firebase וכללי קריאה.');
-                hideLoader();
-            });
-        }
-
-        /* Header mobile menu */
-        els.mobileBtn.addEventListener('click', () => {
-            const isOpen = els.navLinks.classList.toggle('open');
-            document.body.classList.toggle('menu-open', isOpen);
-            els.mobileBtn.setAttribute('aria-expanded', String(isOpen));
-            els.mobileBtn.innerHTML = isOpen ? '<i class="fas fa-xmark"></i>' : '<i class="fas fa-bars"></i>';
-        });
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                els.navLinks.classList.remove('open');
-                document.body.classList.remove('menu-open');
-                els.mobileBtn.setAttribute('aria-expanded', 'false');
-                els.mobileBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            });
-        });
-
-        /* Timeline + scroll spy */
-        const timelineProgress = document.getElementById('timeline-progress');
-        const timelineArrow = document.getElementById('timeline-arrow');
-        const arrowIcons = timelineArrow.querySelectorAll('i');
-        let lastScrollTop = 0;
-        let ticking = false;
-
-        function onScrollWork() {
-            const scrollTop = window.scrollY || document.documentElement.scrollTop;
-            const docHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-            const scrollPercent = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
-
-            timelineProgress.style.height = scrollPercent + '%';
-            timelineArrow.style.top = scrollPercent + '%';
-
-            arrowIcons.forEach(icon => {
-                icon.className = scrollTop > lastScrollTop ? 'fas fa-caret-down' : 'fas fa-caret-up';
-            });
-
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-
-            const sections = document.querySelectorAll('main section, footer');
-            let current = '';
-
-            sections.forEach(section => {
-                if (window.scrollY >= (section.offsetTop - 260)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-                if (current && link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
-
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(onScrollWork);
-                ticking = true;
-            }
-        }, { passive: true });
-
-        /* Cursor particles */
-        const canvas = document.getElementById('magic-cursor-canvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray = [];
-        let mouse = { x: null, y: null, lastX: null, lastY: null, vx: 0, vy: 0 };
-        let animationRunning = true;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        function addParticles(x, y, vx, vy) {
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-            const intensity = Math.min(Math.hypot(vx, vy), 100);
-            const count = Math.max(1, Math.min(7, Math.floor(intensity / 7)));
-
-            for (let i = 0; i < count; i++) {
-                const pX = x + (vx * (i / count));
-                const pY = y + (vy * (i / count));
-
-                particlesArray.push(new Particle('glow', pX, pY, vx, vy, intensity));
-
-                const sparkAmount = Math.max(2, Math.floor(intensity * 0.25));
-                for (let j = 0; j < sparkAmount; j++) {
-                    particlesArray.push(new Particle('spark', pX, pY, vx, vy, intensity));
-                }
-            }
-
-            if (particlesArray.length > 520) {
-                particlesArray.splice(0, particlesArray.length - 520);
-            }
-        }
-
-        window.addEventListener('mousemove', event => {
-            mouse.lastX = mouse.x || event.clientX;
-            mouse.lastY = mouse.y || event.clientY;
-            mouse.x = event.clientX;
-            mouse.y = event.clientY;
-            mouse.vx = mouse.x - mouse.lastX;
-            mouse.vy = mouse.y - mouse.lastY;
-            addParticles(mouse.lastX, mouse.lastY, mouse.vx, mouse.vy);
-        }, { passive: true });
-
-        window.addEventListener('touchmove', event => {
-            const touch = event.touches[0];
-            if (!touch) return;
-
-            mouse.lastX = mouse.x || touch.clientX;
-            mouse.lastY = mouse.y || touch.clientY;
-            mouse.x = touch.clientX;
-            mouse.y = touch.clientY;
-            mouse.vx = mouse.x - mouse.lastX;
-            mouse.vy = mouse.y - mouse.lastY;
-            addParticles(mouse.x, mouse.y, mouse.vx, mouse.vy);
-        }, { passive: true });
-
-        class Particle {
-            constructor(type, x, y, vx, vy, intensity) {
-                this.x = x;
-                this.y = y;
-                this.type = type;
-                this.life = 1.0;
-
-                if (this.type === 'glow') {
-                    this.size = Math.random() * 70 + 36;
-                    this.speedX = (vx * 0.16) + (Math.random() - 0.5) * 2;
-                    this.speedY = (vy * 0.16) + (Math.random() - 0.5) * 2;
-                    this.friction = 0.94;
-                    this.lifeDecay = Math.random() * 0.015 + 0.008;
-                    const glowColors = ['255, 200, 100', '255, 150, 50', '255, 180, 80'];
-                    this.colorRGB = glowColors[Math.floor(Math.random() * glowColors.length)];
-                } else {
-                    this.size = Math.random() * 2.4 + 0.5;
-                    const spreadWidth = 5 + (intensity * 0.32);
-                    this.speedX = (vx * 0.24) + (Math.random() - 0.5) * spreadWidth;
-                    this.speedY = (vy * 0.24) + (Math.random() - 0.5) * spreadWidth;
-                    this.friction = 0.96;
-                    this.gravity = Math.random() * 0.12 + 0.02;
-                    this.lifeDecay = Math.random() * 0.015 + 0.005;
-                }
-            }
-
-            update() {
-                if (this.type === 'spark') {
-                    this.speedY += this.gravity;
-                }
-
-                this.speedX *= this.friction;
-                this.speedY *= this.friction;
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                if (this.type === 'glow') {
-                    this.size += 1.2;
-                } else {
-                    this.size *= 0.97;
-                }
-
-                this.life -= this.lifeDecay;
-            }
-
-            draw() {
-                ctx.globalCompositeOperation = 'screen';
-
-                if (this.type === 'glow') {
-                    const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-                    ctx.globalAlpha = Math.max(0, this.life);
-                    gradient.addColorStop(0, `rgba(${this.colorRGB}, 0.12)`);
-                    gradient.addColorStop(1, `rgba(${this.colorRGB}, 0)`);
-                    ctx.fillStyle = gradient;
-                } else {
-                    ctx.globalAlpha = 1;
-                    ctx.fillStyle = `rgba(255, 245, 190, ${Math.max(0, this.life)})`;
-                }
-
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.globalAlpha = 1;
-            }
-        }
-
-        function animateCursor() {
-            if (!animationRunning) return;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-
-                if (particlesArray[i].life <= 0 || particlesArray[i].size <= 0.2) {
-                    particlesArray.splice(i, 1);
-                    i--;
-                }
-            }
-
-            requestAnimationFrame(animateCursor);
-        }
-
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            animationRunning = false;
-            canvas.style.display = 'none';
-        } else {
-            animateCursor();
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            loadDynamicContent();
-            loadGoogleStatuses();
-        });
-    </script>
+  </section>
+
+  <div class="marquee" aria-label="עבודות אחרונות">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+
+  <section class="sec" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="kicker label">מה אני עושה</span>
+          <h2 id="services-title">מעטפת של מדיה ומוזיקה</h2>
+          <p id="services-sub">מהבמה ועד הקליפ הסופי. אפשר להזמין כל שירות לבד, ואפשר את כולם יחד.</p>
+        </div>
+      </div>
+      <div class="services" id="services-list"></div>
+    </div>
+  </section>
+
+  <section class="sec statuses" id="statuses" hidden>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="kicker label">עולים ל־24 שעות ונעלמים</span>
+          <h2 id="statuses-title">סטטוסים מהאירועים</h2>
+          <p id="statuses-sub">רגעים קצרים מהבמה ומהסטודיו.</p>
+        </div>
+      </div>
+      <div class="status-row" id="status-row"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="kicker label">תיק עבודות</span>
+          <h2 id="work-title">עבודות נבחרות</h2>
+          <p id="work-sub">קליפי מילים, הנפשות ועריכות לאמנים מובילים. לחיצה על עבודה מנגנת אותה כאן.</p>
+        </div>
+        <div class="filters" id="filters" role="group" aria-label="סינון לפי תחום"></div>
+      </div>
+
+      <div class="featured" id="featured" hidden></div>
+
+      <div class="grid" id="grid" aria-live="polite">
+        <div class="clip skeleton"><div class="clip-thumb"></div><div class="bar"></div></div>
+        <div class="clip skeleton"><div class="clip-thumb"></div><div class="bar"></div></div>
+        <div class="clip skeleton"><div class="clip-thumb"></div><div class="bar"></div></div>
+      </div>
+
+      <div class="more-row">
+        <span class="label" id="shown-count"></span>
+        <button class="btn btn-line" id="more-btn" type="button" hidden>עוד עבודות</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec contact" id="contact">
+    <div class="wrap contact-grid">
+      <div>
+        <span class="kicker label" style="color:rgba(255,255,255,.7)">יצירת קשר</span>
+        <h2>יש לך אירוע או שיר שצריך קליפ?</h2>
+        <p class="lead" id="contact-title">זמין לאירועי בוטיק, חתונות והפקות סטודיו.</p>
+      </div>
+      <div class="contact-box">
+        <span class="label">טלפון</span>
+        <a class="phone" id="phone" href="tel:0548528425">054-8528425</a>
+        <div class="contact-actions">
+          <a class="btn btn-light wa-link" href="https://wa.me/972548528425" target="_blank" rel="noopener" id="wa-btn">שלח הודעת וואטסאפ</a>
+          <a class="btn btn-ghost" id="call-btn" href="tel:0548528425">חיוג</a>
+        </div>
+        <span class="label" id="area">אזור פעילות: כל הארץ</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© <span id="year"></span> שניאור אייזנבך</span>
+    <span id="credit">עיצוב ופיתוח: שניאור אייזנבך</span>
+  </div>
+</footer>
+
+<dialog class="player" id="player" aria-label="נגן וידאו">
+  <div class="player-frame" id="player-frame"></div>
+  <div class="player-bar">
+    <div><h3 id="player-title"></h3><p id="player-role"></p></div>
+    <button class="close" id="player-close" type="button" aria-label="סגירה">×</button>
+  </div>
+</dialog>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script id="free_accessibility_plugin_script" src="https://accessibility.f-static.com/site/free-accessibility-plugin/accessibility.min.js?lan=he&place=bottom-left&distance=20" crossorigin="anonymous" defer></script>
+
+<script>
+(() => {
+  const firebaseConfig = {
+    apiKey: "AIzaSyA_AHhjzcAYeVoBNEwF5mlzsvUqbnw2maY",
+    authDomain: "shnior-studio.firebaseapp.com",
+    databaseURL: "https://shnior-studio-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "shnior-studio",
+    storageBucket: "shnior-studio.firebasestorage.app",
+    messagingSenderId: "163064507259",
+    appId: "1:163064507259:web:3fb46c6795eba5b84f6bde"
+  };
+  const CLOUDINARY_CLOUD_NAME = 'dli8bbmpa';
+  const PAGE_SIZE = 9;
+
+  const $ = id => document.getElementById(id);
+  const esc = (v = '') => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
+  const pad = (n, l = 2) => String(n).padStart(l, '0');
+  const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
+  const ICON_HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.3 1.1 5 3 1.7-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2Z"/></svg>';
+
+  $('year').textContent = new Date().getFullYear();
+
+  const playhead = $('playhead'), played = $('played'), tc = $('tc');
+  const navLinks = [...document.querySelectorAll('.nav a')];
+  let ticking = false;
+  function onScroll() {
+    const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    const p = Math.min(1, Math.max(0, scrollY / max));
+    playhead.style.right = (p * 100) + '%';
+    played.style.width = (p * 100) + '%';
+    const frames = Math.round(p * 180 * 25);
+    tc.textContent = `00:${pad(Math.floor(frames / 1500))}:${pad(Math.floor(frames / 25) % 60)}:${pad(frames % 25)}`;
+    let current = '';
+    document.querySelectorAll('main section[id]').forEach(s => { if (!s.hidden && scrollY >= s.offsetTop - 160) current = s.id; });
+    navLinks.forEach(a => a.classList.toggle('is-on', a.getAttribute('href') === '#' + current));
+    ticking = false;
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  addEventListener('resize', onScroll);
+  onScroll();
+
+  const menuBtn = $('menu-btn');
+  function setMenu(open) {
+    document.body.classList.toggle('menu-open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+  }
+  menuBtn.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+  navLinks.forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  function youTubeId(src = '') {
+    const v = String(src).trim();
+    if (!v) return '';
+    const m = v.match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{6,20})/);
+    if (m) return m[1];
+    return /^[A-Za-z0-9_-]{8,20}$/.test(v) ? v : '';
+  }
+  const list = v => (Array.isArray(v) ? v : Object.values(v || {})).filter(Boolean);
+  const clean = s => String(s || '').replace(/\s+/g, ' ').trim();
+
+  function normalizePortfolio(raw) {
+    return list(raw)
+      .filter(i => i.isActive !== false)
+      .map((i, idx) => ({
+        title: clean(i.title) || `פרויקט ${idx + 1}`,
+        role: clean(i.role),
+        category: clean(i.category || i.role),
+        description: clean(i.description),
+        vid: youTubeId(i.youtubeEmbed || i.videoUrl || i.youtube || ''),
+        featured: Boolean(i.featured),
+        order: Number.isFinite(Number(i.order)) ? Number(i.order) : idx
+      }))
+      .sort((a, b) => a.order - b.order);
+  }
+
+  function thumb(vid, alt, eager) {
+    return `<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="${esc(alt)}" loading="${eager ? 'eager' : 'lazy'}" decoding="async" data-vid="${vid}">`;
+  }
+  document.addEventListener('load', e => {
+    const img = e.target;
+    if (img.tagName === 'IMG' && img.dataset.vid && img.naturalWidth <= 120 && !img.dataset.fb) {
+      img.dataset.fb = '1';
+      img.src = `https://i.ytimg.com/vi/${img.dataset.vid}/hqdefault.jpg`;
+    }
+  }, true);
+
+  const dlg = $('player'), frame = $('player-frame');
+  function openPlayer(item) {
+    frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${item.vid}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="${esc(item.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    $('player-title').textContent = item.title;
+    $('player-role').textContent = item.role;
+    if (typeof dlg.showModal === 'function') dlg.showModal();
+    else window.open(`https://youtu.be/${item.vid}`, '_blank', 'noopener');
+  }
+  dlg.addEventListener('close', () => { frame.innerHTML = ''; });
+  $('player-close').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+  const state = { all: [], filtered: [], filter: 'all', shown: PAGE_SIZE, waNumber: '972548528425' };
+
+  function clipCard(item, n) {
+    if (!item.vid) {
+      return `<div class="clip clip-open">
+        <div class="clip-thumb"><a class="btn btn-wine btn-sm" href="https://wa.me/${state.waNumber}" target="_blank" rel="noopener">לשיחה על הפרויקט שלך</a></div>
+        <div class="clip-meta"><span class="mono">#${pad(n, 3)}</span><div><h3>${esc(item.title)}</h3>${item.role ? `<p>${esc(item.role)}</p>` : ''}</div></div>
+      </div>`;
+    }
+    return `<button class="clip" type="button" data-i="${n}">
+      <div class="clip-thumb">${thumb(item.vid, item.title)}<span class="clip-play"><i>${ICON_PLAY}</i></span></div>
+      <div class="clip-meta"><span class="mono">#${pad(n, 3)}</span><div><h3>${esc(item.title)}</h3>${item.role ? `<p>${esc(item.role)}</p>` : ''}</div></div>
+    </button>`;
+  }
+
+  function renderWork() {
+    const grid = $('grid'), feat = $('featured');
+    const items = state.filtered;
+    if (!items.length) {
+      feat.hidden = true;
+      grid.innerHTML = '<p class="empty">אין כרגע עבודות בתחום הזה.</p>';
+      $('more-btn').hidden = true; $('shown-count').textContent = '';
+      return;
+    }
+    // featured = first item marked featured, otherwise first with video
+    const fIdx = Math.max(0, items.findIndex(i => i.featured && i.vid)) || 0;
+    const fi = items[fIdx]?.vid ? fIdx : items.findIndex(i => i.vid);
+    let rest = items;
+    if (fi >= 0) {
+      const f = items[fi];
+      feat.hidden = false;
+      feat.innerHTML = `
+        <button class="clip" type="button" data-f="1" aria-label="ניגון: ${esc(f.title)}">
+          <div class="clip-thumb">${thumb(f.vid, f.title, true)}<span class="clip-play"><i>${ICON_PLAY}</i></span></div>
+        </button>
+        <div class="featured-info">
+          <span class="label">עבודה נבחרת${f.role ? ' · ' + esc(f.role) : ''}</span>
+          <h3>${esc(f.title)}</h3>
+          ${f.description ? `<p>${esc(f.description)}</p>` : ''}
+          <button class="btn btn-line" type="button" data-f="1">לצפייה</button>
+        </div>`;
+      feat.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => openPlayer(f)));
+      rest = items.filter((_, i) => i !== fi);
+    } else {
+      feat.hidden = true;
+    }
+    const visible = rest.slice(0, state.shown);
+    grid.innerHTML = visible.map(i => clipCard(i, state.all.indexOf(i) + 1)).join('');
+    grid.querySelectorAll('button.clip').forEach(b => b.addEventListener('click', () => openPlayer(state.all[+b.dataset.i - 1])));
+    const left = rest.length - visible.length;
+    $('more-btn').hidden = left <= 0;
+    $('more-btn').textContent = `עוד ${Math.min(PAGE_SIZE, left)} עבודות`;
+    $('shown-count').textContent = `מוצגות ${visible.length + (fi >= 0 ? 1 : 0)} מתוך ${items.length}`;
+  }
+
+  $('more-btn').addEventListener('click', () => { state.shown += PAGE_SIZE; renderWork(); });
+
+  function applyFilter(id) {
+    state.filter = id;
+    state.shown = PAGE_SIZE;
+    state.filtered = id === 'all' ? [...state.all] : state.all.filter(i => `${i.category} ${i.role} ${i.title}`.toLowerCase().includes(id.toLowerCase()));
+    document.querySelectorAll('#filters .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.f === id)));
+    renderWork();
+  }
+
+  function renderFilters(cats) {
+    const count = id => id === 'all' ? state.all.length : state.all.filter(i => `${i.category} ${i.role} ${i.title}`.toLowerCase().includes(id.toLowerCase())).length;
+    const all = [{ id: 'all', label: 'הכול' }, ...cats];
+    $('filters').innerHTML = all.map(c => `<button class="chip" type="button" data-f="${esc(c.id)}" aria-pressed="false">${esc(c.label)} <span class="mono">${count(c.id)}</span></button>`).join('');
+    $('filters').querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => applyFilter(c.dataset.f)));
+  }
+
+  const DEFAULT_SERVICES = [
+    { title: 'לייב על הבמה', description: 'נגינה חיה לחתונות, שמחות ואירועי בוטיק, על מערכת קלידים מלאה.' },
+    { title: 'עריכה והפקות', description: 'עריכת קליפים, פרומואים וסרטוני אירוע, כולל צבע וסאונד.' },
+    { title: 'הנפשה ו־AI', description: 'קליפי מילים, גרפיקה והנפשות לשירים, לאלבומים ולסינגלים.' }
+  ];
+  const SERVICE_TAGS = ['KEYS / LIVE', 'EDIT / POST', 'MOTION / LYRICS'];
+  function renderServices(raw) {
+    const s = list(raw).map(x => ({ title: clean(x.title), description: clean(x.description) })).filter(x => x.title || x.description);
+    const items = s.length ? s : DEFAULT_SERVICES;
+    $('services-list').innerHTML = items.map((x, i) => `
+      <article class="service">
+        <span class="mono">${SERVICE_TAGS[i] || 'STUDIO'}</span>
+        <h3>${esc(x.title)}</h3>
+        <p>${esc(x.description)}</p>
+      </article>`).join('');
+  }
+  renderServices(null);
+
+  function renderMarquee(items) {
+    const names = items.slice(0, 18).map(i => i.title).filter(Boolean);
+    if (!names.length) { document.querySelector('.marquee').hidden = true; return; }
+    const html = names.map(n => `<span>${esc(n)}</span>`).join('');
+    $('marquee').innerHTML = html + html.replace(/<span>/g, '<span aria-hidden="true">');
+  }
+
+  function setText(id, v) { if (v && $(id)) $(id).textContent = v; }
+
+  function applyContent(d) {
+    if (!d) d = {};
+    if (d.logoText) document.querySelectorAll('[data-bind="logoText"]').forEach(e => e.textContent = d.logoText);
+    if (clean(d.heroTitle)) {
+      const parts = clean(d.heroTitle).split(/(?<=\.)\s+/);
+      $('hero-title').innerHTML = parts.map(p => `<span class="ln">${esc(p)}</span>`).join('');
+    }
+    setText('hero-sub', clean(d.heroSubtitle));
+    setText('hero-btn', clean(d.heroButtonText));
+    setText('services-title', clean(d.servicesTitle));
+    setText('services-sub', clean(d.servicesSubtitle));
+    setText('statuses-title', clean(d.statusesTitle));
+    setText('statuses-sub', clean(d.statusesSubtitle));
+    setText('work-title', clean(d.portfolioTitle) && clean(d.portfolioTitle) !== '.' ? clean(d.portfolioTitle) : '');
+    setText('work-sub', clean(d.portfolioSubtitle).length > 2 ? clean(d.portfolioSubtitle) : '');
+    setText('contact-title', clean(d.contactTitle));
+    setText('wa-btn', clean(d.whatsappButtonText));
+    setText('credit', clean(d.creditText));
+    if (clean(d.activityArea)) {
+      setText('area', clean(d.activityArea));
+      setText('fact-area', clean(d.activityArea).replace(/^אזור פעילות:\s{0,5}/, ''));
+    }
+    const phone = clean(d.heroButtonPhone);
+    if (phone) {
+      $('phone').textContent = phone;
+      const tel = 'tel:' + phone.replace(/[^\d+]/g, '');
+      $('phone').href = tel; $('call-btn').href = tel;
+    }
+    if (d.whatsappNumber) {
+      state.waNumber = String(d.whatsappNumber).replace(/\D/g, '');
+      document.querySelectorAll('.wa-link').forEach(a => a.href = `https://wa.me/${state.waNumber}`);
+    }
+    renderServices(d.services);
+
+    state.all = normalizePortfolio(d.portfolio);
+    $('fact-count').textContent = state.all.filter(i => i.vid).length || '—';
+    const cats = list(d.categories).map(c => ({ id: clean(c.id || c.label), label: clean(c.label || c.id) })).filter(c => c.id);
+    renderFilters(cats.length ? cats : [{ id: 'עריכה', label: 'עריכות' }, { id: 'הנפשה', label: 'הנפשות' }]);
+    renderMarquee(state.all.filter(i => i.vid));
+    applyFilter(state.filter);
+  }
+
+  function visitorId() {
+    try {
+      let v = localStorage.getItem('statusVisitorId');
+      if (!v) { v = 'v_' + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('statusVisitorId', v); }
+      return v.replace(/[^a-zA-Z0-9_-]/g, '');
+    } catch { return 'anon'; }
+  }
+  const poster = id => id ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_0,w_720,h_1280,c_fill,q_auto,f_jpg/${id}.jpg` : '';
+  const count = v => (v && typeof v === 'object') ? Object.values(v).filter(Boolean).length : 0;
+
+  function renderStatuses(raw, db) {
+    const me = visitorId(), now = Date.now();
+    const items = Object.entries(raw || {})
+      .filter(([, s]) => s && s.isActive !== false && Number(s.expiresAt || 0) > now)
+      .map(([id, s]) => ({
+        id, title: s.title || 'סטטוס חדש', category: s.category || 'אירוע',
+        src: s.videoUrl || s.cloudinarySecureUrl || '', poster: s.posterUrl || poster(s.publicId),
+        likes: count(s.likes), liked: Boolean(s.likes && s.likes[me]), created: Number(s.createdAt || 0)
+      }))
+      .sort((a, b) => b.created - a.created);
+
+    const show = items.length > 0;
+    $('statuses').hidden = !show; $('statuses-nav').hidden = !show;
+    if (!show) { $('status-row').innerHTML = ''; return; }
+
+    $('status-row').innerHTML = items.map(s => `
+      <article class="status-card">
+        <div class="status-video">
+          <video src="${esc(s.src)}" poster="${esc(s.poster)}" playsinline preload="metadata" disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback" data-id="${esc(s.id)}"></video>
+          <button class="status-play" type="button" aria-label="ניגון">${ICON_PLAY}</button>
+          <div class="status-bar"><span class="mono">0:00</span><button class="status-mute" type="button">השתק</button></div>
+        </div>
+        <div class="status-meta">
+          <div><h3>${esc(s.title)}</h3><span class="label">${esc(s.category)}</span></div>
+          <button class="like${s.liked ? ' is-liked' : ''}" type="button" data-id="${esc(s.id)}" data-liked="${s.liked ? 1 : 0}" aria-label="לייק">${ICON_HEART}<span>${s.likes}</span></button>
+        </div>
+      </article>`).join('');
+
+    $('status-row').querySelectorAll('.status-card').forEach(card => {
+      const v = card.querySelector('video'), t = card.querySelector('.status-bar .mono'), m = card.querySelector('.status-mute');
+      const toggle = async () => {
+        if (v.paused) {
+          document.querySelectorAll('#status-row video').forEach(o => { if (o !== v) o.pause(); });
+          try {
+            await v.play();
+            if (!v.dataset.seen) { v.dataset.seen = 1; db.ref(`statuses/${v.dataset.id}/views/${me}`).set(true).catch(() => {}); }
+          } catch {}
+        } else v.pause();
+      };
+      card.querySelector('.status-play').addEventListener('click', toggle);
+      v.addEventListener('click', toggle);
+      v.addEventListener('play', () => card.classList.add('is-playing'));
+      v.addEventListener('pause', () => card.classList.remove('is-playing'));
+      v.addEventListener('ended', () => { v.currentTime = 0; });
+      v.addEventListener('timeupdate', () => { const s = Math.floor(v.currentTime); t.textContent = `${Math.floor(s / 60)}:${pad(s % 60)}`; });
+      v.addEventListener('contextmenu', e => e.preventDefault());
+      m.addEventListener('click', () => { v.muted = !v.muted; m.textContent = v.muted ? 'הפעל שמע' : 'השתק'; });
+      const like = card.querySelector('.like');
+      like.addEventListener('click', () => {
+        const ref = db.ref(`statuses/${like.dataset.id}/likes/${me}`);
+        (like.dataset.liked === '1' ? ref.remove() : ref.set(true)).catch(() => {});
+      });
+    });
+  }
+
+  function showError() {
+    $('grid').innerHTML = '<p class="empty">העבודות לא נטענו כרגע. אפשר לרענן את העמוד, או לפנות ישירות בוואטסאפ.</p>';
+  }
+  try {
+    if (!window.firebase) throw new Error('firebase missing');
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    db.ref('siteContent').on('value', snap => applyContent(snap.val()), showError);
+    let raw = null;
+    db.ref('statuses').on('value', snap => { raw = snap.val() || {}; renderStatuses(raw, db); }, () => { $('statuses').hidden = true; });
+  } catch (e) {
+    showError();
+  }
+})();
+</script>
 </body>
 </html>
