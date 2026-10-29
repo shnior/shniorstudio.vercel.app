@@ -406,6 +406,16 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
 .teaser:hover img { transform: scale(1.06); }
 @media (max-width: 860px) { .teaser-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } .teaser:nth-child(n+4) { display: none; } }
 
+/* quieter header line, more air between sections */
+.ruler { height: 2px; border-top: 0; background: var(--line); }
+.playhead { display: none; }
+.sec { padding-block: clamp(56px, 7vw, 100px); }
+.sec-head { margin-bottom: 36px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 28px 0 0; color: var(--mute); font-size: .95rem; }
+.hero-meta strong { color: var(--bone); font-variant-numeric: tabular-nums; }
+.hero-copy { padding-bottom: clamp(48px, 7vw, 100px); }
+.chip { padding: 8px 18px; }
+
 @media (max-width: 1080px) {
   .tc { display: none; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -461,7 +471,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
       <a href="#contact">יצירת קשר</a>
     </nav>
     <div class="head-end">
-      <span class="tc mono" aria-hidden="true">TC <b id="tc">00:00:00:00</b></span>
       <a class="btn btn-wine btn-sm wa-link" href="https://wa.me/972548528425" target="_blank" rel="noopener">וואטסאפ</a>
       <button class="menu-btn" id="menu-btn" type="button" aria-label="תפריט" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     </div>
@@ -485,33 +494,19 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
           </a>
           <a class="btn btn-line" href="#work">לעבודות</a>
         </div>
+        <p class="hero-meta"><span><strong id="fact-count">—</strong> עבודות בתיק</span><span>אזור פעילות: <strong id="fact-area">כל הארץ</strong></span></p>
       </div>
       <div class="hero-photo">
         <img src="profile.webp" alt="שניאור אייזנבך" width="900" height="1200" fetchpriority="high">
-        <div class="slate">
-          <div class="slate-top"><span class="mono">LIVE · EDIT · MOTION</span><span class="vu" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div>
-          <strong>שניאור אייזנבך</strong>
-        </div>
-      </div>
-    </div>
-    <div class="wrap">
-      <div class="facts">
-        <div><strong id="fact-count">—</strong><span>עבודות בתיק</span></div>
-        <div><strong>3</strong><span>תחומים תחת קורת גג אחת</span></div>
-        <div><span>אזור פעילות</span><strong id="fact-area">כל הארץ</strong></div>
       </div>
     </div>
   </section>
 
-  <div class="marquee" aria-label="עבודות אחרונות">
-    <div class="marquee-skew" id="marquee-skew"><div class="marquee-track" id="marquee"></div></div>
-  </div>
 
   <section class="sec" id="services">
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="kicker label">מה אני עושה</span>
           <h2 id="services-title">מעטפת של מדיה ומוזיקה</h2>
           <p id="services-sub">מהבמה ועד הקליפ הסופי. אפשר להזמין כל שירות לבד, ואפשר את כולם יחד.</p>
         </div>
@@ -524,7 +519,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="kicker label">עולים ל־24 שעות ונעלמים</span>
           <h2 id="statuses-title">סטטוסים מהאירועים</h2>
           <p id="statuses-sub">רגעים קצרים מהבמה ומהסטודיו.</p>
         </div>
@@ -537,7 +531,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="kicker label">תיק עבודות</span>
           <h2 id="work-title">עבודות נבחרות</h2>
           <p id="work-sub">קליפי מילים, הנפשות ועריכות לאמנים מובילים. לחיצה על עבודה מנגנת אותה כאן.</p>
         </div>
@@ -553,7 +546,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
       </div>
 
       <div class="more-row">
-        <span class="label" id="shown-count"></span>
         <button class="btn btn-line" id="more-btn" type="button" hidden>עוד עבודות</button>
       </div>
     </div>
@@ -563,7 +555,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="kicker label">מתעדכן אוטומטית מיוטיוב</span>
           <h2>Shorts מהבמה</h2>
           <p>רגעים קצרים מחופות ואירועים, נגינה חיה בלי עריכה.</p>
         </div>
@@ -577,7 +568,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     <canvas class="contact-wave" id="contact-wave" aria-hidden="true"></canvas>
     <div class="wrap contact-grid">
       <div>
-        <span class="kicker label" style="color:rgba(255,255,255,.7)">יצירת קשר</span>
         <h2>יש לך אירוע או שיר שצריך קליפ?</h2>
         <p class="lead" id="contact-title">זמין לאירועי בוטיק, חתונות והפקות סטודיו.</p>
       </div>
@@ -600,8 +590,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     <span id="credit">עיצוב ופיתוח: שניאור אייזנבך</span>
   </div>
 </footer>
-
-<div class="cursor-ring" id="cursor-ring" aria-hidden="true">נגן</div>
 
 <dialog class="player" id="player" aria-label="נגן וידאו">
   <div class="player-frame" id="player-frame"></div>
@@ -627,7 +615,7 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     appId: "1:163064507259:web:3fb46c6795eba5b84f6bde"
   };
   const CLOUDINARY_CLOUD_NAME = 'dli8bbmpa';
-  const PAGE_SIZE = 9;
+  const PAGE_SIZE = 6;
 
   const $ = id => document.getElementById(id);
   const esc = (v = '') => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
@@ -645,8 +633,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     const p = Math.min(1, Math.max(0, scrollY / max));
     playhead.style.right = (p * 100) + '%';
     played.style.width = (p * 100) + '%';
-    const frames = Math.round(p * 180 * 25);
-    tc.textContent = `00:${pad(Math.floor(frames / 1500))}:${pad(Math.floor(frames / 25) % 60)}:${pad(frames % 25)}`;
     let current = '';
     document.querySelectorAll('main section[id]').forEach(s => { if (!s.hidden && scrollY >= s.offsetTop - 160) current = s.id; });
     navLinks.forEach(a => a.classList.toggle('is-on', a.getAttribute('href') === '#' + current));
@@ -707,14 +693,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     requestAnimationFrame(step);
   }
 
-  // credits strip leans with scroll speed
-  const mq = $('marquee-skew');
-  let lastY = scrollY, skewTimer;
-  if (!reduce) addEventListener('scroll', () => {
-    const v = scrollY - lastY; lastY = scrollY;
-    mq.style.transform = `skewX(${Math.max(-12, Math.min(12, v * .35))}deg)`;
-    clearTimeout(skewTimer); skewTimer = setTimeout(() => { mq.style.transform = ''; }, 140);
-  }, { passive: true });
 
   // portrait: parallax on scroll, slight drift toward the cursor
   const heroImg = document.querySelector('.hero-photo img'), hero = document.querySelector('.hero');
@@ -732,24 +710,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     });
   }
 
-  // "play" cursor over clips
-  const ring = $('cursor-ring');
-  let rx = 0, ry = 0, tx = 0, ty = 0, ringRaf = 0;
-  function ringLoop() {
-    rx += (tx - rx) * .2; ry += (ty - ry) * .2;
-    ring.style.translate = `${rx}px ${ry}px`;
-    ringRaf = (Math.abs(tx - rx) + Math.abs(ty - ry) > .5 || ring.classList.contains('on')) ? requestAnimationFrame(ringLoop) : 0;
-  }
-  if (finePointer && !reduce) {
-    document.body.classList.add('has-ring');
-    addEventListener('mousemove', e => {
-      tx = e.clientX; ty = e.clientY;
-      const over = !!e.target.closest('.clip:not(.clip-open)') && !document.querySelector('dialog[open]');
-      if (over && !ring.classList.contains('on')) { rx = tx; ry = ty; }
-      ring.classList.toggle('on', over);
-      if (!ringRaf) ringRaf = requestAnimationFrame(ringLoop);
-    }, { passive: true });
-  }
 
   // hover-scrub through real frames of the video (YouTube's 3 storyboard stills)
   function addScrub(box) {
@@ -907,12 +867,12 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     if (!item.vid) {
       return `<div class="clip clip-open">
         <div class="clip-thumb"><a class="btn btn-wine btn-sm" href="https://wa.me/${state.waNumber}" target="_blank" rel="noopener">לשיחה על הפרויקט שלך</a></div>
-        <div class="clip-meta"><span class="mono">#${pad(n, 3)}</span><div><h3>${esc(item.title)}</h3>${item.role ? `<p>${esc(item.role)}</p>` : ''}</div></div>
+        <div class="clip-meta"><div><h3>${esc(item.title)}</h3>${item.role ? `<p>${esc(item.role)}</p>` : ''}</div></div>
       </div>`;
     }
     return `<button class="clip" type="button" data-i="${n}">
       <div class="clip-thumb">${thumb(item.vid, item.title)}<span class="clip-play"><i>${ICON_PLAY}</i></span></div>
-      <div class="clip-meta"><span class="mono">#${pad(n, 3)}</span><div><h3>${esc(item.title)}</h3>${item.role ? `<p>${esc(item.role)}</p>` : ''}</div></div>
+      <div class="clip-meta"><div><h3>${esc(item.title)}</h3>${item.role ? `<p>${esc(item.role)}</p>` : ''}</div></div>
     </button>`;
   }
 
@@ -922,7 +882,7 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     if (!items.length) {
       feat.hidden = true;
       grid.innerHTML = '<p class="empty">אין כרגע עבודות בתחום הזה.</p>';
-      $('more-btn').hidden = true; $('shown-count').textContent = '';
+      $('more-btn').hidden = true;
       return;
     }
     // featured = first item marked featured, otherwise first with video
@@ -953,7 +913,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     const left = rest.length - visible.length;
     $('more-btn').hidden = left <= 0;
     $('more-btn').textContent = `עוד ${Math.min(PAGE_SIZE, left)} עבודות`;
-    $('shown-count').textContent = `מוצגות ${visible.length + (fi >= 0 ? 1 : 0)} מתוך ${items.length}`;
     enhanceWork();
   }
 
@@ -962,7 +921,7 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
   function applyFilter(id) {
     state.filter = id;
     state.shown = PAGE_SIZE;
-    state.filtered = id === 'all' ? [...state.all] : state.all.filter(i => `${i.category} ${i.role} ${i.title}`.toLowerCase().includes(id.toLowerCase()));
+    state.filtered = (id === 'all' ? state.all : state.all.filter(i => `${i.category} ${i.role} ${i.title}`.toLowerCase().includes(id.toLowerCase()))).filter(i => i.vid);
     document.querySelectorAll('#filters .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.f === id)));
     renderWork();
   }
@@ -970,7 +929,7 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
   function renderFilters(cats) {
     const count = id => id === 'all' ? state.all.length : state.all.filter(i => `${i.category} ${i.role} ${i.title}`.toLowerCase().includes(id.toLowerCase())).length;
     const all = [{ id: 'all', label: 'הכול' }, ...cats];
-    $('filters').innerHTML = all.map(c => `<button class="chip" type="button" data-f="${esc(c.id)}" aria-pressed="false">${esc(c.label)} <span class="mono">${count(c.id)}</span></button>`).join('');
+    $('filters').innerHTML = all.map(c => `<button class="chip" type="button" data-f="${esc(c.id)}" aria-pressed="false">${esc(c.label)}</button>`).join('');
     $('filters').querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => applyFilter(c.dataset.f)));
   }
 
@@ -986,7 +945,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     $('services-list').innerHTML = items.map((x, i) => `
       <article class="service">
         ${ART[i % ART.length]}
-        <span class="mono">${SERVICE_TAGS[i] || 'STUDIO'}</span>
         <h3>${esc(x.title)}</h3>
         <p>${esc(x.description)}</p>
       </article>`).join('');
@@ -994,12 +952,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
   }
   renderServices(null);
 
-  function renderMarquee(items) {
-    const names = items.slice(0, 18).map(i => i.title).filter(Boolean);
-    if (!names.length) { document.querySelector('.marquee').hidden = true; return; }
-    const html = names.map(n => `<span>${esc(n)}</span>`).join('');
-    $('marquee').innerHTML = html + html.replace(/<span>/g, '<span aria-hidden="true">');
-  }
 
   function setText(id, v) { if (v && $(id)) $(id).textContent = v; }
 
@@ -1043,7 +995,6 @@ dialog.player[open]::backdrop { animation: fade .3s ease both; }
     splitHeads();
     const cats = list(d.categories).map(c => ({ id: clean(c.id || c.label), label: clean(c.label || c.id) })).filter(c => c.id);
     renderFilters(cats.length ? cats : [{ id: 'עריכה', label: 'עריכות' }, { id: 'הנפשה', label: 'הנפשות' }]);
-    renderMarquee(state.all.filter(i => i.vid));
     applyFilter(state.filter);
   }
 

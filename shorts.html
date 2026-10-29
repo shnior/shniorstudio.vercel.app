@@ -133,6 +133,9 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotat
 @keyframes rec { 50% { opacity: .15; } }
 
 @media (max-width: 1080px) { .tc { display: none; } }
+.ruler { height: 2px; border-top: 0; background: var(--line); }
+.playhead { display: none; }
+.short-n { display: none; }
 @media (max-width: 860px) {
   :root { --head-h: 64px; }
   .nav { position: fixed; inset: calc(var(--head-h) + 11px + env(safe-area-inset-top, 0px)) 0 0 0; margin: 0; flex-direction: column; gap: 0; background: var(--ink); padding: 12px max(20px, env(safe-area-inset-right, 0px)) 24px max(20px, env(safe-area-inset-left, 0px)); opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .2s, transform .2s, visibility .2s; }
@@ -168,7 +171,6 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotat
       <a href="/#contact">יצירת קשר</a>
     </nav>
     <div class="head-end">
-      <span class="tc mono" aria-hidden="true">TC <b id="tc">00:00:00:00</b></span>
       <a class="btn btn-wine btn-sm" href="https://wa.me/972548528425" target="_blank" rel="noopener">וואטסאפ</a>
       <button class="menu-btn" id="menu-btn" type="button" aria-label="תפריט" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
@@ -237,8 +239,6 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotat
   function onScroll() {
     const p = Math.min(1, Math.max(0, scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight)));
     playhead.style.right = played.style.width = (p * 100) + '%';
-    const f = Math.round(p * 60 * 25);
-    tc.textContent = `00:${pad(Math.floor(f / 1500))}:${pad(Math.floor(f / 25) % 60)}:${pad(f % 25)}`;
     ticking = false;
   }
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
