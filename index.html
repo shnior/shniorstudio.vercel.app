@@ -71,7 +71,8 @@ button { font: inherit; color: inherit; }
 .btn-sm { min-height: 42px; padding: 0 20px; font-size: .95rem; }
 
 .site-head { position: fixed; inset: 0 0 auto; z-index: 50; padding-top: env(safe-area-inset-top, 0px); transition: background .35s, box-shadow .35s; }
-.site-head.solid { background: rgba(11, 7, 8, .88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line); }
+.site-head::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(11, 7, 8, .88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line); opacity: 0; transition: opacity .35s; }
+.site-head.solid::before, body.menu-open .site-head::before { opacity: 1; }
 .head-row { display: flex; align-items: center; gap: 32px; height: 84px; }
 .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .brand img { width: 52px; height: 52px; object-fit: contain; }
@@ -244,7 +245,7 @@ dialog.player[open] { animation: popIn .4s cubic-bezier(.2,.7,.2,1) both; }
 @media (max-width: 860px) {
   .head-row { height: 70px; }
   .brand img { width: 44px; height: 44px; }
-  .nav { position: fixed; inset: calc(70px + env(safe-area-inset-top, 0px)) 0 0 0; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; padding-top: 40px; margin: 0; background: rgba(11,7,8,.97); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
+  .nav { position: fixed; inset: calc(70px + env(safe-area-inset-top, 0px)) 0 0 0; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; padding-top: 40px; margin: 0; background: var(--bg); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
   body.menu-open .nav { opacity: 1; visibility: visible; }
   .nav a { font-size: 1.7rem; font-weight: 700; padding-block: 12px; }
   .menu-btn { display: block; }
