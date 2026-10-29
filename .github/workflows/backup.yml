@@ -1,0 +1,65 @@
+name: גיבוי תוכן האתר
+
+# Saves the site content from Firebase into backups/ in this repo.
+# Runs every night, and on demand from the admin ("גיבוי עכשיו") via the Actions tab.
+# Git history keeps every earlier version, so each run is a restore point.
+
+on:
+  schedule:
+    - cron: '17 1 * * *'   # every night, ~03:17 Israel time
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download content from Firebase
+        env:
+          DB: https://shnior-studio-default-rtdb.asia-southeast1.firebasedatabase.app
+        run: |
+          set -euo pipefail
+          mkdir -p backups
+          curl -fsS --retry 3 "$DB/siteContent.json" -o backups/siteContent.tmp
+          curl -fsS --retry 3 "$DB/statuses.json" -o backups/statuses.tmp || echo '{}' > backups/statuses.tmp
+          python3 - <<'PY'
+          import json, os
+          def load(p):
+              with open(p, encoding='utf-8') as f:
+                  return json.load(f)
+          site = load('backups/siteContent.tmp')
+          if not isinstance(site, dict) or not site.get('portfolio'):
+              raise SystemExit('siteContent looks empty, keeping the previous backup')
+          statuses = load('backups/statuses.tmp') or {}
+          # siteContent.json uses the same format as the admin's "גיבוי כל האתר",
+          # so it can be restored with the admin's "ייבוא JSON" button.
+          with open('backups/siteContent.json', 'w', encoding='utf-8') as f:
+              json.dump(site, f, ensure_ascii=False, indent=1, sort_keys=True)
+          with open('backups/statuses.json', 'w', encoding='utf-8') as f:
+              json.dump(statuses, f, ensure_ascii=False, indent=1, sort_keys=True)
+          portfolio = site.get('portfolio') or []
+          count = len(portfolio if isinstance(portfolio, list) else list(portfolio.values()))
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
+              f.write(f'PROJECTS={count}\n')
+          PY
+          rm backups/*.tmp
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name "site-backup"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add backups
+          if git diff --cached --quiet; then
+            echo "No changes since the last backup."
+          else
+            git commit -m "גיבוי תוכן האתר $(TZ=Asia/Jerusalem date '+%Y-%m-%d %H:%M') · ${PROJECTS} פרויקטים [skip ci]"
+            git push
+          fi

@@ -540,6 +540,20 @@
             <p class="mini-note">ייבוא JSON יכול להיות של כל האתר או של מערך פרויקטים בלבד. לאחר ייבוא צריך ללחוץ שמירה.</p>
         </div>
 
+        <div class="section">
+            <div class="section-header">
+                <h2><i class="fab fa-github"></i> גיבוי לגיטהאב</h2>
+                <span class="mini-note" id="ghLastBackup" style="margin:0">בודק גיבוי אחרון...</span>
+            </div>
+            <p class="hint">כל לילה, בסביבות 03:15, כל התוכן של האתר (טקסטים, שירותים, פרויקטים וסטטוסים) נשמר אוטומטית בתיקיית <b>backups</b> בגיטהאב. כל גיבוי נשמר כגרסה, כך שאפשר לחזור לכל יום קודם.</p>
+            <div class="grid-3">
+                <a class="btn" href="https://github.com/shnior/shniorstudio.vercel.app/actions/workflows/backup.yml" target="_blank" rel="noopener"><i class="fas fa-cloud-arrow-up"></i> גיבוי עכשיו</a>
+                <a class="btn btn-soft" href="https://github.com/shnior/shniorstudio.vercel.app/commits/main/backups" target="_blank" rel="noopener"><i class="fas fa-clock-rotate-left"></i> כל הגיבויים</a>
+                <button class="btn btn-soft" type="button" onclick="restoreFromGithub()"><i class="fas fa-rotate-left"></i> טעינת הגיבוי האחרון</button>
+            </div>
+            <p class="mini-note"><b>גיבוי עכשיו</b> פותח את גיטהאב. שם לוחצים על Run workflow ואז שוב על Run workflow, והגיבוי מוכן תוך כחצי דקה. <b>טעינת הגיבוי האחרון</b> מכניסה את הגיבוי לעורך כאן. האתר עצמו לא משתנה עד שלוחצים שמירה.</p>
+        </div>
+
         <div class="section danger-zone">
             <div class="section-header"><h2><i class="fas fa-triangle-exclamation"></i> פעולות זהירות</h2></div>
             <button class="btn btn-danger" onclick="clearInactiveProjects()"><i class="fas fa-trash-can"></i> מחק את כל הפרויקטים המוסתרים מהרשימה</button>
@@ -1287,6 +1301,36 @@
         portfolioItems = portfolioItems.filter(item => item.isActive !== false);
         renderPortfolio();
     }
+
+    /* ---------- GitHub backup ---------- */
+    const GH_REPO = 'shnior/shniorstudio.vercel.app';
+    async function loadGithubBackupInfo() {
+        const el = $('ghLastBackup');
+        if (!el) return;
+        try {
+            const r = await fetch(`https://api.github.com/repos/${GH_REPO}/commits?path=backups/siteContent.json&per_page=1`);
+            const list = await r.json();
+            if (!Array.isArray(list) || !list.length) { el.textContent = 'עדיין אין גיבוי. הראשון ייווצר הלילה, או בלחיצה על גיבוי עכשיו.'; return; }
+            const when = new Date(list[0].commit.committer.date);
+            el.textContent = 'גיבוי אחרון: ' + when.toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' });
+        } catch (err) {
+            el.textContent = 'לא ניתן לבדוק כרגע את מצב הגיבוי.';
+        }
+    }
+    async function restoreFromGithub() {
+        if (!confirm('לטעון את הגיבוי האחרון מגיטהאב לעורך? מה שלא נשמר כאן יוחלף. האתר ישתנה רק אחרי שמירה.')) return;
+        try {
+            const r = await fetch(`https://raw.githubusercontent.com/${GH_REPO}/main/backups/siteContent.json?t=${Date.now()}`);
+            if (!r.ok) throw new Error('הגיבוי לא נמצא');
+            const text = await r.text();
+            JSON.parse(text);
+            importJson({ target: { files: [new File([text], 'siteContent.json', { type: 'application/json' })] } });
+        } catch (err) {
+            alert('טעינת הגיבוי נכשלה: ' + err.message);
+        }
+    }
+    document.querySelector('[data-tab="backup"]')?.addEventListener('click', loadGithubBackupInfo);
+    loadGithubBackupInfo();
 </script>
 </body>
 </html>
