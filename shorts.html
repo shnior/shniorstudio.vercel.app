@@ -372,6 +372,7 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotat
     show(i); $('p-close').focus();
   }
   function closePlayer() {
+    if (location.hash) history.replaceState(null, '', location.pathname);
     $('player').hidden = true; document.body.classList.remove('player-open');
     $('p-stage').innerHTML = ''; cur = -1;
     if (lastFocus) lastFocus.focus();
@@ -401,6 +402,10 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotat
         return { ...s, clean: cleanTitle(s.title), viewsNum, viewsShort: viewsNum ? fmtViews(viewsNum) : '' };
       });
       render();
+      // opened from the home page strip: play that Short right away
+      const fromHash = decodeURIComponent(location.hash.slice(1));
+      const at = fromHash ? items.findIndex(x => x.id === fromHash) : -1;
+      if (at >= 0) openPlayer(at);
     })
     .catch(() => { items = []; render(); });
 })();
