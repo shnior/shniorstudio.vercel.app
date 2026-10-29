@@ -269,42 +269,44 @@ dialog.player[open] { animation: popIn .4s cubic-bezier(.2,.7,.2,1) both; }
 }
 
 
-/* mobile menu: floating 3D cards under the menu button, the page stays visible */
-@media (max-width: 860px) {
-  .nav {
-    position: fixed !important; inset: auto !important;
-    top: calc(78px + env(safe-area-inset-top, 0px)) !important; left: max(16px, env(safe-area-inset-left, 0px)) !important;
-    width: min(250px, calc(100vw - 32px)); height: auto !important; margin: 0 !important; padding: 0 !important;
-    display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 20px !important;
-    background: none !important; opacity: 1 !important; transform: none !important; overflow: visible !important;
-    perspective: 700px; visibility: hidden; transition: visibility 0s linear .6s !important; z-index: 60;
-  }
-  body.menu-open .nav { visibility: visible; transition: visibility 0s !important; }
-  .nav a {
-    display: block; text-align: center; padding: 14px 18px !important; border: 0 !important; border-radius: 14px;
-    font-size: 1.15rem !important; font-weight: 700; color: #f4eee6 !important;
-    background: rgba(30, 10, 15, .7);
-    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-    box-shadow: inset 0 0 0 1px rgba(212, 175, 55, .4), inset 0 1px 0 rgba(255, 240, 200, .18), 0 7px 0 rgba(84, 15, 28, .85), 0 22px 30px rgba(0, 0, 0, .5);
-    transform-origin: 50% 0;
-    transform: rotateX(-90deg) rotateY(-14deg);
-    opacity: 0;
-    transition: transform .55s cubic-bezier(.2, 1.1, .3, 1.15), opacity .25s !important;
-    transition-delay: calc(var(--i, 0) * 55ms) !important;
-  }
-  .nav a::after { display: none !important; }
-  .nav a.is-on { color: #f3dc95 !important; box-shadow: inset 0 0 0 1px rgba(212, 175, 55, .85), inset 0 1px 0 rgba(255, 240, 200, .25), 0 7px 0 rgba(120, 22, 40, .9), 0 22px 30px rgba(0, 0, 0, .5); }
-  body.menu-open .nav a {
-    opacity: 1;
-    transform: rotateX(12deg) rotateY(-14deg);
-    transition-delay: calc(var(--i, 0) * 70ms) !important;
-  }
+/* menu on every screen size: the three-lines button opens floating 3D cards under it, the page stays visible */
+.head-row { position: relative; }
+.head-row > .wa-link { margin-inline-start: auto; }
+.menu-btn { display: block !important; margin-inline-start: 0; flex-shrink: 0; }
+.nav {
+  position: absolute !important; inset: auto !important;
+  top: calc(100% + 10px) !important; left: max(20px, env(safe-area-inset-left, 0px)) !important;
+  width: min(260px, calc(100vw - 40px)); height: auto !important; margin: 0 !important; padding: 0 !important;
+  display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 20px !important;
+  background: none !important; opacity: 1 !important; transform: none !important; overflow: visible !important;
+  perspective: 700px; visibility: hidden; transition: visibility 0s linear .6s !important; z-index: 60;
 }
-@media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
+body.menu-open .nav { visibility: visible; transition: visibility 0s !important; }
+.nav a {
+  display: block; text-align: center; padding: 14px 18px !important; border: 0 !important; border-radius: 14px;
+  font-size: 1.15rem !important; font-weight: 700; color: #f4eee6 !important;
+  background: rgba(30, 10, 15, .7);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, .4), inset 0 1px 0 rgba(255, 240, 200, .18), 0 7px 0 rgba(84, 15, 28, .85), 0 22px 30px rgba(0, 0, 0, .5);
+  transform-origin: 50% 0;
+  transform: rotateX(-90deg) rotateY(-14deg);
+  opacity: 0;
+  transition: transform .55s cubic-bezier(.2, 1.1, .3, 1.15), opacity .25s, filter .2s !important;
+  transition-delay: calc(var(--i, 0) * 55ms) !important;
+}
+.nav a::after { display: none !important; }
+.nav a:hover { filter: brightness(1.25); }
+.nav a.is-on { color: #f3dc95 !important; box-shadow: inset 0 0 0 1px rgba(212, 175, 55, .85), inset 0 1px 0 rgba(255, 240, 200, .25), 0 7px 0 rgba(120, 22, 40, .9), 0 22px 30px rgba(0, 0, 0, .5); }
+body.menu-open .nav a {
+  opacity: 1;
+  transform: rotateX(12deg) rotateY(-14deg);
+  transition-delay: calc(var(--i, 0) * 70ms), calc(var(--i, 0) * 70ms), 0s !important;
+}
+@media (prefers-reduced-motion: no-preference) {
   body.menu-open .nav a { animation: menuFloat 3.4s ease-in-out infinite; animation-delay: calc(.7s + var(--i, 0) * -.6s); }
 }
 @keyframes menuFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
-@media (max-width: 860px) and (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .nav a { transition: none !important; }
 }
 </style>
