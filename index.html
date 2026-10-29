@@ -314,9 +314,73 @@ body.menu-open .nav a {
 @media (prefers-reduced-motion: reduce) {
   .nav a { transition: none !important; }
 }
+
+/* logo intro */
+html.intro-on, html.intro-on body { overflow: hidden; }
+.intro { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; cursor: pointer;
+  background: radial-gradient(ellipse 55% 50% at 50% 48%, #3b1413 0%, #1a0809 55%, #0b0708 100%);
+  transition: opacity .65s ease, visibility .65s; }
+.intro.out { opacity: 0; visibility: hidden; }
+.intro-inner { display: grid; justify-items: center; gap: 26px; }
+.intro svg { width: min(36vw, 168px); height: auto; overflow: visible; }
+.intro .k { opacity: 0; transform-box: fill-box; transform-origin: 50% 0; animation: introKeyIn .55s cubic-bezier(.2, .8, .2, 1) forwards, introPress .26s ease-in-out forwards; }
+.intro .k1 { animation-delay: .05s, .75s; }
+.intro .k2 { animation-delay: .16s, .95s; }
+.intro .k3 { animation-delay: .27s, 1.15s; }
+.intro .dot { opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; animation: introDot .6s cubic-bezier(.3, 1.6, .5, 1) 1.4s forwards; }
+.intro .ring { stroke-dasharray: 100; stroke-dashoffset: 100; animation: introRing .55s ease-out 1.65s forwards; }
+.intro .ripple { opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; animation: introRipple .9s ease-out 1.6s forwards; }
+.intro-name { font-weight: 700; font-size: clamp(1.4rem, 4vw, 2rem); opacity: 0; translate: 0 10px;
+  background: linear-gradient(180deg, #ffe09c, #fff9f2 50%, #fddf96); -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: introName .6s ease-out 1.9s forwards; }
+@keyframes introKeyIn { from { opacity: 0; translate: 0 28px; } to { opacity: 1; translate: 0 0; } }
+@keyframes introPress { 0%, 100% { transform: none; } 50% { transform: translateY(6px) scaleY(.97); } }
+@keyframes introDot { from { opacity: 0; transform: translateY(-46px) scale(.6); } to { opacity: 1; transform: none; } }
+@keyframes introRing { to { stroke-dashoffset: 0; } }
+@keyframes introRipple { 0% { opacity: .9; transform: scale(.6); } 100% { opacity: 0; transform: scale(2.8); } }
+@keyframes introName { to { opacity: 1; translate: 0 0; } }
+
+/* the mark as a large watermark behind the contact card */
+.contact-mark { position: absolute; z-index: 0; left: 50%; top: 50%; height: 140%; width: auto; color: #e2b75c; opacity: .07;
+  transform: translate(-50%, -46%) rotate(-8deg); pointer-events: none; }
+.contact-text, .contact-photo { position: relative; z-index: 1; }
 </style>
 </head>
 <body>
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-inner">
+    <svg viewBox="-10 -48 140 200" role="presentation">
+      <defs><linearGradient id="gg-intro" gradientUnits="userSpaceOnUse" x1="0" y1="-40" x2="0" y2="150"><stop offset="0" stop-color="#ffe09c"/><stop offset=".22" stop-color="#ffecc7"/><stop offset=".46" stop-color="#fff9f2"/><stop offset=".72" stop-color="#ffeabf"/><stop offset="1" stop-color="#fddf96"/></linearGradient></defs>
+      <g fill="url(#gg-intro)">
+        <path class="k k1" d="M5 0H25.5V85Q25.5 90 30.5 90H38.7V150H16Q0 150 0 134V5Q0 0 5 0Z"/><path class="k k2" d="M50.5 0H69.5V85Q69.5 90 74.5 90H78.7V140Q78.7 143 75.7 143H44.3Q41.3 143 41.3 140V90H45.5Q50.5 90 50.5 85Z"/><path class="k k3" d="M94.5 0H115Q120 0 120 5V134Q120 150 104 150H81.3V90H89.5Q94.5 90 94.5 85Z"/>
+      </g>
+      <circle class="ripple" cx="107.25" cy="-27" r="14" fill="none" stroke="#ffeabf" stroke-width="1.5"/>
+      <path class="ring" pathLength="100" d="M93.25 -27.00A14 14 0 1 1 100.25 -14.88" fill="none" stroke="url(#gg-intro)" stroke-width="2.3" stroke-linecap="round"/>
+      <circle class="dot" cx="107.25" cy="-27" r="7.6" fill="url(#gg-intro)"/>
+    </svg>
+    <div class="intro-name">שניאור אייזנבך</div>
+  </div>
+</div>
+<noscript><style>.intro{display:none}</style></noscript>
+<script>
+/* logo intro: once per visit, skipped with a click, a key, or reduced motion */
+(() => {
+  const el = document.getElementById('intro');
+  let seen = false;
+  try { seen = sessionStorage.getItem('introSeen') === '1'; sessionStorage.setItem('introSeen', '1'); } catch (e) {}
+  if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.remove(); return; }
+  document.documentElement.classList.add('intro-on');
+  const done = () => {
+    if (el.classList.contains('out')) return;
+    el.classList.add('out');
+    document.documentElement.classList.remove('intro-on');
+    setTimeout(() => el.remove(), 700);
+  };
+  el.addEventListener('click', done);
+  addEventListener('keydown', done, { once: true });
+  setTimeout(done, 2800);
+})();
+</script>
 
 <header class="site-head" id="head">
   <div class="wrap head-row">
@@ -405,6 +469,7 @@ body.menu-open .nav a {
   <section class="sec contact" id="contact">
     <div class="wrap">
       <div class="contact-box rv">
+        <svg class="contact-mark" viewBox="-10 -48 140 200" aria-hidden="true"><path fill="currentColor" d="M5 0H25.5V85Q25.5 90 30.5 90H45.5Q50.5 90 50.5 85V0H69.5V85Q69.5 90 74.5 90H89.5Q94.5 90 94.5 85V0H115Q120 0 120 5V134Q120 150 104 150H81.3V95H78.7V140Q78.7 143 75.7 143H44.3Q41.3 143 41.3 140V95H38.7V150H16Q0 150 0 134V5Q0 0 5 0Z"/><circle cx="107.25" cy="-27" r="7.6" fill="currentColor"/><path d="M93.25 -27.00A14 14 0 1 1 100.25 -14.88" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>
         <div class="contact-text">
           <h2>בואו נעשה <span class="gold">את זה ביחד</span></h2>
           <p id="contact-title">זמין לאירועי בוטיק, חתונות והפקות סטודיו.</p>
