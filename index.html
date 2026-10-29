@@ -184,7 +184,7 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-6px) rotate(
 .like.is-liked svg { fill: currentColor; }
 
 .contact { overflow: hidden; }
-.contact-box { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: end; gap: 30px; border-radius: 30px; padding: 0 clamp(26px, 5vw, 64px); background: radial-gradient(ellipse 80% 90% at 75% 100%, #7a1528 0%, #3d0a14 45%, #1a0609 100%); box-shadow: inset 0 0 0 1px var(--line), 0 30px 80px rgba(0,0,0,.5); }
+.contact-box { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: end; gap: 30px; border-radius: 30px; padding: 0 clamp(26px, 5vw, 64px); background: radial-gradient(ellipse 80% 90% at 75% 100%, #7a1528 0%, #3d0a14 45%, #1a0609 100%); box-shadow: inset 0 0 0 1px var(--line), 0 30px 80px rgba(0,0,0,.5); }
 .contact-text { padding-block: clamp(44px, 6vw, 72px); min-width: 0; }
 .contact-text h2 { margin: 0; font-size: clamp(2.1rem, 4.6vw, 3.4rem); line-height: 1.1; text-wrap: balance; }
 .contact-text p { margin: 14px 0 26px; color: rgba(244,238,230,.85); font-size: 1.15rem; }
@@ -195,7 +195,7 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-6px) rotate(
 .area { display: block; margin-top: 22px; color: rgba(244,238,230,.75); font-size: .98rem; }
 .contact-photo { position: relative; align-self: end; display: flex; justify-content: center; }
 .contact-photo::before { content: ""; position: absolute; bottom: 0; left: 50%; width: 90%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, rgba(212,175,55,.22), transparent 65%); }
-.contact-photo img { position: relative; width: 100%; max-width: 380px; height: auto; margin-top: -40px; filter: drop-shadow(0 20px 40px rgba(0,0,0,.6)); }
+.contact-photo img { position: relative; width: 100%; max-width: 400px; height: auto; margin: 24px 0 -14%; filter: drop-shadow(0 20px 40px rgba(0,0,0,.6)); }
 
 .site-foot { padding-block: 34px; text-align: center; color: var(--muted); font-size: .92rem; }
 .site-foot .brand { justify-content: center; margin-bottom: 10px; }
@@ -252,7 +252,7 @@ dialog.player[open] { animation: popIn .4s cubic-bezier(.2,.7,.2,1) both; }
   .featured .card-media::after { display: none; }
   .contact-box { grid-template-columns: 1fr; text-align: center; }
   .contact-actions { justify-content: center; }
-  .contact-photo img { max-width: 300px; margin-top: 0; }
+  .contact-photo img { max-width: 300px; margin: 0 0 -14%; }
   .wall-row img { width: 220px; }
 }
 @media (max-width: 560px) {
@@ -294,7 +294,7 @@ dialog.player[open] { animation: popIn .4s cubic-bezier(.2,.7,.2,1) both; }
     <div class="hero-inner">
       <div class="roles"><span>קלידן</span><span>מפיק מוזיקלי</span><span>עורך וידאו</span><span>הנפשות</span></div>
       <h1 id="hero-title"><span class="gold">הסאונד. הוויזואל. התוצאה.</span></h1>
-      <p class="hero-sub" id="hero-sub">נגינה חיה באירועים, ועריכות, קליפי מילים והנפשות לזמרים, למקהלות ולהפקות.</p>
+      <p class="hero-sub" id="hero-sub">נגינה חיה באירועים, וקליפים, עריכות והנפשות לזמרים, למקהלות ולהפקות.</p>
       <div class="hero-cta">
         <a class="btn btn-gold" href="#contact" id="hero-btn">להזמנת אירועים והפקות 054-8528425</a>
         <a class="btn btn-ghost" href="#work">לתיק העבודות</a>

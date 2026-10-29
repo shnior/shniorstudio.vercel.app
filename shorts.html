@@ -15,7 +15,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.ytimg.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 @font-face { font-family: 'Tel Aviv'; src: url('TelAviv-ModernistRegular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Tel Aviv'; src: url('TelAviv-ModernistBold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
@@ -154,6 +153,48 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotat
   .short h2 { font-size: .92rem; }
   .short-play { display: none; }
 }
+/* same look as the home page: gold, burgundy, rounded */
+:root {
+  --ink: #0b0708; --ink-2: #1a0609; --ink-3: #1d1214; --bone: #f4eee6; --mute: #a89d94;
+  --wine: #6e1424; --wine-hi: #8e1a2f; --brass: #d4af37;
+  --line: rgba(212,175,55,.16); --line-2: rgba(212,175,55,.35);
+  --gold-grad: linear-gradient(120deg, #a97a22 0%, #e9cd7a 22%, #fcf2c4 38%, #c99a35 58%, #f3dc95 78%, #a97a22 100%);
+  --f-mono: var(--f-ui);
+}
+.gold { background: var(--gold-grad); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.mono { font-size: .85rem; letter-spacing: 0; }
+.ruler { display: none; }
+.site-head { box-shadow: 0 1px 0 var(--line); }
+.head-row { height: 84px; }
+.brand img { width: 52px; height: 52px; }
+.brand-name { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 1.3rem; }
+.nav { margin-inline: auto; gap: 30px; }
+.nav a { color: rgba(244,238,230,.78); }
+.nav a:hover, .nav a.is-on { color: var(--brass); }
+.nav a.is-on::after { background: var(--brass); border-radius: 2px; }
+.btn { border-radius: 999px; }
+.btn-wine { background: var(--gold-grad); color: #1a1006; }
+.btn-wine:hover { background: var(--gold-grad); filter: brightness(1.08); }
+.btn-line { box-shadow: inset 0 0 0 1px var(--line-2); border: 0; background: rgba(255,255,255,.04); }
+.btn-line:hover { background: rgba(212,175,55,.1); }
+.menu-btn { border-radius: 50%; }
+.menu-btn span { background: var(--brass); }
+.intro { flex-direction: column; align-items: center; text-align: center; padding-block: clamp(50px, 7vw, 90px) clamp(36px, 4vw, 56px); background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(110,20,36,.45), transparent 70%); }
+.intro h1 { direction: rtl; font-size: clamp(2.6rem, 7vw, 5.2rem); line-height: 1.1; letter-spacing: -.02em; }
+.intro-side { justify-items: center; max-width: 52ch; }
+.intro-stats { border-top: 0; justify-content: center; gap: 40px; }
+.intro-stats strong { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 1.8rem; }
+.intro-side .btn { justify-self: center !important; }
+.short-frame { border-radius: 18px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); transition: transform .4s, box-shadow .4s; }
+.short:hover .short-frame { transform: translateY(-6px); box-shadow: inset 0 0 0 1px rgba(212,175,55,.6), 0 18px 40px rgba(0,0,0,.5); }
+.short-play i { box-shadow: inset 0 0 0 2px var(--brass); }
+.short h2 { text-align: center; }
+.short .when { text-align: center; }
+.player-stage { border-radius: 18px; overflow: hidden; }
+.round { box-shadow: inset 0 0 0 1px var(--line-2); border: 0; }
+.round:hover { background: var(--wine); }
+.site-foot .foot-row { justify-content: center; text-align: center; }
+@media (max-width: 860px) { .head-row { height: 70px; } .nav { background: rgba(11,7,8,.97); align-items: center; } .nav a { border-bottom: 0; } }
 </style>
 </head>
 <body>
@@ -180,7 +221,7 @@ body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-5.5px) rotat
 
 <main class="wrap">
   <section class="intro">
-    <h1>Shorts<span class="rec" aria-hidden="true"></span></h1>
+    <h1><span class="gold">רגעים מהבמה</span></h1>
     <div class="intro-side">
       <p>רגעים קצרים מהבמה, מהחופות ומהאירועים. נגינה חיה כמו שהיא, בלי עריכה.</p>
       <div class="intro-stats">
