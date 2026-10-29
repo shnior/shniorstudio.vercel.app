@@ -1223,8 +1223,10 @@
         const loader = $('loader');
         loader.style.display = 'flex';
         try {
-            // הלוגו נטען מהקובץ logo.webp בגיטהאב, לכן האדמין לא שומר/מעדכן logoBase64 בפיירבייס.
+            // הלוגו נטען מהקובץ logo.webp בגיטהאב. הלוגו הישן ששמור בפיירבייס (logoBase64) נמחק בשמירה הבאה.
             const dataToUpdate = collectContent();
+            // the old logo was once stored here as an embedded image; the site no longer uses it, so clear it on save
+            dataToUpdate.logoBase64 = null;
             await db.ref('siteContent').update(dataToUpdate);
             lastData = { ...lastData, ...dataToUpdate };
             $('lastSavedText').textContent = 'נשמר עכשיו: ' + new Date().toLocaleTimeString('he-IL');
